@@ -1,0 +1,3 @@
+
+class PywrValidationError(Exception):
+    pass
