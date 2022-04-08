@@ -1,5 +1,7 @@
 from .base import PywrType
 
+from pywrparser.parsers import PywrJSONParser
+
 from pywrparser.types import (
     PywrParameter,
     PywrRecorder
@@ -14,10 +16,33 @@ class PywrNetwork(PywrType):
         self.metadata = parser.metadata
         self.timestepper = parser.timestepper
         self.scenarios = parser.scenarios
+        self.tables = parser.tables
         self.nodes = parser.nodes
         self.links = parser.edges
         self.parameters = parser.parameters
         self.recorders = parser.recorders
+
+    @classmethod
+    def from_file(cls, filename):
+        with open(filename, 'r') as fp:
+            src = fp.read()
+        parser = PywrJSONParser(src)
+        parser.parse(raise_on_error=False)
+        if parser.has_errors:
+            return None, parser.errors
+
+        return cls(parser), None
+
+    @classmethod
+    def from_json(cls, json_src):
+        parser = PywrJSONParser(json_src)
+        parser.parse(raise_on_error=False)
+        return cls(parser)
+
+    @classmethod
+    def from_hydra(cls, hydra_src):
+        pass
+
 
     def as_dict(self):
         network = {
@@ -34,6 +59,9 @@ class PywrNetwork(PywrType):
 
         if len(self.scenarios) > 0:
             network["scenarios"] = [ s.as_dict() for s in self.scenarios ]
+
+        if len(self.tables) > 0:
+            network["tables"] = {n: t.as_dict() for n,t in self.tables.items()}
 
         return network
 

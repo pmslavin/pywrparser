@@ -1,4 +1,5 @@
 from .base import PywrType
+from .exceptions import PywrValidationError
 
 class PywrTimestepper(PywrType):
     def __init__(self, data):
@@ -6,5 +7,12 @@ class PywrTimestepper(PywrType):
         self.validate()
 
     def validate(self):
-        assert "start" in self.data
-        assert "end" in self.data
+        try:
+            assert "start" in self.data
+        except:
+            raise PywrValidationError("Timestepper does not define 'start'.")
+
+        try:
+            assert "end" in self.data
+        except:
+            raise PywrValidationError("Timestepper does not define 'end'.")

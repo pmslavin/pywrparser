@@ -4,7 +4,6 @@ from pywrparser.types.exceptions import PywrValidationError
 class PywrNode(PywrType):
     def __init__(self, data):
         self.data = data
-        self.data["name"] = str(self.data["name"])
         self.validate()
 
     @property
@@ -21,11 +20,18 @@ class PywrNode(PywrType):
 
     def validate(self):
         try:
+            name = self.data.get("name")
+            assert name is not None
+        except:
+            raise PywrValidationError("Missing node name")
+
+        try:
+            self.data["name"] = self.data["name"]
             assert isinstance(self.name, str)
         except:
-            raise PywrValidationError("Invalid node name.")
+            raise PywrValidationError("Invalid node name")
 
         try:
             assert "type" in self.data
         except:
-            raise PywrValidationError(f"Node <{self.name}> does not define type.")
+            raise PywrValidationError(f"Node <{self.name}> does not define type")

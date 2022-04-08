@@ -1,1 +1,1 @@
-from .PywrJSONParser import PywrJSONParser
+from .pywrjsonparser import PywrJSONParser

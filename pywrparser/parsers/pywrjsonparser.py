@@ -6,6 +6,7 @@ from pywrparser.types import (
     PywrTimestepper,
     PywrMetadata,
     PywrScenario,
+    PywrTable,
     PywrNode,
     PywrEdge,
     PywrParameter,
@@ -24,17 +25,20 @@ DUP_KEY_RE   = r"{base}".format(base=DUP_KEY_BASE.format(pattern="[0-9]{3}"))
 
 
 class PywrJSONParser():
-    def __init__(self, filename):
+    def __init__(self, json_src):
         self.errors = defaultdict(list)
-
+        """
         with open(filename, 'r') as fp:
             self.src = json.load(fp, object_pairs_hook=self.__class__.enforce_unique)
+        """
+        self.src = json.loads(json_src, object_pairs_hook=self.__class__.enforce_unique)
 
         self.nodes = {}
         self.edges = []
         self.parameters = {}
         self.recorders = {}
         self.scenarios = []
+        self.tables = {}
 
 
     @staticmethod
@@ -65,6 +69,11 @@ class PywrJSONParser():
             with raiseorpush("scenarios", raise_on_error, self.errors):
                 scen = PywrScenario(scenario)
                 self.scenarios.append(scen)
+
+        for table_name, table_data in self.src.get("tables", {}).items():
+            with raiseorpush("tables", raise_on_error, self.errors):
+                t = PywrTable(table_name, table_data)
+                self.tables[t.name] = t
 
         for param_name, param_data in self.src.get("parameters",{}).items():
             if m := re.search(DUP_KEY_RE, param_name):
