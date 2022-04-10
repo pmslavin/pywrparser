@@ -23,21 +23,24 @@ class PywrNetwork(PywrType):
         self.recorders = parser.recorders
 
     @classmethod
-    def from_file(cls, filename):
+    def from_file(cls, filename, raise_on_parser_error=False):
         with open(filename, 'r') as fp:
-            src = fp.read()
-        parser = PywrJSONParser(src)
-        parser.parse(raise_on_error=False)
+            json_src = fp.read()
+        parser = PywrJSONParser(json_src)
+        parser.parse(raise_on_error=raise_on_parser_error)
         if parser.has_errors:
             return None, parser.errors
 
         return cls(parser), None
 
     @classmethod
-    def from_json(cls, json_src):
+    def from_json(cls, json_src, raise_on_parser_error=False):
         parser = PywrJSONParser(json_src)
-        parser.parse(raise_on_error=False)
-        return cls(parser)
+        parser.parse(raise_on_error=raise_on_parser_error)
+        if parser.has_errors:
+            return None, parser.errors
+
+        return cls(parser), None
 
     @classmethod
     def from_hydra(cls, hydra_src):

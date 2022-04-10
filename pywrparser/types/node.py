@@ -23,15 +23,15 @@ class PywrNode(PywrType):
             name = self.data.get("name")
             assert name is not None
         except:
-            raise PywrValidationError("Missing node name")
+            raise PywrValidationError("Missing node name", self.data)
 
         try:
             self.data["name"] = self.data["name"]
             assert isinstance(self.name, str)
         except:
-            raise PywrValidationError("Invalid node name")
+            raise PywrValidationError("Invalid node name", self.data)
 
         try:
             assert "type" in self.data
         except:
-            raise PywrValidationError(f"Node <{self.name}> does not define type")
+            raise PywrValidationError(f"Node <{self.name}> does not define type", self.data)

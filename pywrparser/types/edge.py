@@ -1,4 +1,5 @@
 from .base import PywrType
+from pywrparser.types.exceptions import PywrValidationError
 
 class PywrEdge(PywrType):
     def __init__(self, data):
@@ -13,4 +14,12 @@ class PywrEdge(PywrType):
         return len(self) == 2
 
     def validate(self):
-        assert len(self) > 1
+        try:
+            assert len(self) > 1
+        except:
+            raise PywrValidationError("Edge has no target", source=self.data)
+
+        try:
+            assert self.data[0] != self.data[1]
+        except:
+            raise PywrValidationError("Edge source and target are the same", source=self.data)

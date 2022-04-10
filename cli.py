@@ -2,7 +2,7 @@ import sys
 import pprint
 
 #from pywrparser.parsers import PywrJSONParser
-from pywrparser.types import PywrNetwork
+from pywrparser.types.network import PywrNetwork
 
 if __name__ == "__main__":
     filename = sys.argv[-1]
@@ -12,8 +12,9 @@ if __name__ == "__main__":
     network, errors = PywrNetwork.from_file(filename)
 
     if errors:
-        err_list = [(component,errs) for component,errs in errors.items()]
-        pprint.pprint(err_list)
+        for component, errs in errors.items():
+            for err in errs:
+                print(err)
         exit(1)
 
     #pprint.pprint(network.as_dict())

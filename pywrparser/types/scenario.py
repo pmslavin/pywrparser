@@ -13,4 +13,4 @@ class PywrScenario(PywrType):
         try:
             assert isinstance(self.name, str)
         except:
-            raise PywrValidationError("Scenario has invalid name.")
+            raise PywrValidationError("Scenario has invalid name")

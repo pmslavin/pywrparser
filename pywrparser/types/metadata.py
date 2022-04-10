@@ -14,4 +14,4 @@ class PywrMetadata(PywrType):
         try:
             assert isinstance(self.title, str)
         except:
-            raise PywrValidationError("Metadata does not define title.")
+            raise PywrValidationError("Metadata does not define 'title' key", self.data)

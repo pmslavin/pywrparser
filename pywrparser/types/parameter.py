@@ -19,4 +19,4 @@ class PywrParameter(PywrType):
         try:
             assert isinstance(self.type, str)
         except:
-            raise PywrValidationError(f"Parameter <{self.name}> does not define type.")
+            raise PywrValidationError(f"Parameter <{self.name}> does not define type", self.data)

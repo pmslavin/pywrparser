@@ -20,4 +20,4 @@ class PywrRecorder(PywrType):
         try:
             assert isinstance(self.type, str)
         except:
-            raise PywrValidationError(f"Recorder <{self.name}> does not define type.")
+            raise PywrValidationError(f"Recorder <{self.name}> does not define type", self.data)

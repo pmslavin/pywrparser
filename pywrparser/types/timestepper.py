@@ -10,9 +10,9 @@ class PywrTimestepper(PywrType):
         try:
             assert "start" in self.data
         except:
-            raise PywrValidationError("Timestepper does not define 'start'.")
+            raise PywrValidationError("Timestepper does not define 'start' key")
 
         try:
             assert "end" in self.data
         except:
-            raise PywrValidationError("Timestepper does not define 'end'.")
+            raise PywrValidationError("Timestepper does not define 'end' key")
