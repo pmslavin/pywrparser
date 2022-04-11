@@ -16,7 +16,7 @@ class PywrNode(PywrType):
 
     @property
     def attrs(self):
-        return tuple(self.data.keys())
+        return self.data.keys()
 
     def validate(self):
         try:

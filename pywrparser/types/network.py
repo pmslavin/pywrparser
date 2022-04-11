@@ -1,5 +1,6 @@
-from .base import PywrType
+import logging
 
+from .base import PywrType
 from pywrparser.parsers import PywrJSONParser
 
 from pywrparser.types import (
@@ -7,7 +8,12 @@ from pywrparser.types import (
     PywrRecorder
 )
 
-from pywrparser.utils import canonical_name
+from pywrparser.utils import (
+    canonical_name,
+    parse_reference_key
+)
+
+log = logging.getLogger(__name__)
 
 
 class PywrNetwork(PywrType):
@@ -98,7 +104,7 @@ class PywrNetwork(PywrType):
                     param = self.parameters.get(value)
                     if not param:
                         continue
-                    print(f"Attaching global param ref: {value}")
+                    log.debug(f"Attaching global param ref: {value}")
                     node.data[attr] = param
                     del self.parameters[value]
                 elif isinstance(value, dict):
@@ -106,7 +112,7 @@ class PywrNetwork(PywrType):
                     if not type_key or "recorder" in type_key.lower():
                         continue
                     param_name = canonical_name(node.name, attr)
-                    print(f"Creating inline param: {param_name}")
+                    log.debug(f"Creating inline param: {param_name}")
                     if param_name in self.parameters:
                         # Node inline param has same name as global param
                         raise ValueError("inline dups global param")
@@ -121,8 +127,31 @@ class PywrNetwork(PywrType):
             "nodename".
             In this case, a reference to the global parameter is added to the
             node where this is not already present.
-
         """
+
+        for param_name in self.parameters:
+            try:
+                node_name, attr = parse_reference_key(param_name)
+            except ValueError:
+                # param_name not in std format
+                log.debug(f"Not in std format: {param_name}")
+                continue
+
+            if node_name not in self.nodes:
+                # node implied by param_name does not exist
+                log.debug(f"No such node: {param_name} -> {node_name}")
+                continue
+
+            node = self.nodes[node_name]
+
+            if attr in node.attrs:
+                # node exists but already has implied attr
+                log.debug(f"Node {node.name} already has attr: {attr}")
+                continue
+
+            # node exists, does not have attr, so create as param_name str
+            log.debug(f"add_param_ref {node.name}:{attr} -> {param_name}")
+            node.data[attr] = param_name
 
 
     def detach_parameters(self):

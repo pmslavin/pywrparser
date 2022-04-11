@@ -1,8 +1,13 @@
+import os
 import sys
+import logging
 import pprint
 
 #from pywrparser.parsers import PywrJSONParser
 from pywrparser.types.network import PywrNetwork
+
+LOGLEVEL = os.environ.get("LOGLEVEL", "INFO").upper()
+logging.basicConfig(level=LOGLEVEL)
 
 if __name__ == "__main__":
     filename = sys.argv[-1]
@@ -22,10 +27,11 @@ if __name__ == "__main__":
     #pprint.pprint(network.parameters)
     #print(len(network.parameters))
     #print("="*46)
-    network.attach_parameters()
+    network.add_parameter_references()
+    #network.attach_parameters()
     #pprint.pprint(network.parameters)
-    print(len(network.parameters))
-    print("="*46)
+    #print(len(network.parameters))
+    #print("="*46)
     for n in network.nodes.values():
         for attr, value in n.data.items():
             if isinstance(value, dict) and "type" in value:

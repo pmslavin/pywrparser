@@ -27,10 +27,6 @@ DUP_KEY_RE   = r"{base}".format(base=DUP_KEY_BASE.format(pattern="[0-9]{3}"))
 class PywrJSONParser():
     def __init__(self, json_src):
         self.errors = defaultdict(list)
-        """
-        with open(filename, 'r') as fp:
-            self.src = json.load(fp, object_pairs_hook=self.__class__.enforce_unique)
-        """
         self.src = json.loads(json_src, object_pairs_hook=self.__class__.enforce_unique)
 
         self.nodes = {}
