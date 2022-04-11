@@ -18,7 +18,7 @@ class PywrNetwork(PywrType):
         self.scenarios = parser.scenarios
         self.tables = parser.tables
         self.nodes = parser.nodes
-        self.links = parser.edges
+        self.edges = parser.edges
         self.parameters = parser.parameters
         self.recorders = parser.recorders
 
@@ -52,7 +52,7 @@ class PywrNetwork(PywrType):
             "metadata": self.metadata.as_dict(),
             "timestepper": self.timestepper.as_dict(),
             "nodes": [ node.as_dict() for node in self.nodes.values() ],
-            "links": [ link.as_dict() for link in self.links ]
+            "edges": [ edge.as_dict() for edge in self.edges ]
         }
         if len(self.parameters) > 0:
             network["parameters"] = {n: p.as_dict() for n,p in self.parameters.items()}
@@ -86,8 +86,14 @@ class PywrNetwork(PywrType):
                an inline (i.e. dict) parameter definition are instantiated
                as parameters and the attr value replaced with the instance.
         """
+        exclude = ("name", "type")
         for node in self.nodes.values():
             for attr, value in node.data.items():
+                if attr.lower() in exclude:
+                    """ A param could exist with the same name as a node,
+                        leading to node["name"] = param
+                    """
+                    continue
                 if isinstance(value, str):
                     param = self.parameters.get(value)
                     if not param:
@@ -106,6 +112,17 @@ class PywrNetwork(PywrType):
                         raise ValueError("inline dups global param")
                     param = PywrParameter(param_name, value)
                     node.data["attr"] = param
+
+
+    def add_parameter_references(self):
+        """
+            Where a parameter name is in the format "__nodename__:attrname" it
+            is interpreted as representing the attr "attrname" on node
+            "nodename".
+            In this case, a reference to the global parameter is added to the
+            node where this is not already present.
+
+        """
 
 
     def detach_parameters(self):
