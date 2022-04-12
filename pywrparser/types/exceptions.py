@@ -1,10 +1,15 @@
-
-class PywrValidationError(Exception):
-    def __init__(self, message, source=None, component=None):
+class PywrParserException(Exception):
+    def __init__(self, message):
         self.message = message
-        self.source = source if source else {}
-        self.component = component if component else ""
-        super().__init__(self)
 
     def __str__(self):
-        return f"<{self.__class__.__qualname__}> {self.component} {self.message}"
+        return self.message
+
+    def __repr__(self):
+        return f"{self.__class__.__qualname__}({self.message})"
+
+class PywrValidationError(PywrParserException):
+    def __init__(self, message, source=None, component=None):
+        super().__init__(message)
+        self.source = source if source else {}
+        self.component = component if component else ""

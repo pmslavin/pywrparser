@@ -1,5 +1,7 @@
 import logging
 
+from functools import partialmethod
+
 from .base import PywrType
 from pywrparser.parsers import PywrJSONParser
 
@@ -120,26 +122,44 @@ class PywrNetwork(PywrType):
                     node.data["attr"] = param
 
 
-    def add_parameter_references(self):
+
+    def __add_component_references(self, component=None):
         """
-            Where a parameter name is in the format "__nodename__:attrname" it
-            is interpreted as representing the attr "attrname" on node
-            "nodename".
-            In this case, a reference to the global parameter is added to the
-            node where this is not already present.
+            Where a parameter or recorder name is in the format "__nodename__:attrname"
+            it is interpreted as representing the attr "attrname" on node "nodename".
+            In this case, a reference to the global parameter or recorder is added to
+            the node where this is not already present.
+
+            This method should be invoked only through the partialmethod descriptors
+            defined below.
         """
 
-        for param_name in self.parameters:
+        component_map = {
+            "parameter": self.parameters,
+            "recorder" : self.recorders
+        }
+
+        # Prevent use without partial filled
+        if not component:
+            return
+
+        # Prevent unorthodox use
+        if component not in component_map:
+            return
+
+        store = component_map[component]
+
+        for comp_name in store:
             try:
-                node_name, attr = parse_reference_key(param_name)
+                node_name, attr = parse_reference_key(comp_name)
             except ValueError:
-                # param_name not in std format
-                log.debug(f"Not in std format: {param_name}")
+                # comp_name not in std format
+                log.debug(f"Not in std format: {comp_name}")
                 continue
 
             if node_name not in self.nodes:
-                # node implied by param_name does not exist
-                log.debug(f"No such node: {param_name} -> {node_name}")
+                # node implied by comp_name does not exist
+                log.debug(f"No such node: {comp_name} -> {node_name}")
                 continue
 
             node = self.nodes[node_name]
@@ -150,9 +170,18 @@ class PywrNetwork(PywrType):
                 continue
 
             # node exists, does not have attr, so create as param_name str
-            log.debug(f"add_param_ref {node.name}:{attr} -> {param_name}")
-            node.data[attr] = param_name
+            log.debug(f"add_{component}_references {node.name}:{attr} -> {comp_name}")
+            node.data[attr] = comp_name
 
+    add_parameter_references = partialmethod(
+            __add_component_references,
+            component="parameter"
+    )
+
+    add_recorder_references = partialmethod(
+            __add_component_references,
+            component="recorder"
+    )
 
     def detach_parameters(self):
         for node in self.nodes.values():
@@ -163,3 +192,30 @@ class PywrNetwork(PywrType):
                         raise ValueError("Attr param name duplicates global param name")
                     self.parameters[value.name] = value
                     node.data[attr] = value.name
+
+
+    def detach_recorders(self):
+        for node in self.nodes.values():
+            for attr, value in node.data.items():
+                if isinstance(value, PywrRecorder):
+                    if value.name in self.recorders:
+                        # Attr recorder name duplicates global recorder name
+                        raise ValueError("Attr recorder name duplicates global recorder name")
+                    self.recorders[value.name] = value
+                    node.data[attr] = value.name
+
+
+    def report(self):
+        report = {
+            "nodes": len(self.nodes),
+            "edges": len(self.edges)
+        }
+
+        components = ("parameters", "recorders", "tables", "scenarios")
+
+        for component in components:
+            store = getattr(self, component)
+            if (count := len(store)) > 0:
+                report[component] = count
+
+        return report
