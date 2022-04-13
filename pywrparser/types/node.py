@@ -3,6 +3,15 @@ from pywrparser.types.exceptions import PywrValidationError
 
 class PywrNode(PywrType):
     def __init__(self, data):
+        name = data.get("name")
+        if not isinstance(name, str):
+            if not name:
+                # Unnamed node - will fail validation
+                pass
+            else:
+                # Other non-str name, cast to str
+                name = str(name)
+                data["name"] = name
         self.data = data
         self.validate()
 

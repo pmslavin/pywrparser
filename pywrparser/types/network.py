@@ -106,7 +106,7 @@ class PywrNetwork(PywrType):
                     param = self.parameters.get(value)
                     if not param:
                         continue
-                    log.debug(f"Attaching global param ref: {value}")
+                    print(f"Attaching global param ref: {value}")
                     node.data[attr] = param
                     del self.parameters[value]
                 elif isinstance(value, dict):
@@ -114,12 +114,12 @@ class PywrNetwork(PywrType):
                     if not type_key or "recorder" in type_key.lower():
                         continue
                     param_name = canonical_name(node.name, attr)
-                    log.debug(f"Creating inline param: {param_name}")
+                    print(f"Creating inline param: {param_name}")
                     if param_name in self.parameters:
                         # Node inline param has same name as global param
                         raise ValueError("inline dups global param")
                     param = PywrParameter(param_name, value)
-                    node.data["attr"] = param
+                    node.data[attr] = param
 
 
 
