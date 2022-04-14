@@ -14,7 +14,7 @@ if __name__ == "__main__":
     #parser = PywrJSONParser(filename)
     #parser.parse(raise_on_error=False)
 
-    network, errors = PywrNetwork.from_file(filename)
+    network, errors = PywrNetwork.from_file(filename, raise_on_parser_error=False)
 
     if errors:
         for component, errs in errors.items():

@@ -1,17 +1,17 @@
 from .base import PywrType
-from .exceptions import PywrValidationError
+
 
 class PywrMetadata(PywrType):
     def __init__(self, data):
         self.data = data
-        self.validate()
+
 
     @property
     def title(self):
-        return self.data["title"]
+        return self.data.get("title")
 
-    def validate(self):
-        try:
-            assert isinstance(self.title, str)
-        except:
-            raise PywrValidationError("Metadata does not define 'title' key", self.data)
+
+    """ Validation rules """
+
+    def rule_title_required(self):
+        assert isinstance(self.title, str), "Metadata does not define 'title' key"

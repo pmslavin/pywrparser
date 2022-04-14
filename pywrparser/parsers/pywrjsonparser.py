@@ -14,7 +14,8 @@ from pywrparser.types import (
 )
 
 from pywrparser.types.exceptions import (
-    PywrValidationError
+    PywrTypeValidationError,
+    PywrNetworkValidationError
 )
 
 from pywrparser.utils import raiseorpush
@@ -75,7 +76,7 @@ class PywrJSONParser():
             if m := re.search(DUP_KEY_RE, param_name):
                 span_end = m.span()[1]
                 raw_name = param_name[span_end+1:]
-                self.errors["parameters"].append(PywrValidationError(f"Duplicate parameter name <{raw_name}>"))
+                self.errors["network"].append(PywrNetworkValidationError(f"Duplicate parameter name <{raw_name}>"))
             with raiseorpush("parameters", raise_on_error, self.errors):
                 p = PywrParameter(param_name, param_data)
                 self.parameters[p.name] = p
@@ -84,7 +85,7 @@ class PywrJSONParser():
             if m := re.search(DUP_KEY_RE, rec_name):
                 span_end = m.span()[1]
                 raw_name = rec_name[span_end+1:]
-                self.errors["recorders"].append(PywrValidationError(f"Duplicate recorder name <{raw_name}>"))
+                self.errors["network"].append(PywrNetworkValidationError(f"Duplicate recorder name <{raw_name}>"))
             with raiseorpush("recorders", raise_on_error, self.errors):
                 r = PywrRecorder(rec_name, rec_data)
                 self.recorders[r.name] = r
@@ -93,7 +94,7 @@ class PywrJSONParser():
             with raiseorpush("nodes", raise_on_error, self.errors):
                 n = PywrNode(node)
                 if n.name in seen_nodes:
-                    self.errors["nodes"].append(PywrValidationError(f"Duplicate node name <{n.name}>"))
+                    self.errors["network"].append(PywrNetworkValidationError(f"Duplicate node name <{n.name}>"))
                 else:
                     self.nodes[n.name] = n
                     seen_nodes.add(n.name)

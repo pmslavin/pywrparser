@@ -1,16 +1,17 @@
 from .base import PywrType
-from .exceptions import PywrValidationError
+
 
 class PywrScenario(PywrType):
     def __init__(self, data):
         self.data = data
 
+
     @property
     def name(self):
-        return str(self.data["name"])
+        return self.data.get("name")
 
-    def validate(self):
-        try:
-            assert isinstance(self.name, str)
-        except:
-            raise PywrValidationError("Scenario has invalid name")
+
+    """ Validation rules """
+
+    def rule_name_required(self):
+        assert isinstance(self.name, str), "Scenario has invalid name"

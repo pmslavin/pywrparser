@@ -75,13 +75,20 @@ class PywrNetwork():
 
         return network
 
+
     def as_json(self):
         import json
         return json.dumps(self.as_dict(), indent=2)
 
 
     def validate(self):
+        """
+          Additional network-level semantic validation, e.g..
+           - Unconnected nodes
+           - Unused parameters
+        """
         pass
+
 
     def attach_parameters(self):
         """
