@@ -16,4 +16,4 @@ class PywrType(ABC):
         return self.data
 
     def as_json(self) -> str:
-        return json.dump(self.data)
+        return json.dumps(self.data)

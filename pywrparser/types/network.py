@@ -2,7 +2,6 @@ import logging
 
 from functools import partialmethod
 
-from .base import PywrType
 from pywrparser.parsers import PywrJSONParser
 
 from pywrparser.types import (
@@ -18,7 +17,7 @@ from pywrparser.utils import (
 log = logging.getLogger(__name__)
 
 
-class PywrNetwork(PywrType):
+class PywrNetwork():
 
     def __init__(self, parser):
         self.metadata = parser.metadata

@@ -1,15 +1,17 @@
 import contextlib
 import re
 
-from collections.abc import MutableSequence
+from collections.abc import MutableMapping
+from typing import Tuple
 
 from pywrparser.types.exceptions import PywrValidationError
 
+
 @contextlib.contextmanager
-def raiseorpush(component: str, do_raise: bool, dest: MutableSequence):
+def raiseorpush(component: str, do_raise: bool, dest: MutableMapping):
     error_set = ()
     if not do_raise:
-        error_set = PywrValidationError
+        error_set = (PywrValidationError,)
 
     try:
         yield
@@ -17,11 +19,11 @@ def raiseorpush(component: str, do_raise: bool, dest: MutableSequence):
         dest[component].append(e)
 
 
-def canonical_name(nodename, attr):
+def canonical_name(nodename: str, attr: str) -> str:
     return f"__{nodename}__:{attr}"
 
 
-def parse_reference_key(key) -> (str, str):
+def parse_reference_key(key: str) -> Tuple[str, str]:
     end_mark = "__:"
     name_end = key.rindex(end_mark) # ValueError on fail
     sepidx = name_end + len(end_mark) - 1

@@ -1,0 +1,96 @@
+{
+ "metadata": {
+  "title": "Valid network title",
+  "description": "Model description",
+  "minimum_version": "v1.0"
+ },
+ "timestepper": {
+  "start": "1970-01-01 00:00:00",
+  "end": "1970-12-31 00:00:00",
+  "timestep": "h"
+ },
+ "scenarios": [
+  {
+   "name": "scenario1",
+   "size": 1,
+   "ensemble_names": [
+    "scn1"
+   ]
+  }
+ ],
+ "nodes": [
+  {
+   "name": "Node_1",
+   "type": "generator",
+   "max_flow": "__Node_1__:max_flow",
+   "cost": 0.1,
+   "comment": "Node_1"
+   },
+  {
+   "name": "Node_2",
+   "type": "generator",
+   "max_flow": "__Node_2__:max_flow",
+   "cost": 0.2,
+   "comment": "Node_2"
+  },
+  {
+   "name": "Node_3",
+   "type": "bus",
+   "max_flow": "__Node_3__:max_flow",
+   "cost": 0.1,
+   "comment": "Node_3"
+  },
+  {
+   "name": "Node_4",
+   "type": "load",
+   "max_flow": "__Node_4__:max_flow",
+   "cost": 0.1,
+   "comment": "Node_4"
+  }
+ ],
+ "edges": [
+   ["Node_1", "Node_3"],
+   ["Node_2", "Node_3"],
+   ["Node_3", "Node_4"]
+ ],
+ "parameters": {
+  "__Node_1__:max_flow": {
+   "type": "constant",
+   "value": 500,
+   "is_variable": false
+  },
+  "__Node_2__:max_flow": {
+   "type": "constant",
+   "value": 1000,
+   "is_variable": false
+  },
+  "__Node_3__:max_flow": {
+   "type": "constant",
+   "value": 1200,
+   "is_variable": false
+  },
+  "__Node_4__:max_flow": {
+   "type": "constant",
+   "value": 1400,
+   "is_variable": false
+  }
+ },
+ "recorders": {
+  "Node_1 recorder": {
+   "type": "ValidRecorderType",
+   "node": "Node_1"
+  },
+  "Node_2 recorder": {
+   "type": "ValidRecorderType",
+   "node": "Node_2"
+  },
+  "Node_3 recorder": {
+   "type": "ValidRecorderType",
+   "node": "Node_3"
+  },
+  "Node_4 recorder": {
+   "type": "ValidRecorderType",
+   "node": "Node_4"
+  }
+ }
+}
