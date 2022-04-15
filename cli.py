@@ -14,10 +14,17 @@ if __name__ == "__main__":
     #parser = PywrJSONParser(filename)
     #parser.parse(raise_on_error=False)
 
-    network, errors = PywrNetwork.from_file(filename, raise_on_parser_error=False)
+    network, errors, warnings = PywrNetwork.from_file(filename, raise_on_parser_error=False)
+
+    if warnings:
+        for component, warns in warnings.items():
+            print(f"[{component}]")
+            for warning in warns:
+                print(warning)
 
     if errors:
         for component, errs in errors.items():
+            print(f"[{component}]")
             for err in errs:
                 print(err)
         exit(1)

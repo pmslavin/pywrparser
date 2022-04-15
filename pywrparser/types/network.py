@@ -35,19 +35,21 @@ class PywrNetwork():
             json_src = fp.read()
         parser = PywrJSONParser(json_src)
         parser.parse(raise_on_error=raise_on_parser_error)
+        ret_warnings = parser.warnings if parser.has_warnings else None
         if parser.has_errors:
-            return None, parser.errors
+            return None, parser.errors, ret_warnings
 
-        return cls(parser), None
+        return cls(parser), None, parser.warnings
 
     @classmethod
     def from_json(cls, json_src, raise_on_parser_error=False):
         parser = PywrJSONParser(json_src)
         parser.parse(raise_on_error=raise_on_parser_error)
+        ret_warnings = parser.warnings if parser.has_warnings else None
         if parser.has_errors:
-            return None, parser.errors
+            return None, parser.errors, ret_warnings
 
-        return cls(parser), None
+        return cls(parser), None, parser.warnings
 
     @classmethod
     def from_hydra(cls, hydra_src):

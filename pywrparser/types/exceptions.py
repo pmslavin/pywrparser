@@ -10,13 +10,20 @@ class PywrParserException(Exception):
 
 
 class PywrTypeValidationError(PywrParserException):
-    def __init__(self, message, source=None, component=None):
-        super().__init__(message)
-        self.source = source if source else {}
-        self.component = component if component else ""
+    def __init__(self, component, rule, exc, valuetext):
+        self.component = component
+        self.rule = rule
+        self.exc = exc
+        self.valuetext = valuetext
 
     def __str__(self):
-        return super().__str__() + '\n' + "\n".join(self.rules_failed)
+        return f"[FAILURE] {self.component} '{self.rule}' -> {self.exc}:\n          {self.valuetext}"
+
+
+class PywrTypeValidationErrorBundle(PywrParserException):
+    def __init__(self, message, bundle):
+        self.message = message
+        self.bundle = bundle
 
 
 class PywrNetworkValidationError(PywrParserException):

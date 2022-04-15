@@ -9,6 +9,18 @@ class PywrParserWarning(Warning):
         return f"{self.__class__.__qualname__}({self.message})"
 
 
+class PywrTypeValidationWarning(PywrParserWarning):
+    def __init__(self, component, warning, exc, valuetext):
+        self.component = component
+        self.warning = warning
+        self.exc = exc
+        self.valuetext = valuetext
+
+    def __str__(self):
+        return f"[WARNING] {self.component} '{self.warning}' -> {self.exc}:\n          {self.valuetext}"
+
+
+
 class PywrNameWarning(PywrParserWarning):
-    def __init__(self, message):
+    def __init__(self, message, component):
         super().__init__(message)

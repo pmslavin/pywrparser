@@ -35,14 +35,13 @@ def test_timestepper(invalid_elements):
 
 
 def test_nodes(invalid_elements):
-    errors =  invalid_elements.errors
+    errors = invalid_elements.errors
 
     """
     Node without name
     Node without type
-    Duplicate node name
     """
-    assert len(errors["nodes"]) == 3
+    assert len(errors["nodes"]) == 2
 
 
 def test_edges(invalid_elements):

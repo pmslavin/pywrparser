@@ -1,4 +1,5 @@
 from .base import PywrType
+from pywrparser.utils import match
 
 
 class PywrParameter(PywrType):
@@ -21,3 +22,10 @@ class PywrParameter(PywrType):
 
     def rule_type_required(self):
         assert isinstance(self.type, str), f"Parameter <{self.name}> does not define type"
+
+
+    """ Type-specific rules """
+
+    @match("aggregated")
+    def rule_aggregated_has_agg_func(self):
+        assert "agg_func" in self.data, f"AggregatedParameter <{self.name}> does not define 'agg_func'"
