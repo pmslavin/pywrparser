@@ -1,10 +1,10 @@
+from __future__ import annotations
 import contextlib
 import functools
 import inspect
 import json
 import re
 
-from collections.abc import MutableMapping
 from typing import Tuple
 
 from pywrparser.types.exceptions import (
@@ -15,7 +15,7 @@ from pywrparser.types.warnings import PywrTypeValidationWarning
 
 
 @contextlib.contextmanager
-def raiseorpush(component: str, do_raise: bool, dest: MutableMapping):
+def raiseorpush(component: str, do_raise: bool, dest: PywrJSONParser):
     error_set = ()
     if not do_raise:
         error_set = (PywrTypeValidationError, PywrTypeValidationErrorBundle)
@@ -37,7 +37,7 @@ def canonical_name(nodename: str, attr: str) -> str:
 
 def parse_reference_key(key: str) -> Tuple[str, str]:
     end_mark = "__:"
-    name_end = key.rindex(end_mark) # ValueError on fail
+    name_end = key.rindex(end_mark)  # ValueError on fail
     sepidx = name_end + len(end_mark) - 1
     name, attr = key[:sepidx], key[sepidx+1:]
 
@@ -55,38 +55,35 @@ class PywrTypeValidator():
         self.store_passed_rules = store_passed_rules
 
 
-    def __set_name__(self, inst, name):
+    def __set_name__(self, inst: PywrType, name: str):
         self.instattr = '_' + name
 
 
-    def __get__(self, inst, dtype=None):
+    def __get__(self, inst: PywrType, dtype=None):
         return getattr(inst, self.instattr)
 
 
-    def __set__(self, inst, value):
+    def __set__(self, inst: PywrType, value: dict):
         setattr(inst, self.instattr, value)
         self.validate(inst, value)
 
 
-    def validate(self, inst, value):
+    def validate(self, inst: PywrType, value: dict):
         ifuncs = inspect.getmembers(inst, inspect.ismethod)
-        irules = { n:f for n,f in ifuncs if n.startswith("rule") }
-        iwarns = { n:f for n,f in ifuncs if n.startswith("warn") }
+        irules = {n: f for n, f in ifuncs if n.startswith("rule")}
+        iwarns = {n: f for n, f in ifuncs if n.startswith("warn")}
 
         rules_passed = []
-        rules_failed = []
-        warnings = []
-
         exc_warn_bundle = []
 
-        for w,f in iwarns.items():
+        for w, f in iwarns.items():
             try:
                 f()
             except AssertionError as e:
                 value_text = self.trim_value(value)
                 exc_warn_bundle.append(PywrTypeValidationWarning(inst.__class__.__qualname__, w, e, value_text))
 
-        for r,f in irules.items():
+        for r, f in irules.items():
             try:
                 rules_passed.append(f"[PASSED] {r} -> {f()}")
             except AssertionError as e:
@@ -109,7 +106,6 @@ class PywrTypeValidator():
             value_text = value_text[:self.max_value_len] + f"...[+{remainder} char{s}]"
 
         return value_text
-
 
 
 def match(typename, fuzzy=False):

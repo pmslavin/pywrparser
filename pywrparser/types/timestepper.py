@@ -12,5 +12,5 @@ class PywrTimestepper(PywrType):
         assert "start" in self.data, "Timestepper does not define 'start' key"
 
 
-    def rule_start_required(self):
+    def rule_end_required(self):
         assert "end" in self.data, "Timestepper does not define 'end' key"
