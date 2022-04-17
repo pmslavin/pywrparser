@@ -14,7 +14,8 @@ from pywrparser.types import (
 )
 
 from pywrparser.types.exceptions import (
-    PywrValidationError
+    PywrTypeValidationError,
+    PywrNetworkValidationError
 )
 
 from pywrparser.utils import raiseorpush
@@ -27,6 +28,7 @@ DUP_KEY_RE   = r"{base}".format(base=DUP_KEY_BASE.format(pattern="[0-9]{3}"))
 class PywrJSONParser():
     def __init__(self, json_src):
         self.errors = defaultdict(list)
+        self.warnings = defaultdict(list)
         self.src = json.loads(json_src, object_pairs_hook=self.__class__.enforce_unique)
 
         self.nodes = {}
@@ -55,19 +57,19 @@ class PywrJSONParser():
     def parse(self, raise_on_error=False):
         seen_nodes = set()
 
-        with raiseorpush("metadata", raise_on_error, self.errors):
+        with raiseorpush("metadata", raise_on_error, self):
             self.metadata = PywrMetadata(self.src["metadata"])
 
-        with raiseorpush("timestepper", raise_on_error, self.errors):
+        with raiseorpush("timestepper", raise_on_error, self):
             self.timestepper = PywrTimestepper(self.src["timestepper"])
 
         for scenario in self.src.get("scenarios",[]):
-            with raiseorpush("scenarios", raise_on_error, self.errors):
+            with raiseorpush("scenarios", raise_on_error, self):
                 scen = PywrScenario(scenario)
                 self.scenarios.append(scen)
 
         for table_name, table_data in self.src.get("tables", {}).items():
-            with raiseorpush("tables", raise_on_error, self.errors):
+            with raiseorpush("tables", raise_on_error, self):
                 t = PywrTable(table_name, table_data)
                 self.tables[t.name] = t
 
@@ -75,8 +77,8 @@ class PywrJSONParser():
             if m := re.search(DUP_KEY_RE, param_name):
                 span_end = m.span()[1]
                 raw_name = param_name[span_end+1:]
-                self.errors["parameters"].append(PywrValidationError(f"Duplicate parameter name <{raw_name}>"))
-            with raiseorpush("parameters", raise_on_error, self.errors):
+                self.errors["network"].append(PywrNetworkValidationError(f"Duplicate parameter name <{raw_name}>"))
+            with raiseorpush("parameters", raise_on_error, self):
                 p = PywrParameter(param_name, param_data)
                 self.parameters[p.name] = p
 
@@ -84,25 +86,30 @@ class PywrJSONParser():
             if m := re.search(DUP_KEY_RE, rec_name):
                 span_end = m.span()[1]
                 raw_name = rec_name[span_end+1:]
-                self.errors["recorders"].append(PywrValidationError(f"Duplicate recorder name <{raw_name}>"))
-            with raiseorpush("recorders", raise_on_error, self.errors):
+                self.errors["network"].append(PywrNetworkValidationError(f"Duplicate recorder name <{raw_name}>"))
+            with raiseorpush("recorders", raise_on_error, self):
                 r = PywrRecorder(rec_name, rec_data)
                 self.recorders[r.name] = r
 
         for node in self.src["nodes"]:
-            with raiseorpush("nodes", raise_on_error, self.errors):
+            with raiseorpush("nodes", raise_on_error, self):
                 n = PywrNode(node)
                 if n.name in seen_nodes:
-                    self.errors["nodes"].append(PywrValidationError(f"Duplicate node name <{n.name}>"))
+                    self.errors["network"].append(PywrNetworkValidationError(f"Duplicate node name <{n.name}>"))
                 else:
                     self.nodes[n.name] = n
                     seen_nodes.add(n.name)
 
         for edge in self.src["edges"]:
-            with raiseorpush("edges", raise_on_error, self.errors):
+            with raiseorpush("edges", raise_on_error, self):
                 e = PywrEdge(edge)
                 self.edges.append(e)
 
     @property
     def has_errors(self):
         return len(self.errors) > 0
+
+
+    @property
+    def has_warnings(self):
+        return len(self.warnings) > 0

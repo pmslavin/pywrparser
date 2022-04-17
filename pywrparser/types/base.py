@@ -7,10 +7,11 @@ from abc import (
     abstractmethod
 )
 
+from pywrparser.utils import PywrTypeValidator
+
 class PywrType(ABC):
-    @abstractmethod
-    def validate(self) -> None:
-        raise NotImplementedError
+
+    data = PywrTypeValidator()
 
     def as_dict(self) -> Dict[str, Dict]:
         return self.data

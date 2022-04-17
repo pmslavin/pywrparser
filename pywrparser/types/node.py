@@ -1,5 +1,8 @@
+import copy
+
 from .base import PywrType
-from pywrparser.types.exceptions import PywrValidationError
+from pywrparser.utils import match
+
 
 class PywrNode(PywrType):
     def __init__(self, data):
@@ -13,34 +16,55 @@ class PywrNode(PywrType):
                 name = str(name)
                 data["name"] = name
         self.data = data
-        self.validate()
+
 
     @property
     def type(self):
-        return self.data["type"]
+        return self.data.get("type")
+
 
     @property
     def name(self):
-        return self.data["name"]
+        return self.data.get("name")
+
 
     @property
     def attrs(self):
         return self.data.keys()
 
-    def validate(self):
-        try:
-            name = self.data.get("name")
-            assert name is not None
-        except:
-            raise PywrValidationError("Missing node name", self.data)
 
-        try:
-            self.data["name"] = self.data["name"]
-            assert isinstance(self.name, str)
-        except:
-            raise PywrValidationError("Invalid node name", self.data)
+    def as_dict(self):
+        ret = copy.deepcopy(self.data)
 
-        try:
-            assert "type" in self.data
-        except:
-            raise PywrValidationError(f"Node <{self.name}> does not define type", self.data)
+        for k,v in ret.items():
+            if isinstance(v, PywrType):
+                ret[k] = v.as_dict()
+
+
+    """ Validation rules """
+
+    def rule_node_has_name(self):
+        assert self.name is not None, "Missing node name"
+
+    def rule_node_has_type(self):
+        assert "type" in self.data, "Node does not define type"
+
+    def warn_node_name_min_len(self):
+        assert self.name and len(self.name) > 4, "Node name too short"
+
+
+    """ Type-specific rules """
+
+    @match("proportionalinput")
+    def rule_proportionalinput_has_proportion(self):
+        assert "proportion" in self.data, "<proportionalinput> node does not define 'proportion'"
+
+
+    @match("storage")
+    def rule_storage_has_max_volume(self):
+        assert "max_volume" in self.data, "<storage> node does not define 'max_volume'"
+
+
+    @match("badger")
+    def rule_badgers(self):
+        assert "badgers" in self.data, "No badgers..."

@@ -35,14 +35,13 @@ def test_timestepper(invalid_elements):
 
 
 def test_nodes(invalid_elements):
-    errors =  invalid_elements.errors
+    errors = invalid_elements.errors
 
     """
     Node without name
     Node without type
-    Duplicate node name
     """
-    assert len(errors["nodes"]) == 3
+    assert len(errors["nodes"]) == 2
 
 
 def test_edges(invalid_elements):
@@ -60,9 +59,8 @@ def test_parameters(invalid_elements):
 
     """
     Parameter without type
-    Duplicate parameter name
     """
-    assert len(errors["parameters"]) == 2
+    assert len(errors["parameters"]) == 1
 
 
 def test_recorders(invalid_elements):
@@ -70,6 +68,27 @@ def test_recorders(invalid_elements):
 
     """
     Recorder without type
+    """
+    assert len(errors["recorders"]) == 1
+
+
+def test_scenarios(invalid_elements):
+    errors =  invalid_elements.errors
+
+    """
+    Scenario without name
+    """
+    assert len(errors["scenarios"]) == 1
+
+
+def test_network(invalid_elements):
+    errors =  invalid_elements.errors
+
+    """
+    Duplicate node name
+    Duplicate parameter name
     Duplicate recorder name
     """
-    assert len(errors["recorders"]) == 2
+
+    assert len(errors["network"]) == 3
+

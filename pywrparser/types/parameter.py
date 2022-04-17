@@ -1,22 +1,31 @@
 from .base import PywrType
-from .exceptions import PywrValidationError
+from pywrparser.utils import match
+
 
 class PywrParameter(PywrType):
     def __init__(self, name, data):
         self.name = str(name)
         self.data = data
-        self.validate()
+
 
     @property
     def type(self):
-        return self.data["type"]
+        return self.data.get("type")
+
 
     @property
     def attrs(self):
         return tuple(self.data.keys())
 
-    def validate(self):
-        try:
-            assert isinstance(self.type, str)
-        except:
-            raise PywrValidationError(f"Parameter <{self.name}> does not define type", self.data)
+
+    """ Validation rules """
+
+    def rule_type_required(self):
+        assert isinstance(self.type, str), f"Parameter <{self.name}> does not define type"
+
+
+    """ Type-specific rules """
+
+    @match("aggregated")
+    def rule_aggregated_has_agg_func(self):
+        assert "agg_func" in self.data, f"AggregatedParameter <{self.name}> does not define 'agg_func'"

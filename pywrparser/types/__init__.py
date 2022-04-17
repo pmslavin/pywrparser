@@ -1,4 +1,3 @@
-from .base import PywrType
 from .timestepper import PywrTimestepper
 from .metadata import PywrMetadata
 from .scenario import PywrScenario
