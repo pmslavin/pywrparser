@@ -24,11 +24,10 @@ def raiseorpush(component: str, do_raise: bool, dest: PywrJSONParser):
         yield
     except error_set as e:
         if isinstance(e, PywrTypeValidationErrorBundle):
-            for eorw in e.bundle:
-                if isinstance(eorw, Warning):
-                    dest.warnings[component].append(eorw)
-                elif isinstance(eorw, Exception):
-                    dest.errors[component].append(eorw)
+            for warning in e.warnings:
+                dest.warnings[component].append(warning)
+            for error in e.errors:
+                dest.errors[component].append(error)
 
 
 def canonical_name(nodename: str, attr: str) -> str:

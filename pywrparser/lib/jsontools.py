@@ -1,6 +1,6 @@
 import json
 
-from pywrparser.types import PywrType
+from pywrparser.types.base import PywrType
 from pywrparser.types.network import PywrNetwork
 
 class PywrTypeJSONEncoder(json.JSONEncoder):

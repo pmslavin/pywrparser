@@ -1,3 +1,6 @@
+from .warnings import PywrParserWarning
+
+
 class PywrParserException(Exception):
     def __init__(self, message):
         self.message = message
@@ -24,6 +27,14 @@ class PywrTypeValidationErrorBundle(PywrParserException):
     def __init__(self, message, bundle):
         self.message = message
         self.bundle = bundle
+
+    @property
+    def errors(self):
+        return [exc for exc in self.bundle if isinstance(exc, PywrParserException)]
+
+    @property
+    def warnings(self):
+        return [exc for exc in self.bundle if isinstance(exc, PywrParserWarning)]
 
 
 class PywrNetworkValidationError(PywrParserException):
