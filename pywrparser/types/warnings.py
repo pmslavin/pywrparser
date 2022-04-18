@@ -10,6 +10,9 @@ class PywrParserWarning(Warning):
 
 
 class PywrTypeValidationWarning(PywrParserWarning):
+
+    desc_text = "[WARNING]"
+
     def __init__(self, component, warning, exc, valuetext):
         self.component = component
         self.warning = warning
@@ -17,7 +20,7 @@ class PywrTypeValidationWarning(PywrParserWarning):
         self.valuetext = valuetext
 
     def __str__(self):
-        return f"[WARNING] {self.component} '{self.warning}' -> {self.exc}:\n          {self.valuetext}"
+        return f"{self.desc_text} {self.component} '{self.warning}' -> {self.exc}:\n          {self.valuetext}"
 
 
 

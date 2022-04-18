@@ -13,6 +13,8 @@ class PywrParserException(Exception):
 
 
 class PywrTypeValidationError(PywrParserException):
+    desc_text = "[FAILURE]"
+
     def __init__(self, component, rule, exc, valuetext):
         self.component = component
         self.rule = rule
@@ -20,7 +22,7 @@ class PywrTypeValidationError(PywrParserException):
         self.valuetext = valuetext
 
     def __str__(self):
-        return f"[FAILURE] {self.component} '{self.rule}' -> {self.exc}:\n          {self.valuetext}"
+        return f"{self.desc_text} {self.component} '{self.rule}' -> {self.exc}:\n          {self.valuetext}"
 
 
 class PywrTypeValidationErrorBundle(PywrParserException):
