@@ -22,6 +22,13 @@ class PywrTypeValidationWarning(PywrParserWarning):
     def __str__(self):
         return f"{self.desc_text} {self.component} '{self.warning}' -> {self.exc}:\n          {self.valuetext}"
 
+    def as_dict(self):
+        return {
+            "component": self.component,
+            "warning": self.warning,
+            "exception": str(self.exc),
+            "value": self.valuetext
+        }
 
 
 class PywrNameWarning(PywrParserWarning):

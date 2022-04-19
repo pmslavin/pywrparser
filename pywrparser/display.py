@@ -1,3 +1,5 @@
+import json
+
 from rich import print as rprint
 from rich.align import Align
 from rich.console import Console
@@ -7,18 +9,11 @@ from rich.panel import Panel
 
 console = Console()
 
+WARN_EMOJI = ":yellow_circle:"
+RULE_EMOJI = ":red_circle:"
 
 def write_results(filename, errors, warnings, use_emoji=True):
-    error_total = 0
-    warning_total = 0
-
-    if errors:
-        for component, errs in errors.items():
-            error_total += len(errs)
-    if warnings:
-        for component, warns in warnings.items():
-            warning_total += len(warns)
-
+    error_total, warning_total = count_errors_warnings(errors, warnings)
     all = coalesce_errors_and_warnings(errors, warnings)
 
     err_plural = "" if error_total == 1 else "s"
@@ -29,8 +24,6 @@ def write_results(filename, errors, warnings, use_emoji=True):
     f" [bold yellow]{warning_total} warning{warn_plural}", style="blue"), align="center")
     console.print(header)
 
-    net_errors = errors.pop("network",[]) if errors else []
-    net_warnings = warnings.pop("network",[]) if warnings else []
     net_all = all.pop("network",[])
 
     if net_all:
@@ -38,11 +31,11 @@ def write_results(filename, errors, warnings, use_emoji=True):
         console.print()
     for eow in net_all:
         if isinstance(eow, Warning):
-            prefix = ":yellow_circle:" if use_emoji else "[WARNING]"
+            prefix = WARN_EMOJI if use_emoji else "[WARNING]"
             row = "warning"
         else:
             row = "rule"
-            prefix = ":red_circle:" if use_emoji else "[FAILURE]"
+            prefix = RULE_EMOJI if use_emoji else "[FAILURE]"
 
         line = Padding(f"{prefix}  Network {row} -> [white italic]{eow}[/white italic]", (0,2))
         console.print(line)
@@ -54,11 +47,11 @@ def write_results(filename, errors, warnings, use_emoji=True):
 
         for eow in eows:
             if isinstance(eow, Warning):
-                prefix = ":yellow_circle:" if use_emoji else eow.desc_text
+                prefix = WARN_EMOJI if use_emoji else eow.desc_text
                 row = eow.warning
             else:
                 row = eow.rule
-                prefix = ":red_circle:" if use_emoji else eow.desc_text
+                prefix = RULE_EMOJI if use_emoji else eow.desc_text
 
             eow_line = Padding(
             f"{prefix}  {eow.component} [bold blue]'{row}'[/bold blue] ->"
@@ -81,3 +74,46 @@ def coalesce_errors_and_warnings(errors, warnings):
         all[component] = comp_errs + warns
 
     return all
+
+
+def count_errors_warnings(errors, warnings):
+    error_total = 0
+    warning_total = 0
+
+    if errors:
+        for component, errs in errors.items():
+            error_total += len(errs)
+    if warnings:
+        for component, warns in warnings.items():
+            warning_total += len(warns)
+
+    return error_total, warning_total
+
+
+def results_as_dict(filename, errors, warnings):
+    error_total, warning_total = count_errors_warnings(errors, warnings)
+
+    ret = {
+        "parse_results": {
+            "file": filename,
+            "errors": error_total,
+            "warnings": warning_total
+        }
+    }
+
+    if errors:
+        component_errs = {}
+        for component, errs in errors.items():
+            component_errs[component] = [err.as_dict() for err in errs]
+        ret["errors"] = component_errs
+    if warnings:
+        component_warns = {}
+        for component, warns in warnings.items():
+            component_warns[component] = [warn.as_dict() for warn in warns]
+        ret["warnings"] = component_warns
+
+    return ret
+
+
+def results_as_json(filename, errors, warnings):
+    return json.dumps(results_as_dict(filename, errors, warnings))

@@ -13,8 +13,7 @@ class PywrNode(PywrType):
                 pass
             else:
                 # Other non-str name, cast to str
-                name = str(name)
-                data["name"] = name
+                data["name"] = str(name)
         self.data = data
 
 
@@ -39,6 +38,8 @@ class PywrNode(PywrType):
         for k,v in ret.items():
             if isinstance(v, PywrType):
                 ret[k] = v.as_dict()
+
+        return ret
 
 
     """ Validation rules """

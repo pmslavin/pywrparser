@@ -6,9 +6,12 @@ import pprint
 from rich import print as rprint
 from rich.json import JSON
 
-#from pywrparser.parsers import PywrJSONParser
 from pywrparser.types.network import PywrNetwork
-from pywrparser.display import write_results
+from pywrparser.display import (
+    write_results,
+    results_as_dict,
+    results_as_json
+)
 
 LOGLEVEL = os.environ.get("LOGLEVEL", "INFO").upper()
 logging.basicConfig(level=LOGLEVEL)
@@ -69,3 +72,5 @@ if __name__ == "__main__":
 
     if errors or warnings:
         write_results(filename, errors, warnings, use_emoji=True)
+        rad = results_as_dict(filename, errors, warnings)
+        #pprint.pprint(rad)

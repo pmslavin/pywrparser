@@ -24,6 +24,14 @@ class PywrTypeValidationError(PywrParserException):
     def __str__(self):
         return f"{self.desc_text} {self.component} '{self.rule}' -> {self.exc}:\n          {self.valuetext}"
 
+    def as_dict(self):
+        return {
+            "component": self.component,
+            "rule": self.rule,
+            "exception": str(self.exc),
+            "value": self.valuetext
+        }
+
 
 class PywrTypeValidationErrorBundle(PywrParserException):
     def __init__(self, message, bundle):
@@ -42,3 +50,10 @@ class PywrTypeValidationErrorBundle(PywrParserException):
 class PywrNetworkValidationError(PywrParserException):
     def __init__(self, message):
         super().__init__(message)
+        self.component = "network"
+
+    def as_dict(self):
+        return {
+            "component": self.component,
+            "message": self.message
+        }
