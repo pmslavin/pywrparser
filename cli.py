@@ -73,4 +73,4 @@ if __name__ == "__main__":
     if errors or warnings:
         write_results(filename, errors, warnings, use_emoji=True)
         rad = results_as_dict(filename, errors, warnings)
-        #pprint.pprint(rad)
+        pprint.pprint(rad)

@@ -1,16 +1,20 @@
+import datetime
 import json
+import os
 
-from rich import print as rprint
 from rich.align import Align
 from rich.console import Console
 from rich.json import JSON
 from rich.padding import Padding
 from rich.panel import Panel
 
+from pywrparser.utils import sha256digest
+
 console = Console()
 
 WARN_EMOJI = ":yellow_circle:"
 RULE_EMOJI = ":red_circle:"
+
 
 def write_results(filename, errors, warnings, use_emoji=True):
     error_total, warning_total = count_errors_warnings(errors, warnings)
@@ -93,9 +97,13 @@ def count_errors_warnings(errors, warnings):
 def results_as_dict(filename, errors, warnings):
     error_total, warning_total = count_errors_warnings(errors, warnings)
 
+    fbasename = os.path.basename(filename)
+    fdigest = sha256digest(filename)
+
     ret = {
         "parse_results": {
-            "file": filename,
+            "file": {"name": fbasename, "sha256": fdigest},
+            "created_at": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "errors": error_total,
             "warnings": warning_total
         }
