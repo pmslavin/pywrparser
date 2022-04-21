@@ -25,6 +25,12 @@ def configure_args():
         default=False,
         help="Omit emoji in console parsing reports"
     )
+    parser.add_argument("--no-colour",
+        action="store_true",
+        default=False,
+        help="Omit colour output in console parsing reports."
+        " Implies `--no-emoji`"
+    )
 
     return parser.parse_args()
 
@@ -32,7 +38,12 @@ def configure_args():
 def handle_args(args):
     filename = args.FILENAME
     doraise = args.raise_on_error
-    useemoji = not args.no_emoji
+    useemoji = not args.no_emoji if not args.no_colour else False
+
+    if args.no_colour:
+        from pywrparser.display import console
+        console.no_color = True
+
     network, errors, warnings = PywrNetwork.from_file(filename, raise_on_parser_error=doraise)
 
     if network:

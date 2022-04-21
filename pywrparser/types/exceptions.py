@@ -24,6 +24,9 @@ class PywrTypeValidationError(PywrParserException):
     def __str__(self):
         return f"{self.desc_text} {self.component} '{self.rule}' -> {self.exc}:\n          {self.valuetext}"
 
+    def __repr__(self):
+        return f"{self.__class__.__qualname__}({self.component}, {self.rule}, {self.exc})"
+
     def as_dict(self):
         return {
             "component": self.component,
@@ -31,6 +34,7 @@ class PywrTypeValidationError(PywrParserException):
             "exception": str(self.exc),
             "value": self.valuetext
         }
+
 
 
 class PywrTypeValidationErrorBundle(PywrParserException):

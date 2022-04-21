@@ -8,7 +8,6 @@ from rich.json import JSON
 from rich.padding import Padding
 from rich.panel import Panel
 
-from pywrparser.utils import sha256digest
 
 console = Console()
 
@@ -95,6 +94,7 @@ def count_errors_warnings(errors, warnings):
 
 
 def results_as_dict(filename, errors, warnings):
+    from pywrparser.utils import sha256digest
     error_total, warning_total = count_errors_warnings(errors, warnings)
 
     fbasename = os.path.basename(filename)
