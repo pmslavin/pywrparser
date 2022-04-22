@@ -3,8 +3,8 @@ from .base import PywrType
 
 class PywrTable(PywrType):
     def __init__(self, name, data):
-        self.data = data
         self.name = str(name)
+        self.data = data
 
 
     @property

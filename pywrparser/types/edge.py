@@ -1,6 +1,7 @@
 from .base import PywrType
 from pywrparser.types.exceptions import PywrTypeValidationError
 
+
 class PywrEdge(PywrType):
     def __init__(self, data):
         self.data = [str(d) for d in data]
