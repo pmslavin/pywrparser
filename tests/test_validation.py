@@ -3,17 +3,9 @@ import pytest
 
 from pywrparser.parsers import PywrJSONParser
 
-INVALID_ELEMENTS_FILE = "tests/data/invalid_elements.json"
-
-@pytest.fixture
-def invalid_elements():
-    with open(INVALID_ELEMENTS_FILE, 'r') as fp:
-        json_src = fp.read()
-
-    parser = PywrJSONParser(json_src)
-    parser.parse()
-
-    return parser
+from .fixtures import (
+    invalid_elements
+)
 
 
 def test_errors_present(invalid_elements):

@@ -1,20 +1,24 @@
 import json
 import pytest
 
-from pywrparser.parsers import PywrJSONParser
+from pywrparser.types.network import PywrNetwork
 
-VALID_NETWORK_FILE = "tests/data/valid_network.json"
+from .fixtures import (
+    INVALID_ELEMENTS_FILE,
+    VALID_NETWORK_FILE
+)
 
-@pytest.fixture
-def valid_network():
+
+def test_network_from_file_is_valid():
+    network, errors, warnings = PywrNetwork.from_file(VALID_NETWORK_FILE)
+    assert network is not None
+    assert errors is None
+
+
+def test_network_from_json_is_valid():
     with open(VALID_NETWORK_FILE, 'r') as fp:
-        json_src = fp.read()
+        src = fp.read()
+    network, errors, warnings = PywrNetwork.from_json(src)
+    assert network is not None
+    assert errors is None
 
-    parser = PywrJSONParser(json_src)
-    parser.parse()
-
-    return parser
-
-
-def test_network_is_valid(valid_network):
-    assert valid_network.has_errors == False

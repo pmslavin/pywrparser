@@ -13,6 +13,8 @@ class PywrParserException(Exception):
 
 
 class PywrTypeValidationError(PywrParserException):
+    desc_text = "[FAILURE]"
+
     def __init__(self, component, rule, exc, valuetext):
         self.component = component
         self.rule = rule
@@ -20,7 +22,19 @@ class PywrTypeValidationError(PywrParserException):
         self.valuetext = valuetext
 
     def __str__(self):
-        return f"[FAILURE] {self.component} '{self.rule}' -> {self.exc}:\n          {self.valuetext}"
+        return f"{self.desc_text} {self.component} '{self.rule}' -> {self.exc}:\n          {self.valuetext}"
+
+    def __repr__(self):
+        return f"{self.__class__.__qualname__}({self.component}, {self.rule}, {self.exc})"
+
+    def as_dict(self):
+        return {
+            "component": self.component,
+            "rule": self.rule,
+            "exception": str(self.exc),
+            "value": self.valuetext
+        }
+
 
 
 class PywrTypeValidationErrorBundle(PywrParserException):
@@ -40,3 +54,10 @@ class PywrTypeValidationErrorBundle(PywrParserException):
 class PywrNetworkValidationError(PywrParserException):
     def __init__(self, message):
         super().__init__(message)
+        self.component = "network"
+
+    def as_dict(self):
+        return {
+            "component": self.component,
+            "message": self.message
+        }

@@ -3,8 +3,15 @@ import sys
 import logging
 import pprint
 
-#from pywrparser.parsers import PywrJSONParser
+from rich import print as rprint
+from rich.json import JSON
+
 from pywrparser.types.network import PywrNetwork
+from pywrparser.display import (
+    write_results,
+    results_as_dict,
+    results_as_json
+)
 
 LOGLEVEL = os.environ.get("LOGLEVEL", "INFO").upper()
 logging.basicConfig(level=LOGLEVEL)
@@ -16,6 +23,7 @@ if __name__ == "__main__":
 
     network, errors, warnings = PywrNetwork.from_file(filename, raise_on_parser_error=False)
 
+    """
     if warnings:
         for component, warns in warnings.items():
             print(f"[{component}]")
@@ -28,6 +36,7 @@ if __name__ == "__main__":
             for err in errs:
                 print(err)
         exit(1)
+    """
 
     #pprint.pprint(network.as_dict())
     #print("==: End of network.as_dict() :==")
@@ -38,10 +47,12 @@ if __name__ == "__main__":
     #pprint.pprint(network.parameters)
     #print(len(network.parameters))
     #print("="*46)
+    """
     for n in network.nodes.values():
         for attr, value in n.data.items():
             if isinstance(value, dict) and "type" in value:
                 print(f"Inline parameter: __{n.name}__:{attr}")
+    """
     #network.detach_parameters()
     #pprint.pprint(network.parameters)
     #print(len(network.parameters))
@@ -51,6 +62,15 @@ if __name__ == "__main__":
     #print(len(network.parameters))
     #print("="*46)
     #breakpoint()
-    network.add_parameter_references()
-    network.add_recorder_references()
-    print(network.report())
+    if network:
+        network.add_parameter_references()
+        network.add_recorder_references()
+        report = network.report()
+        #print(report)
+        rprint(report)
+        #rprint(JSON.from_data(report))
+
+    if errors or warnings:
+        write_results(filename, errors, warnings, use_emoji=True)
+        rad = results_as_dict(filename, errors, warnings)
+        pprint.pprint(rad)

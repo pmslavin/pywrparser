@@ -123,3 +123,19 @@ def match(typename, fuzzy=False):
 
         return wrapper
     return type_wrapper
+
+
+def sha256digest(filename: str) -> str:
+    import hashlib
+
+    bufsz = 64 * 1024
+    sha256 = hashlib.sha256()
+
+    with open(filename, 'rb') as fp:
+        while True:
+            buf = fp.read(bufsz)
+            if not buf:
+                break
+            sha256.update(buf)
+
+    return sha256.hexdigest()

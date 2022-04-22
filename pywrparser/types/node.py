@@ -13,8 +13,7 @@ class PywrNode(PywrType):
                 pass
             else:
                 # Other non-str name, cast to str
-                name = str(name)
-                data["name"] = name
+                data["name"] = str(name)
         self.data = data
 
 
@@ -40,6 +39,8 @@ class PywrNode(PywrType):
             if isinstance(v, PywrType):
                 ret[k] = v.as_dict()
 
+        return ret
+
 
     """ Validation rules """
 
@@ -50,7 +51,7 @@ class PywrNode(PywrType):
         assert "type" in self.data, "Node does not define type"
 
     def warn_node_name_min_len(self):
-        assert self.name and len(self.name) > 4, "Node name too short"
+        assert self.name and len(self.name) > 6, "Node name too short"
 
 
     """ Type-specific rules """
