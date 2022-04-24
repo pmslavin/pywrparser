@@ -30,11 +30,11 @@ class PywrNetwork():
         self.recorders = parser.recorders
 
     @classmethod
-    def from_file(cls, filename, raise_on_parser_error=False):
+    def from_file(cls, filename, raise_on_parser_error=False, raise_on_parser_warning=False):
         with open(filename, 'r') as fp:
             json_src = fp.read()
         parser = PywrJSONParser(json_src)
-        parser.parse(raise_on_error=raise_on_parser_error)
+        parser.parse(raise_on_error=raise_on_parser_error, raise_on_warning=raise_on_parser_warning)
         ret_warnings = parser.warnings if parser.has_warnings else None
         if parser.has_errors:
             return None, parser.errors, ret_warnings
@@ -42,9 +42,9 @@ class PywrNetwork():
         return cls(parser), None, parser.warnings
 
     @classmethod
-    def from_json(cls, json_src, raise_on_parser_error=False):
+    def from_json(cls, json_src, raise_on_parser_error=False, raise_on_parser_warning=False):
         parser = PywrJSONParser(json_src)
-        parser.parse(raise_on_error=raise_on_parser_error)
+        parser.parse(raise_on_error=raise_on_parser_error, raise_on_warning=raise_on_parser_warning)
         ret_warnings = parser.warnings if parser.has_warnings else None
         if parser.has_errors:
             return None, parser.errors, ret_warnings

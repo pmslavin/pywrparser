@@ -93,21 +93,24 @@ def count_errors_warnings(errors, warnings):
     return error_total, warning_total
 
 
-def results_as_dict(filename, errors, warnings):
-    from pywrparser.utils import sha256digest
+def results_as_dict(filename, errors, warnings, include_digest=True):
     error_total, warning_total = count_errors_warnings(errors, warnings)
 
     fbasename = os.path.basename(filename)
-    fdigest = sha256digest(filename)
 
     ret = {
         "parse_results": {
-            "file": {"name": fbasename, "sha256": fdigest},
+            "file": {"name": fbasename},
             "created_at": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "errors": error_total,
             "warnings": warning_total
         }
     }
+
+    if include_digest:
+        from pywrparser.utils import sha256digest
+        fdigest = sha256digest(filename)
+        ret["parse_results"]["file"]["sha256"] = fdigest
 
     if errors:
         component_errs = {}
@@ -123,5 +126,5 @@ def results_as_dict(filename, errors, warnings):
     return ret
 
 
-def results_as_json(filename, errors, warnings):
-    return json.dumps(results_as_dict(filename, errors, warnings))
+def results_as_json(filename, errors, warnings, include_digest=True):
+    return json.dumps(results_as_dict(filename, errors, warnings, include_digest), indent=2)

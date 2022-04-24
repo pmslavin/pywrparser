@@ -4,6 +4,7 @@ import functools
 import inspect
 import json
 import re
+import sys
 
 from typing import Tuple
 
@@ -15,9 +16,9 @@ from pywrparser.types.warnings import PywrTypeValidationWarning
 
 
 @contextlib.contextmanager
-def raiseorpush(component: str, do_raise: bool, dest: PywrJSONParser):
-    error_set = ()
-    if not do_raise:
+def raiseorpush(component: str, raise_error: bool, raise_warning: bool, dest: PywrJSONParser):
+    error_set = (PywrTypeValidationErrorBundle, )
+    if not raise_error:
         error_set = (PywrTypeValidationError, PywrTypeValidationErrorBundle)
 
     try:
@@ -25,8 +26,13 @@ def raiseorpush(component: str, do_raise: bool, dest: PywrJSONParser):
     except error_set as e:
         if isinstance(e, PywrTypeValidationErrorBundle):
             for warning in e.warnings:
+                if raise_warning:
+                    raise(warning) from None
                 dest.warnings[component].append(warning)
             for error in e.errors:
+                #  Raise on warning implies raise on error
+                if raise_warning or raise_error:
+                    raise error from None
                 dest.errors[component].append(error)
 
 
