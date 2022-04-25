@@ -1,5 +1,6 @@
 import logging
 
+from collections import Counter
 from functools import partialmethod
 
 from pywrparser.parsers import PywrJSONParser
@@ -88,6 +89,7 @@ class PywrNetwork():
           Additional network-level semantic validation, e.g..
            - Unconnected nodes
            - Unused parameters
+           - Optionally: Duplicate edges
         """
         pass
 
@@ -227,3 +229,16 @@ class PywrNetwork():
                 report[component] = count
 
         return report
+
+
+    @property
+    def duplicate_edges(self):
+        """
+            Return a dict of "duplicate" edges, that is edges of length n
+            comprised of the same n nodes in the same order which are
+            defined more than once.
+            This is permitted by Pywr but may indicate a malformed network
+            in some enviroments.
+        """
+        edge_count = Counter((n1, n2) for (n1, n2) in self.edges)
+        return {edge: count for edge, count in edge_count.items() if count > 1}

@@ -9,6 +9,9 @@ class PywrEdge(PywrType):
     def __len__(self):
         return len(self.data)
 
+    def __getitem__(self, idx):
+        return self.data[idx]
+
     @property
     def is_simple(self):
         return len(self) == 2
