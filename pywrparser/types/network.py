@@ -9,6 +9,7 @@ from pywrparser.types import (
     PywrParameter,
     PywrRecorder
 )
+from pywrparser.types.exceptions import PywrParserException
 
 from pywrparser.utils import (
     canonical_name,
@@ -31,11 +32,27 @@ class PywrNetwork():
         self.recorders = parser.recorders
 
     @classmethod
-    def from_file(cls, filename, raise_on_parser_error=False, raise_on_parser_warning=False):
-        with open(filename, 'r') as fp:
-            json_src = fp.read()
-        parser = PywrJSONParser(json_src)
-        parser.parse(raise_on_error=raise_on_parser_error, raise_on_warning=raise_on_parser_warning)
+    def from_file(cls, filename, raise_on_parser_error=False,
+                  raise_on_parser_warning=False, allow_duplicate_edges=True):
+        try:
+            with open(filename, 'r') as fp:
+                json_src = fp.read()
+        except OSError as err:
+            err_txt = f"Unable to read input file: {err}"
+            log.error(err_txt)
+            net_errs = {"network": [PywrParserException(err_txt)]}
+            return None, net_errs, None
+
+        try:
+            parser = PywrJSONParser(json_src)
+        except PywrParserException as err:
+            err_txt = f"Invalid JSON document: {err}"
+            net_errs = {"network": [PywrParserException(err_txt)]}
+            return None, net_errs, None
+
+        parser.parse(raise_on_error=raise_on_parser_error,
+                     raise_on_warning=raise_on_parser_warning,
+                     allow_duplicate_edges=allow_duplicate_edges)
         ret_warnings = parser.warnings if parser.has_warnings else None
         if parser.has_errors:
             return None, parser.errors, ret_warnings
@@ -43,38 +60,37 @@ class PywrNetwork():
         return cls(parser), None, parser.warnings
 
     @classmethod
-    def from_json(cls, json_src, raise_on_parser_error=False, raise_on_parser_warning=False):
+    def from_json(cls, json_src, raise_on_parser_error=False,
+                  raise_on_parser_warning=False, allow_duplicate_edges=True):
         parser = PywrJSONParser(json_src)
-        parser.parse(raise_on_error=raise_on_parser_error, raise_on_warning=raise_on_parser_warning)
+        parser.parse(raise_on_error=raise_on_parser_error,
+                     raise_on_warning=raise_on_parser_warning,
+                     allow_duplicate_edges=allow_duplicate_edges)
         ret_warnings = parser.warnings if parser.has_warnings else None
         if parser.has_errors:
             return None, parser.errors, ret_warnings
 
         return cls(parser), None, parser.warnings
-
-    @classmethod
-    def from_hydra(cls, hydra_src):
-        pass
 
 
     def as_dict(self):
         network = {
             "metadata": self.metadata.as_dict(),
             "timestepper": self.timestepper.as_dict(),
-            "nodes": [ node.as_dict() for node in self.nodes.values() ],
-            "edges": [ edge.as_dict() for edge in self.edges ]
+            "nodes": [node.as_dict() for node in self.nodes.values()],
+            "edges": [edge.as_dict() for edge in self.edges]
         }
         if len(self.parameters) > 0:
-            network["parameters"] = {n: p.as_dict() for n,p in self.parameters.items()}
+            network["parameters"] = {n: p.as_dict() for n, p in self.parameters.items()}
 
         if len(self.recorders) > 0:
-            network["recorders"] = {n: r.as_dict() for n,r in self.recorders.items()}
+            network["recorders"] = {n: r.as_dict() for n, r in self.recorders.items()}
 
         if len(self.scenarios) > 0:
-            network["scenarios"] = [ s.as_dict() for s in self.scenarios ]
+            network["scenarios"] = [s.as_dict() for s in self.scenarios]
 
         if len(self.tables) > 0:
-            network["tables"] = {n: t.as_dict() for n,t in self.tables.items()}
+            network["tables"] = {n: t.as_dict() for n, t in self.tables.items()}
 
         return network
 

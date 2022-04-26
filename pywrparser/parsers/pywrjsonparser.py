@@ -1,6 +1,9 @@
 import json
 import re
-from collections import defaultdict
+from collections import (
+    defaultdict,
+    Counter
+)
 from functools import partial
 
 from pywrparser.types import (
@@ -15,6 +18,7 @@ from pywrparser.types import (
 )
 
 from pywrparser.types.exceptions import (
+    PywrParserException,
     PywrTypeValidationError,
     PywrNetworkValidationError
 )
@@ -30,7 +34,11 @@ class PywrJSONParser():
     def __init__(self, json_src):
         self.errors = defaultdict(list)
         self.warnings = defaultdict(list)
-        self.src = json.loads(json_src, object_pairs_hook=self.__class__.enforce_unique)
+
+        try:
+            self.src = json.loads(json_src, object_pairs_hook=self.__class__.enforce_unique)
+        except json.decoder.JSONDecodeError as err:
+            raise PywrParserException(str(err))
 
         self.nodes = {}
         self.edges = []
@@ -55,7 +63,7 @@ class PywrJSONParser():
         return d
 
 
-    def parse(self, raise_on_error=False, raise_on_warning=False):
+    def parse(self, raise_on_error=False, raise_on_warning=False, allow_duplicate_edges=True):
         seen_nodes = set()
 
         """
@@ -115,6 +123,11 @@ class PywrJSONParser():
                 e = PywrEdge(edge)
                 self.edges.append(e)
 
+        if not allow_duplicate_edges and self.has_duplicate_edges:
+            for edge in self.duplicate_edges:
+                self.errors["network"].append(PywrNetworkValidationError(f"Duplicate edge <{edge}>"))
+
+
     @property
     def has_errors(self):
         return len(self.errors) > 0
@@ -123,3 +136,19 @@ class PywrJSONParser():
     @property
     def has_warnings(self):
         return len(self.warnings) > 0
+
+    @property
+    def has_duplicate_edges(self):
+        return len(self.duplicate_edges) > 0
+
+    @property
+    def duplicate_edges(self):
+        """
+            Return a dict of "duplicate" edges, that is edges of length n
+            comprised of the same n nodes in the same order which are
+            defined more than once.
+            This is permitted by Pywr but may indicate a malformed network
+            in some enviroments.
+        """
+        edge_count = Counter((n1, n2) for (n1, n2) in self.edges)
+        return {edge: count for edge, count in edge_count.items() if count > 1}

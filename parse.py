@@ -37,6 +37,11 @@ def configure_args():
         help="Raise failures of parsing warnings as exceptions."
         " Implies `--raise-on-error`"
     )
+    parser.add_argument("--no-duplicate-edges",
+        action="store_true",
+        default=False,
+        help="Duplicate edges are treated as an error"
+    )
     parser.add_argument("--no-emoji",
         action="store_true",
         default=False,
@@ -63,6 +68,7 @@ def handle_args(args):
     raise_warning = args.raise_on_warning
     useemoji = not args.no_emoji if not args.no_colour else False
     include_digest = not args.no_digest
+    allow_duplicate_edges = not args.no_duplicate_edges
 
     if args.no_colour:
         from pywrparser.display import console
@@ -70,7 +76,8 @@ def handle_args(args):
 
     network, errors, warnings = PywrNetwork.from_file(filename,
                                     raise_on_parser_error=raise_error,
-                                    raise_on_parser_warning=raise_warning
+                                    raise_on_parser_warning=raise_warning,
+                                    allow_duplicate_edges=allow_duplicate_edges
                                 )
 
     if network:
