@@ -1,12 +1,10 @@
 import argparse
-import pprint
 
 from rich import print as rprint
 
 from pywrparser.types.network import PywrNetwork
 from pywrparser.display import (
     write_results,
-    results_as_dict,
     results_as_json
 )
 

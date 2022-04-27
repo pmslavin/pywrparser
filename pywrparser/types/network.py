@@ -40,15 +40,21 @@ class PywrNetwork():
         except OSError as err:
             err_txt = f"Unable to read input file: {err}"
             log.error(err_txt)
-            net_errs = {"network": [PywrParserException(err_txt)]}
-            return None, net_errs, None
+            exc = PywrParserException(err_txt)
+            if raise_on_parser_error:
+                raise exc from None
+            else:
+                return None, {"network": [exc]}, None
 
         try:
             parser = PywrJSONParser(json_src)
         except PywrParserException as err:
             err_txt = f"Invalid JSON document: {err}"
-            net_errs = {"network": [PywrParserException(err_txt)]}
-            return None, net_errs, None
+            exc = PywrParserException(err_txt)
+            if raise_on_parser_error:
+                raise exc from None
+            else:
+                return None, {"network": [exc]}, None
 
         parser.parse(raise_on_error=raise_on_parser_error,
                      raise_on_warning=raise_on_parser_warning,

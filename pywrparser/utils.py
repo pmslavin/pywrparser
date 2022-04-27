@@ -4,7 +4,6 @@ import functools
 import inspect
 import json
 import re
-import sys
 
 from typing import Tuple
 

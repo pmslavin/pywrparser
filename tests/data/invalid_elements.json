@@ -61,6 +61,7 @@
  ],
  "edges": [
    ["Valid node 1", "Valid node 2"],
+   ["Valid node 1", "Valid node 2"],
    ["Valid node 1"],
    ["Valid node 1", "Valid node 1"]
  ],

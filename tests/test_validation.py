@@ -84,3 +84,12 @@ def test_network(invalid_elements):
 
     assert len(errors["network"]) == 3
 
+
+def test_duplicate_edges(invalid_elements):
+    """
+    One duplicate edge is present, with cardinality two
+    """
+    assert invalid_elements.has_duplicate_edges
+    assert len(invalid_elements.duplicate_edges) == 1
+    key = next(iter(invalid_elements.duplicate_edges))
+    assert invalid_elements.duplicate_edges[key] == 2
