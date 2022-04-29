@@ -1,4 +1,5 @@
 import argparse
+import sys
 
 from rich import print as rprint
 
@@ -7,12 +8,23 @@ from pywrparser.display import (
     write_results,
     results_as_json
 )
+from pywrparser.lib import rules
 
 
 def configure_args():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("FILENAME", help="File containing a Pywr network in JSON format")
+    meg = parser.add_mutually_exclusive_group()
+    meg.add_argument("-f", "--filename",
+        help="File containing a Pywr network in JSON format",
+        type=str,
+        default=None)
+    meg.add_argument("-l", "--list-rulesets",
+        action="store_true",
+        default=False,
+        help="Display a list of all available rulesets"
+    )
+
     parser.add_argument("--json-output",
         action="store_true",
         default=False,
@@ -61,7 +73,7 @@ def configure_args():
 
 
 def handle_args(args):
-    filename = args.FILENAME
+    filename = args.filename
     raise_error = args.raise_on_error
     raise_warning = args.raise_on_warning
     useemoji = not args.no_emoji if not args.no_colour else False
@@ -71,6 +83,10 @@ def handle_args(args):
     if args.no_colour:
         from pywrparser.display import console
         console.no_color = True
+
+    if args.list_rulesets:
+        print(rules.describe_rulesets())
+        sys.exit(1)
 
     network, errors, warnings = PywrNetwork.from_file(filename,
                                     raise_on_parser_error=raise_error,
