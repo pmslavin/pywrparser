@@ -97,11 +97,15 @@ def results_as_dict(filename, errors, warnings, include_digest=True):
     error_total, warning_total = count_errors_warnings(errors, warnings)
 
     fbasename = os.path.basename(filename)
+    from pywrparser import rules
+    ruleset = rules.get_ruleset_module(rules.ACTIVE_RULESET_KEY)
+    ruleset_name = ruleset.__ruleset_name__ if ruleset else "Default"
 
     ret = {
         "parse_results": {
             "file": {"name": fbasename},
             "created_at": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "ruleset": ruleset_name,
             "errors": error_total,
             "warnings": warning_total
         }

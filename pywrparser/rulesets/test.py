@@ -2,7 +2,8 @@ from pywrparser.types.node import PywrNode
 from pywrparser.types.parameter import PywrParameter
 from pywrparser.utils import match
 
-__name__ = "Test Ruleset"
+__key__ = "test"
+__ruleset_name__ = "Test Ruleset"
 __version__ = "0.1.0"
 __description__ = "A test ruleset for development purposes"
 
