@@ -64,8 +64,3 @@ class PywrNode(PywrType):
     @match("storage")
     def rule_storage_has_max_volume(self):
         assert "max_volume" in self.data, "<storage> node does not define 'max_volume'"
-
-
-    @match("badger")
-    def rule_badgers(self):
-        assert "badgers" in self.data, "No badgers..."

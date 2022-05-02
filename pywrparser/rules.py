@@ -4,6 +4,7 @@ import inspect
 RULESET_BASE = "pywrparser.rulesets"
 ACTIVE_RULESET_KEY = None
 
+
 def get_rulesets():
     mods = get_ruleset_modules()
     modules = {}
@@ -43,6 +44,11 @@ def describe_rulesets():
 
 
 def identify_types(module):
+    """
+      Return a mapping from the default types to any
+      particular subclasses loaded by the active ruleset.
+      Types not specialised by the ruleset simply map to themselves.
+    """
     from pywrparser.types.node import PywrNode
     from pywrparser.types.timestepper import PywrTimestepper
     from pywrparser.types.metadata import PywrMetadata
