@@ -33,7 +33,8 @@ class PywrNetwork():
 
     @classmethod
     def from_file(cls, filename, raise_on_parser_error=False,
-                  raise_on_parser_warning=False, allow_duplicate_edges=True):
+                  raise_on_parser_warning=False, allow_duplicate_edges=True,
+                  ruleset=None):
         try:
             with open(filename, 'r') as fp:
                 json_src = fp.read()
@@ -47,10 +48,8 @@ class PywrNetwork():
                 return None, {"network": [exc]}, None
 
         try:
-            parser = PywrJSONParser(json_src)
-        except PywrParserException as err:
-            err_txt = f"Invalid JSON document: {err}"
-            exc = PywrParserException(err_txt)
+            parser = PywrJSONParser(json_src, ruleset)
+        except PywrParserException as exc:
             if raise_on_parser_error:
                 raise exc from None
             else:

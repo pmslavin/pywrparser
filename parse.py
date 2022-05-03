@@ -3,11 +3,12 @@ import sys
 
 from rich import print as rprint
 
+from pywrparser import rules
 from pywrparser.display import (
     write_results,
     results_as_json
 )
-from pywrparser import rules
+from pywrparser.types.network import PywrNetwork
 
 
 def configure_args():
@@ -92,26 +93,19 @@ def handle_args(args):
 
     if args.list_rulesets:
         print(rules.describe_rulesets(),end="")
-        rules.set_active_ruleset("strict")
-        rs = rules.Ruleset()
         sys.exit(1)
 
-    if args.use_ruleset:
+    if ruleset := args.use_ruleset:
         rulesets = rules.get_rulesets()
-        if not args.use_ruleset in rulesets:
-            print(f"No ruleset with key: {args.use_ruleset}", file=sys.stderr)
+        if not ruleset in rulesets:
+            print(f"No ruleset with key: {ruleset}", file=sys.stderr)
             sys.exit(1)
 
-        import importlib
-        import pywrparser.types
-        rules.set_active_ruleset(args.use_ruleset)
-        importlib.reload(pywrparser.types)
-
-    from pywrparser.types.network import PywrNetwork
     network, errors, warnings = PywrNetwork.from_file(filename,
                                     raise_on_parser_error=raise_error,
                                     raise_on_parser_warning=raise_warning,
-                                    allow_duplicate_edges=allow_duplicate_edges
+                                    allow_duplicate_edges=allow_duplicate_edges,
+                                    ruleset=ruleset
                                 )
 
     if network:

@@ -6,6 +6,8 @@ from collections import (
 )
 from functools import partial
 
+from pywrparser import rules
+
 from pywrparser.types import (
     PywrTimestepper,
     PywrMetadata,
@@ -31,14 +33,17 @@ DUP_KEY_RE   = r"{base}".format(base=DUP_KEY_BASE.format(pattern="[0-9]{3}"))
 
 
 class PywrJSONParser():
-    def __init__(self, json_src):
+    def __init__(self, json_src, ruleset=None):
         self.errors = defaultdict(list)
         self.warnings = defaultdict(list)
+
+        if ruleset:
+            self.set_parser_ruleset(ruleset)
 
         try:
             self.src = json.loads(json_src, object_pairs_hook=self.__class__.enforce_unique)
         except json.decoder.JSONDecodeError as err:
-            raise PywrParserException(str(err))
+            raise PywrParserException(f"Invalid JSON document: {str(err)}")
 
         self.nodes = {}
         self.edges = []
@@ -61,6 +66,35 @@ class PywrJSONParser():
             else:
                 d[k] = v
         return d
+
+    def set_parser_ruleset(self, ruleset):
+        rulesets = rules.get_rulesets()
+        if not ruleset in rulesets:
+            raise PywrParserException(f"No ruleset with key: {ruleset}")
+
+        import importlib
+        import pywrparser.types
+        rules.set_active_ruleset(ruleset)
+        importlib.reload(pywrparser.types)
+        from pywrparser.types import (
+            PywrTimestepper,
+            PywrMetadata,
+            PywrScenario,
+            PywrTable,
+            PywrNode,
+            PywrEdge,
+            PywrParameter,
+            PywrRecorder,
+        )
+        globals()["PywrTimestepper"] = PywrTimestepper
+        globals()["PywrMetadata"] = PywrMetadata
+        globals()["PywrScenario"] = PywrScenario
+        globals()["PywrTable"] = PywrTable
+        globals()["PywrNode"] = PywrNode
+        globals()["PywrEdge"] = PywrEdge
+        globals()["PywrParameter"] = PywrParameter
+        globals()["PywrRecorder"] = PywrRecorder
+
 
 
     def parse(self, raise_on_error=False, raise_on_warning=False, allow_duplicate_edges=True):
