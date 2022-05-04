@@ -1,18 +1,37 @@
 import argparse
+import sys
 
 from rich import print as rprint
 
-from pywrparser.types.network import PywrNetwork
+from pywrparser import rules
 from pywrparser.display import (
     write_results,
     results_as_json
 )
+from pywrparser.types.network import PywrNetwork
 
 
 def configure_args():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("FILENAME", help="File containing a Pywr network in JSON format")
+    meg = parser.add_mutually_exclusive_group()
+    meg.add_argument("-f", "--filename",
+        metavar="<filename>",
+        help="File containing a Pywr network in JSON format",
+        type=str,
+        default=None)
+    meg.add_argument("-l", "--list-rulesets",
+        action="store_true",
+        default=False,
+        help="Display a list of all available rulesets"
+    )
+
+    parser.add_argument("--use-ruleset",
+        metavar="<ruleset>",
+        type=str,
+        default=None,
+        help="Apply the specified ruleset during parsing"
+    )
     parser.add_argument("--json-output",
         action="store_true",
         default=False,
@@ -61,7 +80,7 @@ def configure_args():
 
 
 def handle_args(args):
-    filename = args.FILENAME
+    filename = args.filename
     raise_error = args.raise_on_error
     raise_warning = args.raise_on_warning
     useemoji = not args.no_emoji if not args.no_colour else False
@@ -72,10 +91,21 @@ def handle_args(args):
         from pywrparser.display import console
         console.no_color = True
 
+    if args.list_rulesets:
+        print(rules.describe_rulesets(),end="")
+        sys.exit(1)
+
+    if ruleset := args.use_ruleset:
+        rulesets = rules.get_rulesets()
+        if not ruleset in rulesets:
+            print(f"No ruleset with key: {ruleset}", file=sys.stderr)
+            sys.exit(1)
+
     network, errors, warnings = PywrNetwork.from_file(filename,
                                     raise_on_parser_error=raise_error,
                                     raise_on_parser_warning=raise_warning,
-                                    allow_duplicate_edges=allow_duplicate_edges
+                                    allow_duplicate_edges=allow_duplicate_edges,
+                                    ruleset=ruleset
                                 )
 
     if network:

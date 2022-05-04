@@ -1,8 +1,12 @@
-from .timestepper import PywrTimestepper
-from .metadata import PywrMetadata
-from .scenario import PywrScenario
-from .table import PywrTable
-from .parameter import PywrParameter
-from .recorder import PywrRecorder
-from .node import PywrNode
-from .edge import PywrEdge
+from pywrparser import rules
+
+rs = rules.Ruleset()
+
+PywrTimestepper = rs.typemap["PywrTimestepper"]
+PywrMetadata = rs.typemap["PywrMetadata"]
+PywrScenario = rs.typemap["PywrScenario"]
+PywrTable = rs.typemap["PywrTable"]
+PywrParameter = rs.typemap["PywrParameter"]
+PywrRecorder = rs.typemap["PywrRecorder"]
+PywrNode = rs.typemap["PywrNode"]
+PywrEdge = rs.typemap["PywrEdge"]
