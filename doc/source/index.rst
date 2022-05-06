@@ -10,6 +10,10 @@ Welcome to PywrParser's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   usage
+   rules
+   library
+
 
 
 Indices and tables

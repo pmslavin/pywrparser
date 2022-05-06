@@ -12,7 +12,11 @@ from pywrparser.types.network import PywrNetwork
 
 
 def configure_args():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        usage="%(prog)s [-f <filename> | -l] [OPTIONS]",
+        epilog="For further information, please visit https://pmslavin.github.io/pywrparser",
+        description="A toolkit for parsing and validating Pywr models."
+    )
 
     meg = parser.add_mutually_exclusive_group()
     meg.add_argument("-f", "--filename",
@@ -26,55 +30,68 @@ def configure_args():
         help="Display a list of all available rulesets"
     )
 
-    parser.add_argument("--use-ruleset",
+    validation = parser.add_argument_group("validation options")
+
+    validation.add_argument("--use-ruleset",
         metavar="<ruleset>",
         type=str,
         default=None,
         help="Apply the specified ruleset during parsing"
     )
-    parser.add_argument("--json-output",
-        action="store_true",
-        default=False,
-        help="Display parsing report in json format for machine reading"
-    )
-    parser.add_argument("--pretty-output",
-        action="store_true",
-        default=True,
-        help="Display parsing report on the console with colour."
-        " This is the default output format"
-    )
-    parser.add_argument("--raise-on-error",
-        action="store_true",
-        default=False,
-        help="Raise failures of parsing rules as exceptions"
-    )
-    parser.add_argument("--raise-on-warning",
+
+    validation.add_argument("--raise-on-warning",
         action="store_true",
         default=False,
         help="Raise failures of parsing warnings as exceptions."
         " Implies `--raise-on-error`"
     )
-    parser.add_argument("--no-duplicate-edges",
+    validation.add_argument("--raise-on-error",
+        action="store_true",
+        default=False,
+        help="Raise failures of parsing rules as exceptions"
+    )
+    validation.add_argument("--no-duplicate-edges",
         action="store_true",
         default=False,
         help="Duplicate edges are treated as an error"
     )
-    parser.add_argument("--no-emoji",
+
+    display = parser.add_argument_group("display options")
+
+    display.add_argument("--json-output",
+        action="store_true",
+        default=False,
+        help="Display parsing report in json format for machine reading"
+    )
+    display.add_argument("--pretty-output",
+        action="store_true",
+        default=True,
+        help="Display parsing report on the console with colour."
+        " This is the default output format"
+    )
+    display.add_argument("--no-emoji",
         action="store_true",
         default=False,
         help="Omit emoji in console parsing reports"
     )
-    parser.add_argument("--no-colour",
+    display.add_argument("--no-colour",
         action="store_true",
         default=False,
         help="Omit colour output in console parsing reports."
         " Implies `--no-emoji`"
     )
-    parser.add_argument("--no-digest",
+
+    general = parser.add_argument_group("general options")
+
+    general.add_argument("--no-digest",
         action="store_true",
         default=False,
         help="Omit sha256 digest in JSON and dict parsing reports"
     )
+
+    if len(sys.argv) == 1:
+        parser.print_help()
+        sys.exit(1)
 
     return parser.parse_args()
 
