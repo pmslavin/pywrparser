@@ -1,2 +1,2 @@
-from . import test
+from . import pywrmaster
 from . import strict

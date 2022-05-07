@@ -88,6 +88,11 @@ def configure_args():
         default=False,
         help="Omit sha256 digest in JSON and dict parsing reports"
     )
+    general.add_argument("--version",
+        action="store_true",
+        default=False,
+        help="Display the version of %(prog)s"
+    )
 
     if len(sys.argv) == 1:
         parser.print_help()
