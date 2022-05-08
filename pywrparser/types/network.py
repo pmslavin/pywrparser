@@ -20,6 +20,9 @@ log = logging.getLogger(__name__)
 
 
 class PywrNetwork():
+    """
+    An abstract representation of a Pywr network.
+    """
 
     def __init__(self, parser):
         self.metadata = parser.metadata
@@ -35,6 +38,31 @@ class PywrNetwork():
     def from_file(cls, filename, raise_on_parser_error=False,
                   raise_on_parser_warning=False, allow_duplicate_edges=True,
                   ruleset=None):
+        """
+        Returns either the valid PywrNetwork contained in the file denoted
+        by the `filename` argument, or corresponding errors encountered during
+        parsing.
+
+        Args:
+            filename (str): The filename of a file containing a JSON definition
+                of a Pywr network.
+            raise_on_parser_error (bool): Specifies whether parsing errors should
+                be raised immediately as exceptions or collected in the `errors` return
+                value.
+            raise_on_parser_warning (bool): Specifies whether warnings encountered
+                during parsing should be raised immediately as exceptions or collected
+                in the `warnings` return value.
+            allow_duplicate_edges (bool): Specifies whether duplicate edges are
+                considered as errors or are permitted in a valid networks.
+            ruleset (str): The `key` of a valid ruleset. This ruleset will then be
+                applied during parsing.
+
+        Returns:
+            network, errors, warnings (:class:`Tuple[PywrNetwork, Dict, Dict]`):
+                in which either one of `network` or `errors` is not None. `warnings` may
+                be present in either case.
+
+        """
         try:
             with open(filename, 'r') as fp:
                 json_src = fp.read()
@@ -67,6 +95,31 @@ class PywrNetwork():
     @classmethod
     def from_json(cls, json_src, raise_on_parser_error=False,
                   raise_on_parser_warning=False, allow_duplicate_edges=True):
+        """
+        Returns either the valid PywrNetwork represented by the JSON encoded string
+        contained in the `json_src` argument, or corresponding errors encountered
+        during parsing.
+
+        Args:
+            json_src (str): A string containing a JSON encoded representation of
+                a Pywr network.
+            raise_on_parser_error (bool): Specifies whether parsing errors should
+                be raised immediately as exceptions or collected in the `errors` return
+                value.
+            raise_on_parser_warning (bool): Specifies whether warnings encountered
+                during parsing should be raised immediately as exceptions or collected
+                in the `warnings` return value.
+            allow_duplicate_edges (bool): Specifies whether duplicate edges are
+                considered as errors or are permitted in a valid networks.
+            ruleset (str): The `key` of a valid ruleset. This ruleset will then be
+                applied during parsing.
+
+        Returns:
+            network, errors, warnings (:class:`Tuple[PywrNetwork, Dict, Dict]`):
+                in which either one of `network` or `errors` is not None. `warnings` may
+                be present in either case.
+
+        """
         parser = PywrJSONParser(json_src)
         parser.parse(raise_on_error=raise_on_parser_error,
                      raise_on_warning=raise_on_parser_warning,
@@ -79,6 +132,11 @@ class PywrNetwork():
 
 
     def as_dict(self):
+        """
+        Returns:
+            network (dict): A dict representation of the :class:`PywrNetwork`
+                instance.
+        """
         network = {
             "metadata": self.metadata.as_dict(),
             "timestepper": self.timestepper.as_dict(),
@@ -101,6 +159,11 @@ class PywrNetwork():
 
 
     def as_json(self):
+        """
+        Returns:
+            network (str): A JSON encoded representation of the :class:`PywrNetwork`
+                instance.
+        """
         import json
         return json.dumps(self.as_dict(), indent=2)
 
@@ -117,6 +180,9 @@ class PywrNetwork():
 
     def attach_parameters(self):
         """
+        Promotes strings which reference paramters and inline parameter
+        definitions to instances of :class:`PywrParameter`.
+
             1. Any values of attrs in a node which resolve to a global
                parameter are replaced with the instance of that parameter
                and the parameter is removed from the set of global parameters.
@@ -208,13 +274,35 @@ class PywrNetwork():
             __add_component_references,
             component="parameter"
     )
+    """
+        Where a parameter name is in the format "__nodename__:attrname"
+        it is interpreted as representing the attr "attrname" on node "nodename".
+        In this case, a reference to the global parameter is added to
+        the node where this is not already present.
+
+        Partial application of the internal :func:`__add_component_references`
+        function.
+    """
 
     add_recorder_references = partialmethod(
             __add_component_references,
             component="recorder"
     )
+    """
+        Where a recorder name is in the format "__nodename__:attrname"
+        it is interpreted as representing the attr "attrname" on node "nodename".
+        In this case, a reference to the global recorder is added to
+        the node where this is not already present.
+
+        Partial application of the internal :func:`__add_component_references`
+        function.
+    """
 
     def detach_parameters(self):
+        """
+        Removes any parameter instances from nodes and replaces these by
+        a string referencing the name of the parameter.
+        """
         for node in self.nodes.values():
             for attr, value in node.data.items():
                 if isinstance(value, PywrParameter):
@@ -226,6 +314,10 @@ class PywrNetwork():
 
 
     def detach_recorders(self):
+        """
+        Removes any recorder instances from nodes and replaces these by
+        a string referencing the name of the recorder.
+        """
         for node in self.nodes.values():
             for attr, value in node.data.items():
                 if isinstance(value, PywrRecorder):
@@ -237,6 +329,12 @@ class PywrNetwork():
 
 
     def report(self):
+        """
+        Returns:
+            report (dict): Contains a key for each network component whose
+              associated value is the number of instances of that component
+              type.
+        """
         report = {
             "nodes": len(self.nodes),
             "edges": len(self.edges)
@@ -255,8 +353,8 @@ class PywrNetwork():
     @property
     def duplicate_edges(self):
         """
-            Return a dict of "duplicate" edges, that is edges of length n
-            comprised of the same n nodes in the same order which are
+            Return a dict of "duplicate" edges, that is edges of length `n`
+            comprised of the same `n` nodes in the same order which are
             defined more than once.
             This is permitted by Pywr but may indicate a malformed network
             in some enviroments.

@@ -34,6 +34,14 @@ DUP_KEY_RE   = r"{base}".format(base=DUP_KEY_BASE.format(pattern="[0-9]{3}"))
 
 class PywrJSONParser():
     def __init__(self, json_src, ruleset=None):
+        """
+        Creates an instance of a parser in which the specified `json_src` is
+        validated against the specified `ruleset`.
+
+        Args:
+            json_src (str): A JSON encoded representation of a Pywr network
+            ruleset (str): The key of a ruleset whose rules are to be applied
+        """
         self.errors = defaultdict(list)
         self.warnings = defaultdict(list)
 
@@ -178,11 +186,11 @@ class PywrJSONParser():
     @property
     def duplicate_edges(self):
         """
-            Return a dict of "duplicate" edges, that is edges of length n
-            comprised of the same n nodes in the same order which are
-            defined more than once.
-            This is permitted by Pywr but may indicate a malformed network
-            in some enviroments.
+        Return a dict of "duplicate" edges, that is edges of length `n`
+        comprised of the same `n` nodes in the same order which are
+        defined more than once.
+        This is permitted by Pywr but may indicate a malformed network
+        in some enviroments.
         """
         edge_count = Counter((n1, n2) for (n1, n2) in self.edges)
         return {edge: count for edge, count in edge_count.items() if count > 1}

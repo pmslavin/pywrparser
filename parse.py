@@ -3,7 +3,10 @@ import sys
 
 from rich import print as rprint
 
-from pywrparser import rules
+from pywrparser import (
+    rules,
+    __version__
+)
 from pywrparser.display import (
     write_results,
     results_as_json
@@ -96,7 +99,7 @@ def configure_args():
 
     if len(sys.argv) == 1:
         parser.print_help()
-        sys.exit(1)
+        sys.exit(0)
 
     return parser.parse_args()
 
@@ -109,19 +112,23 @@ def handle_args(args):
     include_digest = not args.no_digest
     allow_duplicate_edges = not args.no_duplicate_edges
 
-    if args.no_colour:
-        from pywrparser.display import console
-        console.no_color = True
+    if args.version:
+        print(__version__)
+        sys.exit(0)
 
     if args.list_rulesets:
         print(rules.describe_rulesets(),end="")
-        sys.exit(1)
+        sys.exit(0)
 
     if ruleset := args.use_ruleset:
         rulesets = rules.get_rulesets()
         if not ruleset in rulesets:
             print(f"No ruleset with key: {ruleset}", file=sys.stderr)
             sys.exit(1)
+
+    if args.no_colour:
+        from pywrparser.display import console
+        console.no_color = True
 
     network, errors, warnings = PywrNetwork.from_file(filename,
                                     raise_on_parser_error=raise_error,
