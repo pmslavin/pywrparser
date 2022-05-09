@@ -170,17 +170,17 @@ class PywrNetwork():
 
     def validate(self):
         """
+          Currently unused.
           Additional network-level semantic validation, e.g..
            - Unconnected nodes
            - Unused parameters
-           - Optionally: Duplicate edges
         """
         pass
 
 
     def attach_parameters(self):
         """
-        Promotes strings which reference paramters and inline parameter
+        Promotes strings which reference parameters and inline parameter
         definitions to instances of :class:`PywrParameter`.
 
             1. Any values of attrs in a node which resolve to a global
