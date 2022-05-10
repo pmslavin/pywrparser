@@ -138,20 +138,24 @@ class PywrJSONParser():
                                   raise_warning=raise_on_warning,
                                   dest=self)
 
-        with component_exc_capture("metadata"):
+        with component_exc_capture("metadata") as cc:
             self.metadata = PywrMetadata(self.src["metadata"])
+            cc.capture_warnings(self.metadata)
 
-        with component_exc_capture("timestepper"):
+        with component_exc_capture("timestepper") as cc:
             self.timestepper = PywrTimestepper(self.src["timestepper"])
+            cc.capture_warnings(self.timestepper)
 
         for scenario in self.src.get("scenarios",[]):
-            with component_exc_capture("scenarios"):
+            with component_exc_capture("scenarios") as cc:
                 scen = PywrScenario(scenario)
+                cc.capture_warnings(self.scen)
                 self.scenarios.append(scen)
 
         for table_name, table_data in self.src.get("tables", {}).items():
-            with component_exc_capture("tables"):
+            with component_exc_capture("tables") as cc:
                 t = PywrTable(table_name, table_data)
+                cc.capture_warnings(t)
                 self.tables[t.name] = t
 
         for param_name, param_data in self.src.get("parameters",{}).items():
@@ -159,8 +163,9 @@ class PywrJSONParser():
                 span_end = m.span()[1]
                 raw_name = param_name[span_end+1:]
                 self.errors["network"].append(PywrNetworkValidationError(f"Duplicate parameter name <{raw_name}>"))
-            with component_exc_capture("parameters"):
+            with component_exc_capture("parameters") as cc:
                 p = PywrParameter(param_name, param_data)
+                cc.capture_warnings(p)
                 self.parameters[p.name] = p
 
         for rec_name, rec_data in self.src.get("recorders",{}).items():
@@ -168,13 +173,16 @@ class PywrJSONParser():
                 span_end = m.span()[1]
                 raw_name = rec_name[span_end+1:]
                 self.errors["network"].append(PywrNetworkValidationError(f"Duplicate recorder name <{raw_name}>"))
-            with component_exc_capture("recorders"):
+            with component_exc_capture("recorders") as cc:
                 r = PywrRecorder(rec_name, rec_data)
+                cc.capture_warnings(r)
                 self.recorders[r.name] = r
 
         for node in self.src["nodes"]:
-            with component_exc_capture("nodes"):
+            with component_exc_capture("nodes") as cc:
                 n = PywrNode(node)
+                cc.capture_warnings(n)
+
                 if n.name in seen_nodes:
                     self.errors["network"].append(PywrNetworkValidationError(f"Duplicate node name <{n.name}>"))
                 else:
@@ -182,8 +190,9 @@ class PywrJSONParser():
                     seen_nodes.add(n.name)
 
         for edge in self.src["edges"]:
-            with component_exc_capture("edges"):
+            with component_exc_capture("edges") as cc:
                 e = PywrEdge(edge)
+                cc.capture_warnings(e)
                 self.edges.append(e)
 
         if not allow_duplicate_edges and self.has_duplicate_edges:

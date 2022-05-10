@@ -48,3 +48,18 @@ PywrParser provides both a command-line utility for validating Pywr JSON models,
 and a Python library which may be used to parse and manipulate Pywr networks.
 
 This section provides details of the command-line utility.
+
+Usage of the :class:`pywrparser` library is described in :doc:`library` section.
+
+Basic Usage
+===========
+
+Validation
+----------
+
+The basic operation of the :class:`pywrparser` command validates a Pywr JSON network,
+and returns either:
+
+* A report describing a valid Pywr network, along with any warnings generated
+  when parsing the network
+* A report detailing the errors that prevented parsing
