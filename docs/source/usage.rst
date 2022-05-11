@@ -1,8 +1,5 @@
-Usage
-=====
-
 Installation
-------------
+============
 
 PywrParser can be installed with the `Poetry <https://python-poetry.org>`_ command:
 
@@ -41,8 +38,11 @@ PywrParser can be installed with the `Poetry <https://python-poetry.org>`_ comma
 
    For further information, please visit https://pmslavin.github.io/pywrparser
 
-Invocation
-----------
+Basic Usage
+===========
+
+Overview
+--------
 
 PywrParser provides both a command-line utility for validating Pywr JSON models,
 and a Python library which may be used to parse and manipulate Pywr networks.
@@ -51,8 +51,6 @@ This section provides details of the command-line utility.
 
 Usage of the :class:`pywrparser` library is described in :doc:`library` section.
 
-Basic Usage
-===========
 
 Validation
 ----------
@@ -63,3 +61,19 @@ and returns either:
 * A report describing a valid Pywr network, along with any warnings generated
   when parsing the network
 * A report detailing the errors that prevented parsing
+
+For example...
+
+.. code-block:: console
+
+    $ pywparser --filename PywrNetworkWithErrors.json
+
+..results in the display of a parsing report. This report provides details of any
+rule and warning failures encountered when validating the input, categorised by
+network component, and including an excerpt of the input which generated the
+error or warning. For example...
+
+.. image:: images/parsing.report.png
+   :name: parsing.report
+   :scale: 50%
+   :class: scaled-link
