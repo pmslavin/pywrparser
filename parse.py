@@ -1,15 +1,15 @@
 import argparse
+import os
 import sys
-
-from rich import print as rprint
 
 from pywrparser import (
     rules,
     __version__
 )
 from pywrparser.display import (
-    write_results,
-    results_as_json
+    console,
+    results_as_json,
+    write_results
 )
 from pywrparser.types.network import PywrNetwork
 
@@ -53,6 +53,11 @@ def configure_args():
         default=False,
         help="Raise failures of parsing rules as exceptions"
     )
+    validation.add_argument("--ignore-warnings",
+        action="store_true",
+        default=False,
+        help="Do not display parsing report if only warnings are present"
+    )
     validation.add_argument("--no-duplicate-edges",
         action="store_true",
         default=False,
@@ -82,6 +87,11 @@ def configure_args():
         default=False,
         help="Omit colour output in console parsing reports."
         " Implies `--no-emoji`"
+    )
+    display.add_argument("--terse-report",
+        action="store_true",
+        default=False,
+        help="Display only a terse report for valid networks"
     )
 
     general = parser.add_argument_group("general options")
@@ -127,27 +137,42 @@ def handle_args(args):
             sys.exit(1)
 
     if args.no_colour:
-        from pywrparser.display import console
         console.no_color = True
 
     network, errors, warnings = PywrNetwork.from_file(filename,
                                     raise_on_parser_error=raise_error,
                                     raise_on_parser_warning=raise_warning,
+                                    ignore_warnings=args.ignore_warnings,
                                     allow_duplicate_edges=allow_duplicate_edges,
                                     ruleset=ruleset
                                 )
 
-    if network:
-        network.add_parameter_references()
-        network.add_recorder_references()
-        report = network.report()
-        rprint(report)
-
     if errors or warnings:
-        if args.json_output:
+        if not errors and args.ignore_warnings:
+            """ Do nothing """
+            pass
+        elif args.json_output:
             print(results_as_json(filename, errors, warnings, include_digest=include_digest))
         else:
             write_results(filename, errors, warnings, use_emoji=useemoji)
+
+    if network:
+        network.add_parameter_references()
+        network.add_recorder_references()
+        if args.terse_report:
+            report = network.report()
+            console.print(report)
+        else:
+            report = network.verbose_report()
+            file_txt = f"[green]File:[/green] [bold blue]{os.path.basename(args.filename)}[/bold blue]"
+            console.print(file_txt)
+            if include_digest:
+                from pywrparser.utils import sha256digest
+                digest_txt = f"[green]sha256:[/green] [blue]{sha256digest(args.filename)}[/blue]"
+                console.print(digest_txt)
+
+            for prefix, txt in report.items():
+                console.print(f"[green]{prefix}:[/green] [blue]{txt}[/blue]")
 
 
 def run():

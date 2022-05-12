@@ -13,7 +13,7 @@ from pywrparser.types.exceptions import PywrParserException
 
 from pywrparser.utils import (
     canonical_name,
-    parse_reference_key
+    parse_reference_key,
 )
 
 log = logging.getLogger(__name__)
@@ -36,8 +36,8 @@ class PywrNetwork():
 
     @classmethod
     def from_file(cls, filename, raise_on_parser_error=False,
-                  raise_on_parser_warning=False, allow_duplicate_edges=True,
-                  ruleset=None):
+                  raise_on_parser_warning=False, ignore_warnings=False,
+                  allow_duplicate_edges=True, ruleset=None):
         """
         Returns either the valid PywrNetwork contained in the file denoted
         by the `filename` argument, or corresponding errors encountered during
@@ -85,6 +85,7 @@ class PywrNetwork():
 
         parser.parse(raise_on_error=raise_on_parser_error,
                      raise_on_warning=raise_on_parser_warning,
+                     ignore_warnings=ignore_warnings,
                      allow_duplicate_edges=allow_duplicate_edges)
         ret_warnings = parser.warnings if parser.has_warnings else None
         if parser.has_errors:
@@ -94,7 +95,8 @@ class PywrNetwork():
 
     @classmethod
     def from_json(cls, json_src, raise_on_parser_error=False,
-                  raise_on_parser_warning=False, allow_duplicate_edges=True):
+                  raise_on_parser_warning=False, ignore_warnings=False,
+                  allow_duplicate_edges=True, ruleset=None):
         """
         Returns either the valid PywrNetwork represented by the JSON encoded string
         contained in the `json_src` argument, or corresponding errors encountered
@@ -120,9 +122,10 @@ class PywrNetwork():
                 be present in either case.
 
         """
-        parser = PywrJSONParser(json_src)
+        parser = PywrJSONParser(json_src, ruleset=ruleset)
         parser.parse(raise_on_error=raise_on_parser_error,
                      raise_on_warning=raise_on_parser_warning,
+                     ignore_warnings=ignore_warnings,
                      allow_duplicate_edges=allow_duplicate_edges)
         ret_warnings = parser.warnings if parser.has_warnings else None
         if parser.has_errors:
@@ -348,6 +351,28 @@ class PywrNetwork():
                 report[component] = count
 
         return report
+
+
+    def verbose_report(self,):
+        report = self.report()
+
+        rep_lines = {"Title": self.title}
+        if self.description:
+            rep_lines["Description"] = self.description
+        for component, count in report.items():
+            rep_lines[component.capitalize()] = count
+
+        return rep_lines
+
+
+    @property
+    def title(self):
+        return self.metadata.data["title"]
+
+
+    @property
+    def description(self):
+        return self.metadata.data.get("description")
 
 
     @property

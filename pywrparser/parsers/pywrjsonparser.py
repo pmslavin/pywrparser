@@ -111,7 +111,8 @@ class PywrJSONParser():
 
 
 
-    def parse(self, raise_on_error=False, raise_on_warning=False, allow_duplicate_edges=True):
+    def parse(self, raise_on_error=False, raise_on_warning=False,
+              ignore_warnings=False, allow_duplicate_edges=True):
         """
         Parse the Pywr model definition that was passed to the parser on instantiation.
         Following this action, the :py:attr:`parser.errors` and :py:attr:`parser.warnings`
@@ -136,6 +137,7 @@ class PywrJSONParser():
         component_exc_capture = partial(raiseorpush,
                                   raise_error=raise_on_error,
                                   raise_warning=raise_on_warning,
+                                  ignore_warnings=ignore_warnings,
                                   dest=self)
 
         with component_exc_capture("metadata") as cc:

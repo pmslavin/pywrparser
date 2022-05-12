@@ -18,10 +18,11 @@ class raiseorpush():
     Context manager to allow capture and aggregation of
     errors and warnings when parsing components
     """
-    def __init__(self, component, raise_error, raise_warning, dest):
+    def __init__(self, component, raise_error, raise_warning, dest, ignore_warnings=False):
         self.component = component
         self.raise_error = raise_error
-        self.raise_warning = raise_warning
+        self.raise_warning = raise_warning if not ignore_warnings else False
+        self.ignore_warnings = ignore_warnings
         self.dest = dest
         self.error_set = (PywrTypeValidationErrorBundle, )
         if not raise_error:
@@ -45,8 +46,7 @@ class raiseorpush():
         If a successfully created instance has warnings, either raise
         or push to the destination as appropriate
         """
-        #if hasattr(inst, "warnings") and len(inst.warnings):
-        if inst.has_warnings:
+        if inst.has_warnings and not self.ignore_warnings:
             for warning in inst.warnings:
                 if self.raise_warning:
                     raise warning from None
