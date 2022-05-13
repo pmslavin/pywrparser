@@ -5,38 +5,39 @@ PywrParser can be installed with the `Poetry <https://python-poetry.org>`_ comma
 
 .. code-block:: console
 
-   $ git clone git@github.com:pmslavin/pywrparser.git
-   $ cd pywrparser
-   $ poetry install
-   $ pywrparser -h
-   usage: pywrparser [-f <filename> | -l] [OPTIONS]
+    $ git clone git@github.com:pmslavin/pywrparser.git
+    $ cd pywrparser
+    $ poetry install
+    $ pywrparser -h
+    usage: pywrparser [-f <filename> | -l] [OPTIONS]
 
-   A toolkit for parsing and validating Pywr models.
+    A toolkit for parsing and validating Pywr models.
 
-   optional arguments:
-     -h, --help            show this help message and exit
-     -f <filename>, --filename <filename>
-                           File containing a Pywr network in JSON format
-     -l, --list-rulesets   Display a list of all available rulesets
+    optional arguments:
+      -h, --help            show this help message and exit
+      -f <filename>, --filename <filename> File containing a Pywr network in JSON format
+      -l, --list-rulesets   Display a list of all available rulesets
 
-   validation options:
-     --use-ruleset <ruleset>
-                           Apply the specified ruleset during parsing
-     --raise-on-warning    Raise failures of parsing warnings as exceptions. Implies `--raise-on-error`
-     --raise-on-error      Raise failures of parsing rules as exceptions
-     --no-duplicate-edges  Duplicate edges are treated as an error
+    validation options:
+      --use-ruleset <ruleset>
+                            Apply the specified ruleset during parsing
+      --raise-on-warning    Raise failures of parsing warnings as exceptions. Implies `--raise-on-error`
+      --raise-on-error      Raise failures of parsing rules as exceptions
+      --ignore-warnings     Do not display parsing report if only warnings are present
+      --no-duplicate-edges  Duplicate edges are treated as an error
 
-   display options:
-     --json-output         Display parsing report in json format for machine reading
-     --pretty-output       Display parsing report on the console with colour. This is the default output format
-     --no-emoji            Omit emoji in console parsing reports
-     --no-colour           Omit colour output in console parsing reports. Implies `--no-emoji`
+    display options:
+      --json-output         Display parsing report in json format for machine reading
+      --pretty-output       Display parsing report on the console with colour. This is the default output format
+      --no-emoji            Omit emoji in console parsing reports
+      --no-colour           Omit colour output in console parsing reports. Implies `--no-emoji`
+      --terse-report        Display only a terse report for valid networks
 
-   general options:
-     --no-digest           Omit sha256 digest in JSON and dict parsing reports
-     --version             Display the version of pywrparser
+    general options:
+      --no-digest           Omit sha256 digest in JSON and dict parsing reports
+      --version             Display the version of pywrparser
 
-   For further information, please visit https://pmslavin.github.io/pywrparser
+    For further information, please visit https://pmslavin.github.io/pywrparser
 
 Basic Usage
 ===========
@@ -77,3 +78,21 @@ error or warning. For example...
    :name: parsing.report
    :scale: 50%
    :class: scaled-link
+
+
+A *valid* network is one for which neither errors nor warnings are generated.
+Parsing a valid network results in the display of a brief report describing
+the network.  This report may be customised with the various configuration
+options.
+
+.. code-block:: console
+
+   $ pywrparser --filename PywrValidNetwork.json
+   File: PywrValidNetwork.json
+   sha256: c78b1c3ba311719cabc52dca32b4075a46c926c362b68d0aaa5696aebbad7318
+   Title: A simple Pywr energy model demonstration
+   Description: Pywr energy model
+   Nodes: 525
+   Edges: 563
+   Parameters: 247
+   Recorders: 225
