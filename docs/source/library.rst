@@ -38,3 +38,17 @@ will be returned in the ``network`` variable, the ``errors`` variable will be `N
 and warnings generated during parsing will be present in the ``warnings`` variable,
 or this will be `None` if no warnings were generated. As such, either one of ``network``
 or ``errors`` will be ``not None``, but not both.
+
+The ``errors`` and ``warnings`` objects
+---------------------------------------
+
+When present, the ``errors`` and ``warnings`` objects returned by the :class:`PywrNetwork`
+factory methods are each a dictionary mapping the string names of Pywr network components
+(`nodes`, `parameters`, etc.) to a list of the errors or warnings generated when
+parsing instances of those components.  Each error is warning is represented by
+an instance of :class:`PywrTypeValidationError` or :class:`PywrTypeValidationWarning`
+respectively.
+
+The :func:`results_as_dict` and :func:`results_as_json` functions in the :mod:`pywrparser.display`
+module provide a convenient means to translate ``errors`` and ``warnings`` objects
+into `dict` and JSON form respectively.

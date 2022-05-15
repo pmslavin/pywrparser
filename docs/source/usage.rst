@@ -79,11 +79,12 @@ error or warning. For example...
    :scale: 50%
    :class: scaled-link
 
+This report may be customised with the various configuration options described
+in the `display options` section of the output from ``pywrparser --help``.
 
 A *valid* network is one for which neither errors nor warnings are generated.
 Parsing a valid network results in the display of a brief report describing
-the network.  This report may be customised with the various configuration
-options.
+characteristics of the network...
 
 .. code-block:: console
 
@@ -96,3 +97,37 @@ options.
    Edges: 563
    Parameters: 247
    Recorders: 225
+
+The ``--no-digest`` causes the report to omit calculation and display of the the
+SHA256 digest, which may improve performance for large files on slow systems.
+
+The ``--terse-report`` option causes only a summary of the numbers of each component
+defined in that valid network to be displayed, for example...
+
+.. code-block:: console
+
+   $ pywrparser --filename PywrValidNetwork.json --terse-report
+   {'nodes': 525, 'edges': 563, 'parameters': 247, 'recorders': 225}
+
+This is useful where the output is intended to be consumed by an automated process.
+
+Similarly, the ``--json-output`` option provides a full parsing report as json,
+including any errors and warnings generated during parsing. The top-level
+``parse_results`` key in this JSON output includes a summary of the parsing output.
+
+
+.. code-block:: console
+
+   $ pywrparser --filename PywrValidNetwork.json --json-output
+   {
+     "parse_results": {
+       "file": {
+         "name": "PywrValidNetwork.json",
+         "sha256": "c78b1c3ba311719cabc52dca32b4075a46c926c362b68d0aaa5696aebbad7318"
+       },
+       "created_at": "2022-05-15 21:15:31",
+       "ruleset": "Default",
+       "errors": 0,
+       "warnings": 0
+     }
+   }
