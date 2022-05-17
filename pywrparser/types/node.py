@@ -53,7 +53,6 @@ class PywrNode(PywrType):
     def warn_node_name_min_len(self):
         assert self.name and len(self.name) > 6, "Node name too short"
 
-
     """ Type-specific rules """
 
     @match("proportionalinput")

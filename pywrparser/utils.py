@@ -1,5 +1,4 @@
 from __future__ import annotations
-import contextlib
 import functools
 import inspect
 import json
@@ -14,25 +13,45 @@ from pywrparser.types.exceptions import (
 from pywrparser.types.warnings import PywrTypeValidationWarning
 
 
-@contextlib.contextmanager
-def raiseorpush(component: str, raise_error: bool, raise_warning: bool, dest: PywrJSONParser):
-    error_set = (PywrTypeValidationErrorBundle, )
-    if not raise_error:
-        error_set = (PywrTypeValidationError, PywrTypeValidationErrorBundle)
+class raiseorpush():
+    """
+    Context manager to allow capture and aggregation of
+    errors and warnings when parsing components
+    """
+    def __init__(self, component, raise_error, raise_warning, dest, ignore_warnings=False):
+        self.component = component
+        self.raise_error = raise_error
+        self.raise_warning = raise_warning if not ignore_warnings else False
+        self.ignore_warnings = ignore_warnings
+        self.dest = dest
+        self.error_set = (PywrTypeValidationErrorBundle, )
+        if not raise_error:
+            self.error_set = (PywrTypeValidationError, PywrTypeValidationErrorBundle)
 
-    try:
-        yield
-    except error_set as e:
-        if isinstance(e, PywrTypeValidationErrorBundle):
-            for warning in e.warnings:
-                if raise_warning:
-                    raise(warning) from None
-                dest.warnings[component].append(warning)
-            for error in e.errors:
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_obj, exc_tb):
+        if isinstance(exc_obj, PywrTypeValidationErrorBundle):
+            for error in exc_obj.errors:
                 #  Raise on warning implies raise on error
-                if raise_warning or raise_error:
+                if self.raise_warning or self.raise_error:
                     raise error from None
-                dest.errors[component].append(error)
+                self.dest.errors[self.component].append(error)
+
+        return not self.raise_warning
+
+    def capture_warnings(self, inst):
+        """
+        If a successfully created instance has warnings, either raise
+        or push to the destination as appropriate
+        """
+        if inst.has_warnings and not self.ignore_warnings:
+            for warning in inst.warnings:
+                if self.raise_warning:
+                    raise warning from None
+                else:
+                    self.dest.warnings[self.component].append(warning)
 
 
 def canonical_name(nodename: str, attr: str) -> str:
@@ -78,28 +97,31 @@ class PywrTypeValidator():
         iwarns = {n: f for n, f in ifuncs if n.startswith("warn")}
 
         rules_passed = []
-        exc_warn_bundle = []
+        exc_bundle = []
+        warn_bundle = []
 
         for w, f in iwarns.items():
             try:
                 f()
             except AssertionError as e:
                 value_text = self.trim_value(value)
-                exc_warn_bundle.append(PywrTypeValidationWarning(inst.__class__.__qualname__, w, e, value_text))
+                warn_bundle.append(PywrTypeValidationWarning(inst.__class__.__qualname__, w, e, value_text))
 
         for r, f in irules.items():
             try:
                 rules_passed.append(f"[PASSED] {r} -> {f()}")
             except AssertionError as e:
                 value_text = self.trim_value(value)
-                exc_warn_bundle.append(PywrTypeValidationError(inst.__class__.__qualname__, r, e, value_text))
+                exc_bundle.append(PywrTypeValidationError(inst.__class__.__qualname__, r, e, value_text))
 
         if self.store_passed_rules:
             inst.rules_passed = rules_passed
 
-        if len(exc_warn_bundle) > 0:
-            pveb = PywrTypeValidationErrorBundle(f"{inst.__class__.__qualname__} rule failures", exc_warn_bundle)
+        if len(exc_bundle) > 0:
+            pveb = PywrTypeValidationErrorBundle(f"{inst.__class__.__qualname__} rule failures", exc_bundle)
             raise pveb
+
+        inst.warnings = warn_bundle
 
 
     def trim_value(self, value):

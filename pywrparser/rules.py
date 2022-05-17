@@ -38,7 +38,8 @@ def describe_rulesets():
     output = f"Available Rulesets:\n"
     for idx, (key, mod) in enumerate(modules.items(),1):
         output += f"[{idx}]\tName: '{mod['name']}'  Version: {mod['version']}"
-        output += f"\n\t{mod['description']}\n\tKey: {key}\n\n"
+        output += f"  Key: {key}\n"
+        output += f"{mod['description']}\n\n"
 
     return output
 

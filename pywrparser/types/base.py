@@ -18,3 +18,7 @@ class PywrType(ABC):
 
     def as_json(self) -> str:
         return json.dumps(self.data)
+
+    @property
+    def has_warnings(self):
+        return hasattr(self, "warnings") and len(self.warnings)
