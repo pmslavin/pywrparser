@@ -52,6 +52,8 @@ specified minimum length:
 
 .. code-block:: python
 
+    from pywrparser.types.node import PywrNode
+
     class MyPywrNode(PywrNode):
         ...
 
@@ -73,7 +75,45 @@ not preclude creation of the corresponding component instance or the network as 
 The :func:`match` decorator
 ---------------------------
 
-TBA
+The :func:`match` decorator is defined in the :mod:`pywrparser.utils` module and can
+be applied to a rule or warning to limit the applicability of that rule or warning
+to instances of Pywr components which contain a ``type`` key equal to that specified
+as an argument to the :func:`match` decorator.
+
+For example, the following excerpt illustrates a rule which will be applied to only
+nodes which have a type equal to `storage`.
+
+.. code-block:: python
+
+    from pywrparser.types.node import PywrNode
+    from pywrparser.utils import match
+
+    class MyPywrNode(PywrNode):
+        ...
+
+    @match("storage")
+    def rule_node_name_min_len(self):
+        assert len(self.name) > 6, "Node name too short"
+
+If no :func:`match` decorator is present on a rule, that rule is applied to *every*
+instance of the class on which it is defined.
+
+The :func:`match` decorator also supports the ``fuzzy`` boolean keyword argument.  If ``fuzzy``
+is set equal to ``True``, the decorated rule or warning becomes applicable to any instance
+having a ``type`` key whose value *contains* the decorator's string argument. This comparison
+is case-insensitive.
+
+For example, to define a rule which is applied only to components whose type contains the
+string "interpolated", the following arguments to the :func:`match` decorator may be used...
+
+.. code-block:: python
+
+    ...
+
+    @match("interpolated", fuzzy=True)
+    def rule_kind_required(self):
+        assert "kind" in self.data, "An interpolation kind must be provided"
+
 
 Rulesets
 --------
