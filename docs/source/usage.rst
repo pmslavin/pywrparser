@@ -1,3 +1,16 @@
+Basic Usage
+===========
+
+Overview
+--------
+
+PywrParser provides both a command-line utility for validating Pywr JSON models,
+and a Python library which may be used to parse and manipulate Pywr networks.
+
+This section provides details of the command-line utility.
+
+Usage of the :class:`pywrparser` library is described in :doc:`library` section.
+
 Installation
 ============
 
@@ -38,19 +51,6 @@ PywrParser can be installed with the `Poetry <https://python-poetry.org>`_ comma
       --version             Display the version of pywrparser
 
     For further information, please visit https://pmslavin.github.io/pywrparser
-
-Basic Usage
-===========
-
-Overview
---------
-
-PywrParser provides both a command-line utility for validating Pywr JSON models,
-and a Python library which may be used to parse and manipulate Pywr networks.
-
-This section provides details of the command-line utility.
-
-Usage of the :class:`pywrparser` library is described in :doc:`library` section.
 
 
 Validation
@@ -98,7 +98,7 @@ characteristics of the network...
    Parameters: 247
    Recorders: 225
 
-The ``--no-digest`` causes the report to omit calculation and display of the the
+The ``--no-digest`` causes the report to omit calculation and display of the
 SHA256 digest, which may improve performance for large files on slow systems.
 
 The ``--terse-report`` option causes only a summary of the numbers of each component
