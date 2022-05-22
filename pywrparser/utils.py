@@ -135,6 +135,17 @@ class PywrTypeValidator():
 
 
 def match(typename, fuzzy=False):
+    """
+    Decorator applies rules and warnings to only those node, parameter,
+    or recorder components whose 'type' key is (roughly) equal to the
+    'typename' argument.
+
+    All comparisons are case-insensitive.
+
+    The 'fuzzy' Boolean argument matches any type which contains the
+    typename argument, irrespective of position.
+
+    """
     def type_wrapper(func):
         @functools.wraps(func)
         def wrapper(self, *args, **kwargs):
@@ -142,6 +153,13 @@ def match(typename, fuzzy=False):
                 return
             if fuzzy:
                 is_match = typename.lower() in self.type.lower()
+            elif not self.type.lower().endswith("parameter"):
+                if typename.lower().endswith("parameter"):
+                    basematch = typename.lower()[:-9]
+                else:
+                    basematch = typename.lower()
+
+                is_match = basematch == self.type.lower()
             else:
                 is_match = typename.lower() == self.type.lower()
 
