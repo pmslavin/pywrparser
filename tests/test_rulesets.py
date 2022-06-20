@@ -4,6 +4,9 @@ from pywrparser import rules
 
 
 def test_all_rulesets_complete():
+    """
+    Does each defined ruleset contain the required attributes?
+    """
     rulesets = rules.get_rulesets()
     for ruleset_key, data in rulesets.items():
         ruleset_mod = rules.get_ruleset_module(ruleset_key)

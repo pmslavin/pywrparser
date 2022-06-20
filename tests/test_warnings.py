@@ -31,6 +31,9 @@ class PywrTestNode(PywrNode):
 
 
 def test_node_warning():
+    """
+    Custom Node class global warnings are correctly applied
+    """
     try:
         node = PywrTestNode(NODE1_DATA)
     except PywrTypeValidationErrorBundle as b:
@@ -38,6 +41,9 @@ def test_node_warning():
 
 
 def test_node_match_warning():
+    """
+    Custom Node class type-specific warnings are correctly applied
+    """
     try:
         node = PywrTestNode(NODE2_DATA)
     except PywrTypeValidationErrorBundle as b:

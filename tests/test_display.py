@@ -6,10 +6,6 @@ from pywrparser.display import (
     results_as_dict
 )
 
-from .fixtures import (
-    valid_network,
-    VALID_NETWORK_FILE
-)
 
 DUMMY_FILENAME = "filename.json"
 
@@ -18,6 +14,9 @@ def test_console_available():
 
 
 def test_console_basic(valid_network):
+    """
+    Does the console contain the expected output given basic input?
+    """
     console.file = io.StringIO()
     errors = valid_network.errors
     warnings = valid_network.warnings
@@ -34,11 +33,14 @@ def test_console_basic(valid_network):
     assert "warning" in output
 
 
-def test_results_as_dict(valid_network):
+def test_results_as_dict(valid_network, valid_network_file):
+    """
+    Are returned results in the correct format with expected content?
+    """
     errors = valid_network.errors
     warnings = valid_network.warnings
 
-    output = results_as_dict(VALID_NETWORK_FILE, errors, warnings)
+    output = results_as_dict(valid_network_file, errors, warnings)
     assert isinstance(output, dict)
     assert "parse_results" in output
     if errors:
