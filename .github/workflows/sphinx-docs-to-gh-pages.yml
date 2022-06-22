@@ -51,7 +51,7 @@ jobs:
 
       - name: Copy doc changes
         run: |
-             cp -r docs/build/html gh-pages
+             cp -r docs/build/html/* gh-pages
              touch gh-pages/.nojekyll
 
       - name: Commit doc changes
