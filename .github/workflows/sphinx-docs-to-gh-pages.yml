@@ -52,13 +52,13 @@ jobs:
       - name: Copy doc changes
         run: |
              cp -r docs/build/html gh-pages
-             touch ghpages/.nojekyll
+             touch gh-pages/.nojekyll
 
       - name: Commit doc changes
         run: |
              git config --local user.email ${{ secrets.PAGES_EMAIL }}
              git config --local user.name ${{ secrets.PAGES_USER }}
-             git commit -m "Sphinx workflow adds doc changes" -a
+             git commit -a -m "Sphinx workflow adds doc changes"
 
       - name: Push doc changes
         uses: ad-m/github-push-action@master
