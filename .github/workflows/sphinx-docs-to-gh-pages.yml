@@ -56,6 +56,7 @@ jobs:
 
       - name: Commit doc changes
         run: |
+             cd gh-pages
              git config --local user.email ${{ secrets.PAGES_EMAIL }}
              git config --local user.name ${{ secrets.PAGES_USER }}
              git commit -a -m "Sphinx workflow adds doc changes"
