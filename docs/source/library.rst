@@ -23,7 +23,7 @@ Two factory methods are provided to create a :class:`PywrNetwork` instance:
 * :meth:`pywrparser.types.network.PywrNetwork.from_file`
 * :meth:`pywrparser.types.network.PywrNetwork.from_json`
 
-which operate upon a file and a JSON string respectively.
+which operate on a file and a JSON string respectively.
 For example, to create a :class:`PywrNetwork` from a filename using the default
 arguments:
 
