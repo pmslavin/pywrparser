@@ -50,6 +50,7 @@ jobs:
         run: |
              cp -r docs/build/html/* gh-pages
              touch gh-pages/.nojekyll
+             echo "Docs built from ${GITHUB_REF} commit ${GITHUB_SHA} at `git log -1 --pretty=%cd`" > gh-pages/last-build.txt
 
       - name: Commit doc changes
         run: |
