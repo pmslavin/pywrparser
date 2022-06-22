@@ -129,8 +129,8 @@ custom component classes derived from the base types:
 * PywrScenario
 
 The base types are each defined in a dedicated module in :mod:`pywrparser.types` and
-should always be imported from the module rather than the :mod:`types` package
-when being subclassed. E.g.
+should always be imported directly from the module in which they are declared rather
+than the :mod:`types` package when being subclassed. E.g.
 
 .. code-block:: python
 
