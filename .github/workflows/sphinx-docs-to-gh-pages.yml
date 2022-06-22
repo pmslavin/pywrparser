@@ -57,6 +57,7 @@ jobs:
              cd gh-pages
              git config --local user.email ${{ secrets.PAGES_EMAIL }}
              git config --local user.name ${{ secrets.PAGES_USER }}
+             git add last-build.txt
              git commit -a -m "Sphinx workflow adds doc changes"
              git push origin gh-pages
 
