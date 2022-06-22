@@ -44,10 +44,7 @@ jobs:
         run: poetry run sphinx-build -a docs/source docs/build/html
 
       - name: Checkout pywrparser gh-pages
-        uses: actions/checkout@v3
-        with:
-          ref: gh-pages
-          path: gh-pages
+        run: git clone -b gh-pages --single-branch https://github.com/pmslavin/pywrparser.git gh-pages
 
       - name: Copy doc changes
         run: |
