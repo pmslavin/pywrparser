@@ -23,7 +23,7 @@ Two factory methods are provided to create a :class:`PywrNetwork` instance:
 * :meth:`pywrparser.types.network.PywrNetwork.from_file`
 * :meth:`pywrparser.types.network.PywrNetwork.from_json`
 
-which operate upon a file and a JSON string respectively.
+...which operate on a file and a JSON string respectively.
 For example, to create a :class:`PywrNetwork` from a filename using the default
 arguments:
 
@@ -51,4 +51,4 @@ respectively.
 
 The :func:`results_as_dict` and :func:`results_as_json` functions in the :mod:`pywrparser.display`
 module provide a convenient means to translate ``errors`` and ``warnings`` objects
-into `dict` and JSON form respectively.
+into `dict` and JSON forms respectively.
