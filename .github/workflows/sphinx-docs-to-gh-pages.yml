@@ -44,7 +44,7 @@ jobs:
         run: poetry run sphinx-build -a docs/source docs/build/html
 
       - name: Checkout pywrparser gh-pages
-        run: git clone -b gh-pages --single-branch https://github.com/pmslavin/pywrparser.git gh-pages
+        run: git clone -b gh-pages --single-branch https://token:${{ secrets.GITHUB_TOKEN }}@github.com/pmslavin/pywrparser.git gh-pages
 
       - name: Copy doc changes
         run: |
@@ -57,10 +57,5 @@ jobs:
              git config --local user.email ${{ secrets.PAGES_EMAIL }}
              git config --local user.name ${{ secrets.PAGES_USER }}
              git commit -a -m "Sphinx workflow adds doc changes"
+             git push origin gh-pages
 
-      - name: Push doc changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages
-          force: true

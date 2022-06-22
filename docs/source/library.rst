@@ -51,4 +51,4 @@ respectively.
 
 The :func:`results_as_dict` and :func:`results_as_json` functions in the :mod:`pywrparser.display`
 module provide a convenient means to translate ``errors`` and ``warnings`` objects
-into `dict` and JSON form respectively.
+into `dict` and JSON forms respectively.
