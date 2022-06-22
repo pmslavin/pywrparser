@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rules, Warnings, and Rulesets &mdash; PywrParser 0.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/theme_override.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="The pywrparser Library" href="library.html" />
+    <link rel="prev" title="Basic Usage" href="usage.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> PywrParser
+          </a>
+              <div class="version">
+                0.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Basic Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html#installation">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Rules and Rulesets</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Rules, Warnings, and Rulesets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#defining-rules-warnings-and-rulesets">Defining Rules, Warnings, and Rulesets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rules-and-warnings">Rules and Warnings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-match-decorator">The <code class="xref py py-func docutils literal notranslate"><span class="pre">match()</span></code> decorator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rulesets">Rulesets</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The pywrparser library</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="library.html">The <cite>pywrparser</cite> Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="library.html#usage">Usage</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PywrParser</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Rules, Warnings, and Rulesets</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/rules.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="rules-warnings-and-rulesets">
+<h1>Rules, Warnings, and Rulesets<a class="headerlink" href="#rules-warnings-and-rulesets" title="Permalink to this headline"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<dl>
+<dt>Rules</dt><dd><p>Methods defined on Pywr component types (<code class="xref py py-class docutils literal notranslate"><span class="pre">PywrNode</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PywrParameter</span></code>, etc.)
+which perform arbitrary tests on the data defining that type.</p>
+<p>If the tests are passed an instance of the type can be created, but if the tests are
+failed no instance is created, the containing network is considered <cite>invalid</cite> and an
+<code class="docutils literal notranslate"><span class="pre">error</span></code> state is added to the parsing report describing the test that has failed
+and the input data which caused the failure.</p>
+<p>The methods which define rules are applied automatically to the input data by the
+parser during the parsing process.</p>
+</dd>
+<dt>Warnings</dt><dd><p>Methods defined on Pywr component types which operate similarly to <code class="docutils literal notranslate"><span class="pre">rules</span></code> but
+result in a <code class="docutils literal notranslate"><span class="pre">warning</span></code> which does not prevent the creation of an instance of the
+component type.  As such, <cite>warnings</cite> are used to identify component definitions which
+are in some way suboptimal or may be deprecated in future releases, but which by
+themselves do not preclude the creation of a functioning component of the specified
+type.</p>
+<p>A network which may contain <cite>warnings</cite> but no <cite>errors</cite> is considered <cite>valid</cite>.</p>
+</dd>
+<dt>Rulesets</dt><dd><p>Collections of <code class="docutils literal notranslate"><span class="pre">rules</span></code> and <code class="docutils literal notranslate"><span class="pre">warnings</span></code> which are customisable and which may
+applied as a group to a Pywr network.</p>
+<p>Custom rulesets allow different collections of <code class="docutils literal notranslate"><span class="pre">rules</span></code> and <code class="docutils literal notranslate"><span class="pre">warnings</span></code> to be
+applied to a network depending on the context in which the parser operates.</p>
+</dd>
+</dl>
+</section>
+<section id="defining-rules-warnings-and-rulesets">
+<h2>Defining Rules, Warnings, and Rulesets<a class="headerlink" href="#defining-rules-warnings-and-rulesets" title="Permalink to this headline"></a></h2>
+</section>
+<section id="rules-and-warnings">
+<h2>Rules and Warnings<a class="headerlink" href="#rules-and-warnings" title="Permalink to this headline"></a></h2>
+<p>Both <code class="docutils literal notranslate"><span class="pre">rules</span></code> and <code class="docutils literal notranslate"><span class="pre">warnings</span></code> are defined as methods on the class representing the
+component which they validate.</p>
+<p>The method is defined using a structured method name, and an optional <code class="xref py py-func docutils literal notranslate"><span class="pre">match()</span></code>
+decorator which specifies the sub-types of the component to which the rule or warning should
+be applied.</p>
+<p>For example, the following rule ensures that the <cite>name</cite> attribute of its data has a
+specified minimum length:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pywrparser.types.node</span> <span class="kn">import</span> <span class="n">PywrNode</span>
+
+<span class="k">class</span> <span class="nc">MyPywrNode</span><span class="p">(</span><span class="n">PywrNode</span><span class="p">):</span>
+    <span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">rule_node_name_min_len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">6</span><span class="p">,</span> <span class="s2">&quot;Node name too short&quot;</span>
+</pre></div>
+</div>
+<p>If a rule returns indeed any value, including <code class="docutils literal notranslate"><span class="pre">None</span></code>, it is deemed to have <cite>passed</cite>.
+If a rule raises any form of exception, it has <cite>failed</cite> and an error instance is
+logged by the parser.</p>
+<p>Methods which implement rules are identified automatically by the parser and applied
+to the relevant type when an instance of that type is created.  Any method which begins
+with the special prefix <code class="docutils literal notranslate"><span class="pre">rule_</span></code> is interpreted as a validation rule.  Any method
+beginning with the prefix <code class="docutils literal notranslate"><span class="pre">warn_</span></code> indicates a <cite>warning</cite>.  Warnings have identical
+behaviour to rules in terms of returning a value or raising an exception, but in the
+event of a warning method failing, the parser logs a warning instance and this does
+not preclude creation of the corresponding component instance or the network as a whole.</p>
+</section>
+<section id="the-match-decorator">
+<h2>The <code class="xref py py-func docutils literal notranslate"><span class="pre">match()</span></code> decorator<a class="headerlink" href="#the-match-decorator" title="Permalink to this headline"></a></h2>
+<p>The <code class="xref py py-func docutils literal notranslate"><span class="pre">match()</span></code> decorator is defined in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">pywrparser.utils</span></code> module and can
+be applied to a rule or warning to limit the applicability of that rule or warning
+to instances of Pywr components which contain a <code class="docutils literal notranslate"><span class="pre">type</span></code> key equal to that specified
+as an argument to the <code class="xref py py-func docutils literal notranslate"><span class="pre">match()</span></code> decorator.</p>
+<p>For example, the following excerpt illustrates a rule which will be applied to only
+nodes which have a type equal to <cite>storage</cite>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pywrparser.types.node</span> <span class="kn">import</span> <span class="n">PywrNode</span>
+<span class="kn">from</span> <span class="nn">pywrparser.utils</span> <span class="kn">import</span> <span class="n">match</span>
+
+<span class="k">class</span> <span class="nc">MyPywrNode</span><span class="p">(</span><span class="n">PywrNode</span><span class="p">):</span>
+    <span class="o">...</span>
+
+<span class="nd">@match</span><span class="p">(</span><span class="s2">&quot;storage&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">rule_node_name_min_len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">6</span><span class="p">,</span> <span class="s2">&quot;Node name too short&quot;</span>
+</pre></div>
+</div>
+<p>If no <code class="xref py py-func docutils literal notranslate"><span class="pre">match()</span></code> decorator is present on a rule, that rule is applied to <em>every</em>
+instance of the class on which it is defined.</p>
+<p>The <code class="xref py py-func docutils literal notranslate"><span class="pre">match()</span></code> decorator also supports the <code class="docutils literal notranslate"><span class="pre">fuzzy</span></code> boolean keyword argument.  If <code class="docutils literal notranslate"><span class="pre">fuzzy</span></code>
+is set equal to <code class="docutils literal notranslate"><span class="pre">True</span></code>, the decorated rule or warning becomes applicable to any instance
+having a <code class="docutils literal notranslate"><span class="pre">type</span></code> key whose value <em>contains</em> the decorator’s string argument. This comparison
+is case-insensitive.</p>
+<p>For example, to define a rule which is applied only to components whose type contains the
+string “interpolated”, the following arguments to the <code class="xref py py-func docutils literal notranslate"><span class="pre">match()</span></code> decorator may be used…</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">...</span>
+
+<span class="nd">@match</span><span class="p">(</span><span class="s2">&quot;interpolated&quot;</span><span class="p">,</span> <span class="n">fuzzy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">rule_kind_required</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="s2">&quot;kind&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;An interpolation kind must be provided&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="rulesets">
+<h2>Rulesets<a class="headerlink" href="#rulesets" title="Permalink to this headline"></a></h2>
+<p>A <code class="docutils literal notranslate"><span class="pre">ruleset</span></code> is simply a module in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">pywrparser.rulesets</span></code> package which defines
+custom component classes derived from the base types:</p>
+<ul class="simple">
+<li><p>PywrMetadata</p></li>
+<li><p>PywrTimestepper</p></li>
+<li><p>PywrNode</p></li>
+<li><p>PywrParameter</p></li>
+<li><p>PywrRecorder</p></li>
+<li><p>PywrScenario</p></li>
+</ul>
+<p>The base types are each defined in a dedicated module in <code class="xref py py-mod docutils literal notranslate"><span class="pre">pywrparser.types</span></code> and
+should always be imported directly from the module in which they are declared rather
+than the <code class="xref py py-mod docutils literal notranslate"><span class="pre">types</span></code> package when being subclassed. E.g.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pywrparser.types.node</span> <span class="kn">import</span> <span class="n">PywrNode</span>
+</pre></div>
+</div>
+<p>Any classes which derive from the base types in a ruleset module are automatically
+identified by the parser and become part of the ruleset defined by that module.</p>
+<p>In addition, a ruleset module must contain certain module-level variables which are
+used by <cite>pywrparser</cite> to describe the ruleset.</p>
+<dl class="simple">
+<dt>__key__</dt><dd><p>A short string which acts as the identifier for the ruleset, e.g. “strict”</p>
+</dd>
+<dt>__ruleset_name__</dt><dd><p>A string holding the full name for the ruleset, e.g. “Strict Ruleset”</p>
+</dd>
+<dt>__version__</dt><dd><p>A string containing the version number of the ruleset, e.g. “0.1.0”</p>
+</dd>
+<dt>__description__</dt><dd><p>A string of arbitrary length which describes the ruleset, e.g.
+“A ruleset which enforces strict naming conventions”</p>
+</dd>
+</dl>
+<p>Finally, each ruleset module must be imported into the <code class="xref py py-mod docutils literal notranslate"><span class="pre">ruleset</span></code> package’s
+<code class="docutils literal notranslate"><span class="pre">__init__.py</span></code>.  For example, to import the ruleset defined in the
+<code class="docutils literal notranslate"><span class="pre">/pywrparser/rulesets/strict.py</span></code> file, add…</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">strict</span>
+</pre></div>
+</div>
+<p>…to <code class="docutils literal notranslate"><span class="pre">/pywrparser/rulesets/__init__.py</span></code>.</p>
+<p>The procedure to create a custom ruleset may therefore be summarised as:</p>
+<ol class="arabic simple">
+<li><p>Create a ruleset module which imports the required base types and defines
+the required module-level variables as described above.</p></li>
+<li><p>Define subclasses of each required base type, defining appropriate
+<code class="docutils literal notranslate"><span class="pre">rule_</span></code> and <code class="docutils literal notranslate"><span class="pre">warn_</span></code> methods inside these.</p></li>
+<li><p>Add an import of the new ruleset module in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">ruleset</span></code> package’s
+<code class="file docutils literal notranslate"><span class="pre">__init__.py</span></code></p></li>
+</ol>
+<p>The ruleset will then be visible in the output from the command line utility’s
+<code class="docutils literal notranslate"><span class="pre">--list-rulesets</span></code> option…</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pywrparser --list-rulesets
+<span class="go">Available Rulesets:</span>
+
+<span class="go">[1] Name: &#39;Strict Ruleset&#39;  Version: 0.1.0  Key: strict</span>
+<span class="go">    A ruleset which enforces strict naming conventions</span>
+</pre></div>
+</div>
+<p>…and may be applied to input using the <code class="docutils literal notranslate"><span class="pre">--use-ruleset</span> <span class="pre">&lt;key&gt;</span></code> option…</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pywrparser --use-ruleset strict ...
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="usage.html" class="btn btn-neutral float-left" title="Basic Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="library.html" class="btn btn-neutral float-right" title="The pywrparser Library" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Paul Slavin.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

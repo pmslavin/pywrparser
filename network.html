@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The PywrNetwork class &mdash; PywrParser 0.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/theme_override.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="The PywrJSONParser class" href="parser.html" />
+    <link rel="prev" title="The pywrparser Library" href="library.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> PywrParser
+          </a>
+              <div class="version">
+                0.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Basic Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html#installation">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Rules and Rulesets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="rules.html">Rules, Warnings, and Rulesets</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The pywrparser library</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="library.html">The <cite>pywrparser</cite> Library</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">The <code class="xref py py-class docutils literal notranslate"><span class="pre">PywrNetwork</span></code> class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parser.html">The <code class="xref py py-class docutils literal notranslate"><span class="pre">PywrJSONParser</span></code> class</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="library.html#usage">Usage</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PywrParser</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="library.html">The <cite>pywrparser</cite> Library</a> &raquo;</li>
+      <li>The <code class="xref py py-class docutils literal notranslate"><span class="pre">PywrNetwork</span></code> class</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/network.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="the-pywrnetwork-class">
+<h1>The <code class="xref py py-class docutils literal notranslate"><span class="pre">PywrNetwork</span></code> class<a class="headerlink" href="#the-pywrnetwork-class" title="Permalink to this headline"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="pywrparser.types.network.PywrNetwork">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pywrparser.types.network.</span></span><span class="sig-name descname"><span class="pre">PywrNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parser</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pywrparser.types.network.PywrNetwork" title="Permalink to this definition"></a></dt>
+<dd><p>An abstract representation of a Pywr network.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pywrparser.types.network.PywrNetwork.from_file">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raise_on_parser_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raise_on_parser_warning</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_warnings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_duplicate_edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ruleset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pywrparser.types.network.PywrNetwork.from_file" title="Permalink to this definition"></a></dt>
+<dd><p>Returns either the valid PywrNetwork contained in the file denoted
+by the <cite>filename</cite> argument, or corresponding errors encountered during
+parsing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – The filename of a file containing a JSON definition
+of a Pywr network.</p></li>
+<li><p><strong>raise_on_parser_error</strong> (<em>bool</em>) – Specifies whether parsing errors should
+be raised immediately as exceptions or collected in the <cite>errors</cite> return
+value.</p></li>
+<li><p><strong>raise_on_parser_warning</strong> (<em>bool</em>) – Specifies whether warnings encountered
+during parsing should be raised immediately as exceptions or collected
+in the <cite>warnings</cite> return value.</p></li>
+<li><p><strong>allow_duplicate_edges</strong> (<em>bool</em>) – Specifies whether duplicate edges are
+considered as errors or are permitted in a valid networks.</p></li>
+<li><p><strong>ruleset</strong> (<em>str</em>) – The <cite>key</cite> of a valid ruleset. This ruleset will then be
+applied during parsing.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>network, errors, warnings</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Tuple[PywrNetwork,</span> <span class="pre">Dict,</span> <span class="pre">Dict]</span></code>) – in which either one of <cite>network</cite> or <cite>errors</cite> is not None. <cite>warnings</cite> may
+be present in either case.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pywrparser.types.network.PywrNetwork.from_json">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_src</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raise_on_parser_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raise_on_parser_warning</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_warnings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_duplicate_edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ruleset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pywrparser.types.network.PywrNetwork.from_json" title="Permalink to this definition"></a></dt>
+<dd><p>Returns either the valid PywrNetwork represented by the JSON encoded string
+contained in the <cite>json_src</cite> argument, or corresponding errors encountered
+during parsing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>json_src</strong> (<em>str</em>) – A string containing a JSON encoded representation of
+a Pywr network.</p></li>
+<li><p><strong>raise_on_parser_error</strong> (<em>bool</em>) – Specifies whether parsing errors should
+be raised immediately as exceptions or collected in the <cite>errors</cite> return
+value.</p></li>
+<li><p><strong>raise_on_parser_warning</strong> (<em>bool</em>) – Specifies whether warnings encountered
+during parsing should be raised immediately as exceptions or collected
+in the <cite>warnings</cite> return value.</p></li>
+<li><p><strong>allow_duplicate_edges</strong> (<em>bool</em>) – Specifies whether duplicate edges are
+considered as errors or are permitted in a valid networks.</p></li>
+<li><p><strong>ruleset</strong> (<em>str</em>) – The <cite>key</cite> of a valid ruleset. This ruleset will then be
+applied during parsing.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>network, errors, warnings</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Tuple[PywrNetwork,</span> <span class="pre">Dict,</span> <span class="pre">Dict]</span></code>) – in which either one of <cite>network</cite> or <cite>errors</cite> is not None. <cite>warnings</cite> may
+be present in either case.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pywrparser.types.network.PywrNetwork.as_dict">
+<span class="sig-name descname"><span class="pre">as_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pywrparser.types.network.PywrNetwork.as_dict" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>network</strong> (<em>dict</em>) – A dict representation of the <a class="reference internal" href="#pywrparser.types.network.PywrNetwork" title="pywrparser.types.network.PywrNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">PywrNetwork</span></code></a>
+instance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pywrparser.types.network.PywrNetwork.as_json">
+<span class="sig-name descname"><span class="pre">as_json</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pywrparser.types.network.PywrNetwork.as_json" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>network</strong> (<em>str</em>) – A JSON encoded representation of the <a class="reference internal" href="#pywrparser.types.network.PywrNetwork" title="pywrparser.types.network.PywrNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">PywrNetwork</span></code></a>
+instance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pywrparser.types.network.PywrNetwork.attach_parameters">
+<span class="sig-name descname"><span class="pre">attach_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pywrparser.types.network.PywrNetwork.attach_parameters" title="Permalink to this definition"></a></dt>
+<dd><p>Promotes strings which reference parameters and inline parameter
+definitions to instances of <code class="xref py py-class docutils literal notranslate"><span class="pre">PywrParameter</span></code>.</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Any values of attrs in a node which resolve to a global
+parameter are replaced with the instance of that parameter
+and the parameter is removed from the set of global parameters.</p></li>
+<li><p>Any values of attrs in a node which can be interpreted as
+an inline (i.e. dict) parameter definition are instantiated
+as parameters and the attr value replaced with the instance.</p></li>
+</ol>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pywrparser.types.network.PywrNetwork.add_parameter_references">
+<span class="sig-name descname"><span class="pre">add_parameter_references</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">component</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'parameter'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pywrparser.types.network.PywrNetwork.add_parameter_references" title="Permalink to this definition"></a></dt>
+<dd><p>Where a parameter name is in the format “__nodename__:attrname”
+it is interpreted as representing the attr “attrname” on node “nodename”.
+In this case, a reference to the global parameter is added to
+the node where this is not already present.</p>
+<p>Partial application of the internal <code class="xref py py-func docutils literal notranslate"><span class="pre">__add_component_references()</span></code>
+function.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pywrparser.types.network.PywrNetwork.add_recorder_references">
+<span class="sig-name descname"><span class="pre">add_recorder_references</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">component</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'recorder'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pywrparser.types.network.PywrNetwork.add_recorder_references" title="Permalink to this definition"></a></dt>
+<dd><p>Where a recorder name is in the format “__nodename__:attrname”
+it is interpreted as representing the attr “attrname” on node “nodename”.
+In this case, a reference to the global recorder is added to
+the node where this is not already present.</p>
+<p>Partial application of the internal <code class="xref py py-func docutils literal notranslate"><span class="pre">__add_component_references()</span></code>
+function.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pywrparser.types.network.PywrNetwork.detach_parameters">
+<span class="sig-name descname"><span class="pre">detach_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pywrparser.types.network.PywrNetwork.detach_parameters" title="Permalink to this definition"></a></dt>
+<dd><p>Removes any parameter instances from nodes and replaces these by
+a string referencing the name of the parameter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pywrparser.types.network.PywrNetwork.detach_recorders">
+<span class="sig-name descname"><span class="pre">detach_recorders</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pywrparser.types.network.PywrNetwork.detach_recorders" title="Permalink to this definition"></a></dt>
+<dd><p>Removes any recorder instances from nodes and replaces these by
+a string referencing the name of the recorder.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pywrparser.types.network.PywrNetwork.report">
+<span class="sig-name descname"><span class="pre">report</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pywrparser.types.network.PywrNetwork.report" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>report</strong> (<em>dict</em>) – Contains a key for each network component whose
+associated value is the number of instances of that component
+type.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pywrparser.types.network.PywrNetwork.verbose_report">
+<span class="sig-name descname"><span class="pre">verbose_report</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pywrparser.types.network.PywrNetwork.verbose_report" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pywrparser.types.network.PywrNetwork.title">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">title</span></span><a class="headerlink" href="#pywrparser.types.network.PywrNetwork.title" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pywrparser.types.network.PywrNetwork.description">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#pywrparser.types.network.PywrNetwork.description" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pywrparser.types.network.PywrNetwork.duplicate_edges">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">duplicate_edges</span></span><a class="headerlink" href="#pywrparser.types.network.PywrNetwork.duplicate_edges" title="Permalink to this definition"></a></dt>
+<dd><p>Return a dict of “duplicate” edges, that is edges of length <cite>n</cite>
+comprised of the same <cite>n</cite> nodes in the same order which are
+defined more than once.
+This is permitted by Pywr but may indicate a malformed network
+in some enviroments.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="library.html" class="btn btn-neutral float-left" title="The pywrparser Library" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="parser.html" class="btn btn-neutral float-right" title="The PywrJSONParser class" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Paul Slavin.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

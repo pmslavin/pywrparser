@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basic Usage &mdash; PywrParser 0.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/theme_override.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Rules, Warnings, and Rulesets" href="rules.html" />
+    <link rel="prev" title="The PywrParser Documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> PywrParser
+          </a>
+              <div class="version">
+                0.1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Basic Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#installation">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#validation">Validation</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Rules and Rulesets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="rules.html">Rules, Warnings, and Rulesets</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The pywrparser library</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="library.html">The <cite>pywrparser</cite> Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="library.html#usage">Usage</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PywrParser</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Basic Usage</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/usage.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="basic-usage">
+<h1>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<p>PywrParser provides both a command-line utility for validating Pywr JSON models,
+and a Python library which may be used to parse and manipulate Pywr networks.</p>
+<p>This section provides details of the command-line utility.</p>
+<p>Usage of the <code class="xref py py-class docutils literal notranslate"><span class="pre">pywrparser</span></code> library is described in <a class="reference internal" href="library.html"><span class="doc">The pywrparser Library</span></a> section.</p>
+</section>
+</section>
+<section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h1>
+<p>PywrParser can be installed with the <a class="reference external" href="https://python-poetry.org">Poetry</a> command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git clone git@github.com:pmslavin/pywrparser.git
+<span class="gp">$ </span><span class="nb">cd</span> pywrparser
+<span class="gp">$ </span>poetry install
+<span class="gp">$ </span>pywrparser -h
+<span class="go">usage: pywrparser [-f &lt;filename&gt; | -l] [OPTIONS]</span>
+
+<span class="go">A toolkit for parsing and validating Pywr models.</span>
+
+<span class="go">optional arguments:</span>
+<span class="go">  -h, --help            show this help message and exit</span>
+<span class="go">  -f &lt;filename&gt;, --filename &lt;filename&gt; File containing a Pywr network in JSON format</span>
+<span class="go">  -l, --list-rulesets   Display a list of all available rulesets</span>
+
+<span class="go">validation options:</span>
+<span class="go">  --use-ruleset &lt;ruleset&gt;</span>
+<span class="go">                        Apply the specified ruleset during parsing</span>
+<span class="go">  --raise-on-warning    Raise failures of parsing warnings as exceptions. Implies `--raise-on-error`</span>
+<span class="go">  --raise-on-error      Raise failures of parsing rules as exceptions</span>
+<span class="go">  --ignore-warnings     Do not display parsing report if only warnings are present</span>
+<span class="go">  --no-duplicate-edges  Duplicate edges are treated as an error</span>
+
+<span class="go">display options:</span>
+<span class="go">  --json-output         Display parsing report in json format for machine reading</span>
+<span class="go">  --pretty-output       Display parsing report on the console with colour. This is the default output format</span>
+<span class="go">  --no-emoji            Omit emoji in console parsing reports</span>
+<span class="go">  --no-colour           Omit colour output in console parsing reports. Implies `--no-emoji`</span>
+<span class="go">  --terse-report        Display only a terse report for valid networks</span>
+
+<span class="go">general options:</span>
+<span class="go">  --no-digest           Omit sha256 digest in JSON and dict parsing reports</span>
+<span class="go">  --version             Display the version of pywrparser</span>
+
+<span class="go">For further information, please visit https://pmslavin.github.io/pywrparser</span>
+</pre></div>
+</div>
+<section id="validation">
+<h2>Validation<a class="headerlink" href="#validation" title="Permalink to this headline"></a></h2>
+<p>The basic operation of the <code class="xref py py-class docutils literal notranslate"><span class="pre">pywrparser</span></code> command validates a Pywr JSON network,
+and returns either:</p>
+<ul class="simple">
+<li><p>A report describing a valid Pywr network, along with any warnings generated
+when parsing the network</p></li>
+<li><p>A report detailing the errors that prevented parsing</p></li>
+</ul>
+<p>For example…</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pywparser --filename PywrNetworkWithErrors.json
+</pre></div>
+</div>
+<p>..results in the display of a parsing report. This report provides details of any
+rule and warning failures encountered when validating the input, categorised by
+network component, and including an excerpt of the input which generated the
+error or warning. For example…</p>
+<a class="scaled-link reference internal image-reference" href="_images/parsing.report.png" id="parsing-report"><img alt="_images/parsing.report.png" class="scaled-link" id="parsing-report" src="_images/parsing.report.png" style="width: 953.0px; height: 381.5px;" /></a>
+<p>This report may be customised with the various configuration options described
+in the <cite>display options</cite> section of the output from <code class="docutils literal notranslate"><span class="pre">pywrparser</span> <span class="pre">--help</span></code>.</p>
+<p>A <em>valid</em> network is one for which neither errors nor warnings are generated.
+Parsing a valid network results in the display of a brief report describing
+characteristics of the network…</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pywrparser --filename PywrValidNetwork.json
+<span class="go">File: PywrValidNetwork.json</span>
+<span class="go">sha256: c78b1c3ba311719cabc52dca32b4075a46c926c362b68d0aaa5696aebbad7318</span>
+<span class="go">Title: A simple Pywr energy model demonstration</span>
+<span class="go">Description: Pywr energy model</span>
+<span class="go">Nodes: 525</span>
+<span class="go">Edges: 563</span>
+<span class="go">Parameters: 247</span>
+<span class="go">Recorders: 225</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">--no-digest</span></code> causes the report to omit calculation and display of the
+SHA256 digest, which may improve performance for large files on slow systems.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">--terse-report</span></code> option causes only a summary of the numbers of each component
+defined in that valid network to be displayed, for example…</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pywrparser --filename PywrValidNetwork.json --terse-report
+<span class="go">{&#39;nodes&#39;: 525, &#39;edges&#39;: 563, &#39;parameters&#39;: 247, &#39;recorders&#39;: 225}</span>
+</pre></div>
+</div>
+<p>This is useful where the output is intended to be consumed by an automated process.</p>
+<p>Similarly, the <code class="docutils literal notranslate"><span class="pre">--json-output</span></code> option provides a full parsing report as json,
+including any errors and warnings generated during parsing. The top-level
+<code class="docutils literal notranslate"><span class="pre">parse_results</span></code> key in this JSON output includes a summary of the parsing output.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pywrparser --filename PywrValidNetwork.json --json-output
+<span class="go">{</span>
+<span class="go">  &quot;parse_results&quot;: {</span>
+<span class="go">    &quot;file&quot;: {</span>
+<span class="go">      &quot;name&quot;: &quot;PywrValidNetwork.json&quot;,</span>
+<span class="go">      &quot;sha256&quot;: &quot;c78b1c3ba311719cabc52dca32b4075a46c926c362b68d0aaa5696aebbad7318&quot;</span>
+<span class="go">    },</span>
+<span class="go">    &quot;created_at&quot;: &quot;2022-05-15 21:15:31&quot;,</span>
+<span class="go">    &quot;ruleset&quot;: &quot;Default&quot;,</span>
+<span class="go">    &quot;errors&quot;: 0,</span>
+<span class="go">    &quot;warnings&quot;: 0</span>
+<span class="go">  }</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="The PywrParser Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="rules.html" class="btn btn-neutral float-right" title="Rules, Warnings, and Rulesets" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Paul Slavin.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
