@@ -12,7 +12,7 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     env:
-      LAST_BUILD_FILE: docs/build/html/last-build.html
+      LAST_BUILD_FILE: last-build.html
 
     steps:
       - name: Checkout pywrparser master
