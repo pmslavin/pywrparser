@@ -1,4 +1,5 @@
 .. image:: https://github.com/pmslavin/pywrparser/workflows/CI/badge.svg
+.. image:: https://github.com/pmslavin/pywrparser/workflows/sphinx-docs-to-gh-pages/badge.svg
 
 This document provides a brief overview of the ``PywrParser`` toolkit.
 
