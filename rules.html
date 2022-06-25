@@ -133,8 +133,8 @@ specified minimum length:</p>
 <span class="k">class</span> <span class="nc">MyPywrNode</span><span class="p">(</span><span class="n">PywrNode</span><span class="p">):</span>
     <span class="o">...</span>
 
-<span class="k">def</span> <span class="nf">rule_node_name_min_len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">6</span><span class="p">,</span> <span class="s2">&quot;Node name too short&quot;</span>
+    <span class="k">def</span> <span class="nf">rule_node_name_min_len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">6</span><span class="p">,</span> <span class="s2">&quot;Node name too short&quot;</span>
 </pre></div>
 </div>
 <p>If a rule returns indeed any value, including <code class="docutils literal notranslate"><span class="pre">None</span></code>, it is deemed to have <cite>passed</cite>.
@@ -162,9 +162,9 @@ nodes which have a type equal to <cite>storage</cite>.</p>
 <span class="k">class</span> <span class="nc">MyPywrNode</span><span class="p">(</span><span class="n">PywrNode</span><span class="p">):</span>
     <span class="o">...</span>
 
-<span class="nd">@match</span><span class="p">(</span><span class="s2">&quot;storage&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">rule_node_name_min_len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">6</span><span class="p">,</span> <span class="s2">&quot;Node name too short&quot;</span>
+    <span class="nd">@match</span><span class="p">(</span><span class="s2">&quot;storage&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">rule_node_name_min_len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">6</span><span class="p">,</span> <span class="s2">&quot;Node name too short&quot;</span>
 </pre></div>
 </div>
 <p>If no <code class="xref py py-func docutils literal notranslate"><span class="pre">match()</span></code> decorator is present on a rule, that rule is applied to <em>every</em>
@@ -266,7 +266,7 @@ the required module-level variables as described above.</p></li>
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
   
-<jinja2.runtime.BlockReference object at 0x7fd835259dc0>
+<jinja2.runtime.BlockReference object at 0x7f665b7b1ee0>
 <style>
 #ps-build-block {
   width: 100%;

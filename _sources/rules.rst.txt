@@ -57,8 +57,8 @@ specified minimum length:
     class MyPywrNode(PywrNode):
         ...
 
-    def rule_node_name_min_len(self):
-        assert len(self.name) > 6, "Node name too short"
+        def rule_node_name_min_len(self):
+            assert len(self.name) > 6, "Node name too short"
 
 If a rule returns indeed any value, including ``None``, it is deemed to have `passed`.
 If a rule raises any form of exception, it has `failed` and an error instance is
@@ -91,9 +91,9 @@ nodes which have a type equal to `storage`.
     class MyPywrNode(PywrNode):
         ...
 
-    @match("storage")
-    def rule_node_name_min_len(self):
-        assert len(self.name) > 6, "Node name too short"
+        @match("storage")
+        def rule_node_name_min_len(self):
+            assert len(self.name) > 6, "Node name too short"
 
 If no :func:`match` decorator is present on a rule, that rule is applied to *every*
 instance of the class on which it is defined.
