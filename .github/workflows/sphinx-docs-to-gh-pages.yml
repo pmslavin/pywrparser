@@ -3,8 +3,8 @@ name: sphinx-docs-to-gh-pages
 on:
   workflow_run:
     workflows: ["CI"]
-    types:
-      - completed
+    types: [completed]
+    branches: [master]
 
 jobs:
 
@@ -21,7 +21,7 @@ jobs:
           fetch-depth: 1
 
       - name: Set up Python 3.9
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
         with:
           python-version: 3.9
 
