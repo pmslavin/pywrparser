@@ -4,7 +4,6 @@ import os
 
 from rich.align import Align
 from rich.console import Console
-from rich.json import JSON
 from rich.padding import Padding
 from rich.panel import Panel
 
@@ -27,10 +26,10 @@ def write_results(filename, errors, warnings, use_emoji=True):
     f" [bold yellow]{warning_total} warning{warn_plural}", style="blue"), align="center")
     console.print(header)
 
-    net_all = all.pop("network",[])
+    net_all = all.pop("network", [])
 
     if net_all:
-        console.rule(f"[bold green]Network", style="blue")
+        console.rule("[bold green]Network", style="blue")
         console.print()
     for eow in net_all:
         if isinstance(eow, Warning):
@@ -40,7 +39,7 @@ def write_results(filename, errors, warnings, use_emoji=True):
             row = "rule"
             prefix = RULE_EMOJI if use_emoji else "[FAILURE]"
 
-        line = Padding(f"{prefix}  Network {row} -> [white italic]{eow}[/white italic]", (0,2))
+        line = Padding(f"{prefix}  Network {row} -> [white italic]{eow}[/white italic]", (0, 2))
         console.print(line)
     console.print()
 

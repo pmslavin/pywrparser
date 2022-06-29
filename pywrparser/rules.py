@@ -35,8 +35,8 @@ def get_ruleset_module(key):
 def describe_rulesets():
     modules = get_rulesets()
 
-    output = f"Available Rulesets:\n"
-    for idx, (key, mod) in enumerate(modules.items(),1):
+    output = "Available Rulesets:\n"
+    for idx, (key, mod) in enumerate(modules.items(), 1):
         output += f"[{idx}]\tName: '{mod['name']}'  Version: {mod['version']}"
         output += f"  Key: {key}\n"
         output += f"{mod['description']}\n\n"
@@ -86,4 +86,3 @@ class Ruleset():
     def __init__(self):
         module = get_ruleset_module(ACTIVE_RULESET_KEY)
         self.typemap = identify_types(module)
-

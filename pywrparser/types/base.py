@@ -1,13 +1,10 @@
 import json
 
+from abc import ABC
 from typing import Dict
 
-from abc import (
-    ABC,
-    abstractmethod
-)
-
 from pywrparser.utils import PywrTypeValidator
+
 
 class PywrType(ABC):
 

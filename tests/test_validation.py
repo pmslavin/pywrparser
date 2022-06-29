@@ -8,7 +8,7 @@ def test_errors_present(invalid_network):
     """
     An invalid network has some errors
     """
-    assert invalid_network.has_errors == True
+    assert invalid_network.has_errors is True
 
 
 def test_metadata(invalid_network):

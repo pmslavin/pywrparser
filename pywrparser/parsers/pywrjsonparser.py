@@ -7,7 +7,6 @@ from collections import (
 from functools import partial
 
 from pywrparser import rules
-
 from pywrparser.types import (
     PywrTimestepper,
     PywrMetadata,
@@ -18,13 +17,10 @@ from pywrparser.types import (
     PywrParameter,
     PywrRecorder,
 )
-
 from pywrparser.types.exceptions import (
     PywrParserException,
-    PywrTypeValidationError,
     PywrNetworkValidationError
 )
-
 from pywrparser.utils import raiseorpush
 
 DUP_KEY_BASE = "__PywrParser_Duplicate_Key_{pattern}__"
@@ -83,7 +79,7 @@ class PywrJSONParser():
             ruleset (str): The key of a ruleset whose rules are to be applied
         """
         rulesets = rules.get_rulesets()
-        if not ruleset in rulesets:
+        if ruleset not in rulesets:
             raise PywrParserException(f"No ruleset with key: {ruleset}")
 
         import importlib
@@ -148,7 +144,7 @@ class PywrJSONParser():
             self.timestepper = PywrTimestepper(self.src["timestepper"])
             cc.capture_warnings(self.timestepper)
 
-        for scenario in self.src.get("scenarios",[]):
+        for scenario in self.src.get("scenarios", []):
             with component_exc_capture("scenarios") as cc:
                 scen = PywrScenario(scenario)
                 cc.capture_warnings(self.scen)
@@ -160,7 +156,7 @@ class PywrJSONParser():
                 cc.capture_warnings(t)
                 self.tables[t.name] = t
 
-        for param_name, param_data in self.src.get("parameters",{}).items():
+        for param_name, param_data in self.src.get("parameters", {}).items():
             if m := re.search(DUP_KEY_RE, param_name):
                 span_end = m.span()[1]
                 raw_name = param_name[span_end+1:]
@@ -170,7 +166,7 @@ class PywrJSONParser():
                 cc.capture_warnings(p)
                 self.parameters[p.name] = p
 
-        for rec_name, rec_data in self.src.get("recorders",{}).items():
+        for rec_name, rec_data in self.src.get("recorders", {}).items():
             if m := re.search(DUP_KEY_RE, rec_name):
                 span_end = m.span()[1]
                 raw_name = rec_name[span_end+1:]

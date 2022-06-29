@@ -14,7 +14,7 @@ from pywrparser.display import (
 from pywrparser.types.network import PywrNetwork
 
 
-def configure_args():
+def configure_args(args):
     parser = argparse.ArgumentParser(
         usage="%(prog)s [-f <filename> | -l] [OPTIONS]",
         epilog="For further information, please visit https://pmslavin.github.io/pywrparser",
@@ -107,11 +107,11 @@ def configure_args():
         help="Display the version of %(prog)s"
     )
 
-    if len(sys.argv) == 1:
+    if len(args) == 0:
         parser.print_help()
         sys.exit(0)
 
-    return parser.parse_args()
+    return parser.parse_args(args)
 
 
 def handle_args(args):
@@ -127,7 +127,7 @@ def handle_args(args):
         sys.exit(0)
 
     if args.list_rulesets:
-        print(rules.describe_rulesets(),end="")
+        print(rules.describe_rulesets(), end="")
         sys.exit(0)
 
     if ruleset := args.use_ruleset:
@@ -176,7 +176,7 @@ def handle_args(args):
 
 
 def run():
-    args = configure_args()
+    args = configure_args(sys.argv[1:])
     handle_args(args)
 
 

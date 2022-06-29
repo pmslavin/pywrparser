@@ -1,6 +1,5 @@
 from pywrparser.types.node import PywrNode
 from pywrparser.types.parameter import PywrParameter
-from pywrparser.utils import match
 
 __key__ = "strict"
 __ruleset_name__ = "Strict Ruleset"

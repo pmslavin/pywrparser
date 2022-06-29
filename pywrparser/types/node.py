@@ -35,7 +35,7 @@ class PywrNode(PywrType):
     def as_dict(self):
         ret = copy.deepcopy(self.data)
 
-        for k,v in ret.items():
+        for k, v in ret.items():
             if isinstance(v, PywrType):
                 ret[k] = v.as_dict()
 

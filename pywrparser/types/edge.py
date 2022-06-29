@@ -1,5 +1,4 @@
 from .base import PywrType
-from pywrparser.types.exceptions import PywrTypeValidationError
 
 
 class PywrEdge(PywrType):
