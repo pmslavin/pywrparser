@@ -14,13 +14,26 @@ Usage of the :class:`pywrparser` library is described in :doc:`library` section.
 Installation
 ============
 
-PywrParser can be installed with the `Poetry <https://python-poetry.org>`_ command:
+PywrParser can be installed with either `Poetry <https://python-poetry.org>`_ or ``pip``:
 
 .. code-block:: console
 
     $ git clone git@github.com:pmslavin/pywrparser.git
     $ cd pywrparser
     $ poetry install
+
+Or using ``pip``:
+
+.. code-block:: console
+
+    $ git clone git@github.com:pmslavin/pywrparser.git
+    $ cd pywrparser
+    $ pip install .
+
+To display the ``pywrparser`` usage guide:
+
+.. code-block:: console
+
     $ pywrparser -h
     usage: pywrparser [-f <filename> | -l] [OPTIONS]
 
