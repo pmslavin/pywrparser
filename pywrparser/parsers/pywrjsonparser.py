@@ -176,22 +176,29 @@ class PywrJSONParser():
                 cc.capture_warnings(r)
                 self.recorders[r.name] = r
 
-        for node in self.src["nodes"]:
-            with component_exc_capture("nodes") as cc:
-                n = PywrNode(node)
-                cc.capture_warnings(n)
+        try:
+            for node in self.src["nodes"]:
+                with component_exc_capture("nodes") as cc:
+                    n = PywrNode(node)
+                    cc.capture_warnings(n)
 
-                if n.name in seen_nodes:
-                    self.errors["network"].append(PywrNetworkValidationError(f"Duplicate node name <{n.name}>"))
-                else:
-                    self.nodes[n.name] = n
-                    seen_nodes.add(n.name)
+                    if n.name in seen_nodes:
+                        self.errors["network"].append(PywrNetworkValidationError(f"Duplicate node name <{n.name}>"))
+                    else:
+                        self.nodes[n.name] = n
+                        seen_nodes.add(n.name)
+        except KeyError:
+            self.errors["network"].append(PywrNetworkValidationError(f"Network contains no nodes"))
 
-        for edge in self.src["edges"]:
-            with component_exc_capture("edges") as cc:
-                e = PywrEdge(edge)
-                cc.capture_warnings(e)
-                self.edges.append(e)
+
+        try:
+            for edge in self.src["edges"]:
+                with component_exc_capture("edges") as cc:
+                    e = PywrEdge(edge)
+                    cc.capture_warnings(e)
+                    self.edges.append(e)
+        except KeyError:
+            self.errors["network"].append(PywrNetworkValidationError(f"Network contains no edges"))
 
         if not allow_duplicate_edges and self.has_duplicate_edges:
             for edge in self.duplicate_edges:

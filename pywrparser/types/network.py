@@ -1,3 +1,4 @@
+import io
 import logging
 
 from collections import Counter
@@ -64,8 +65,11 @@ class PywrNetwork():
 
         """
         try:
-            with open(filename, 'r') as fp:
-                json_src = fp.read()
+            if isinstance(filename, io.StringIO):
+                json_src = filename.read()
+            else:
+                with open(filename, 'r') as fp:
+                    json_src = fp.read()
         except OSError as err:
             err_txt = f"Unable to read input file: {err}"
             log.error(err_txt)

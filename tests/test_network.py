@@ -2,6 +2,8 @@ import json
 import pytest
 
 from pywrparser.types.network import PywrNetwork
+from pywrparser.types.parameter import PywrParameter
+from pywrparser.types.recorder import PywrRecorder
 
 
 def test_network_from_file_is_valid(valid_network_file):
@@ -44,3 +46,34 @@ def test_network_as_json(valid_network_file):
     json_src = network.as_json()
     dict_from_json = json.loads(json_src)
     assert dict_from_json == network.as_dict()
+
+def test_network_title(valid_network_file):
+    network, errors, warnings = PywrNetwork.from_file(valid_network_file)
+    assert network.title
+
+def test_network_description(valid_network_file):
+    network, errors, warnings = PywrNetwork.from_file(valid_network_file)
+    assert network.metadata
+
+def test_network_attach_parameters(valid_network_file):
+    network, errors, warnings = PywrNetwork.from_file(valid_network_file)
+    node = network.nodes["Node_1"]
+    assert isinstance(node.data["max_flow"], str)
+    network.attach_parameters()
+    assert isinstance(node.data["max_flow"], PywrParameter)
+
+def test_network_detach_parameters(valid_network_file):
+    network, errors, warnings = PywrNetwork.from_file(valid_network_file)
+    node = network.nodes["Node_1"]
+    assert isinstance(node.data["max_flow"], str)
+    network.attach_parameters()
+    assert isinstance(node.data["max_flow"], PywrParameter)
+    network.detach_parameters()
+    assert isinstance(node.data["max_flow"], str)
+
+def test_network_add_recorder_references(valid_network_file):
+    network, errors, warnings = PywrNetwork.from_file(valid_network_file)
+    node = network.nodes["Node_1"]
+    assert "recorder" not in node.data
+    network.add_recorder_references()
+    assert "recorder" in node.data

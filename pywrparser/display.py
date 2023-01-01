@@ -1,4 +1,5 @@
 import datetime
+import io
 import json
 import os
 
@@ -95,6 +96,8 @@ def count_errors_warnings(errors, warnings):
 def results_as_dict(filename, errors, warnings, include_digest=True):
     error_total, warning_total = count_errors_warnings(errors, warnings)
 
+    if isinstance(filename, io.StringIO):
+        filename = "stdin"
     fbasename = os.path.basename(filename)
     from pywrparser import rules
     ruleset = rules.get_ruleset_module(rules.ACTIVE_RULESET_KEY)
@@ -129,5 +132,5 @@ def results_as_dict(filename, errors, warnings, include_digest=True):
     return ret
 
 
-def results_as_json(filename, errors, warnings, include_digest=True):
-    return json.dumps(results_as_dict(filename, errors, warnings, include_digest), indent=2)
+def results_as_json(filename, errors, warnings, include_digest=True, indent=0):
+    return json.dumps(results_as_dict(filename, errors, warnings, include_digest), indent=indent)

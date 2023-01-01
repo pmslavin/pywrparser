@@ -21,7 +21,7 @@ class StrictNode(PywrNode):
             assert not self.name.lower().startswith(' '), "StrictNode name may not begin with space character"
 
     def rule_node_name_min_len(self):
-        assert self.name and len(self.name) > 4, "Node name too short, at least four chars required"
+        assert self.name and len(self.name) > 1, "Node name too short, at least four chars required"
 
 
 class StrictParameter(PywrParameter):

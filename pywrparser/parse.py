@@ -16,7 +16,7 @@ from pywrparser.types.network import PywrNetwork
 
 def configure_args(args):
     parser = argparse.ArgumentParser(
-        usage="%(prog)s [-f <filename> | -l] [OPTIONS]",
+        usage="%(prog)s [-f <filename> | -s | -l] [OPTIONS]",
         epilog="For further information, please visit https://pmslavin.github.io/pywrparser",
         description="A toolkit for parsing and validating Pywr models."
     )
@@ -27,6 +27,10 @@ def configure_args(args):
         help="File containing a Pywr network in JSON format",
         type=str,
         default=None)
+    meg.add_argument("-s", "--stdin",
+        action="store_true",
+        default=False,
+        help="Read Pywr JSON input from stdin")
     meg.add_argument("-l", "--list-rulesets",
         action="store_true",
         default=False,
@@ -139,6 +143,11 @@ def handle_args(args):
     if args.no_colour:
         console.no_color = True
 
+    if args.stdin:
+        import io
+        include_digest = False
+        filename = io.StringIO(sys.stdin.read())
+
     network, errors, warnings = PywrNetwork.from_file(filename,
                                     raise_on_parser_error=raise_error,
                                     raise_on_parser_warning=raise_warning,
@@ -162,6 +171,9 @@ def handle_args(args):
         if args.terse_report:
             report = network.report()
             console.print(report)
+        if args.json_output:
+            report = results_as_json(filename, errors, warnings, include_digest=include_digest)
+            print(report, end='')
         else:
             report = network.verbose_report()
             file_txt = f"[green]File:[/green] [bold blue]{os.path.basename(args.filename)}[/bold blue]"

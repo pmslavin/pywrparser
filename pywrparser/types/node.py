@@ -51,7 +51,7 @@ class PywrNode(PywrType):
         assert "type" in self.data, "Node does not define type"
 
     def warn_node_name_min_len(self):
-        assert self.name and len(self.name) > 6, "Node name too short"
+        assert self.name and len(self.name) > 2, "Node name too short"
 
     """ Type-specific rules """
 

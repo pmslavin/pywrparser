@@ -76,7 +76,7 @@
   }
  },
  "recorders": {
-  "Node_1 recorder": {
+  "__Node_1__:recorder": {
    "type": "ValidRecorderType",
    "node": "Node_1"
   },
