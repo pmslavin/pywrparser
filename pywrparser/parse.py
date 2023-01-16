@@ -168,6 +168,9 @@ def handle_args(args):
     if network:
         network.add_parameter_references()
         network.add_recorder_references()
+        network.promote_inline_parameters()
+        network.attach_reference_parameters()
+        network.detach_parameters()
         if args.terse_report:
             report = network.report()
             console.print(report)

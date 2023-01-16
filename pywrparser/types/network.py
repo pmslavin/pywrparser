@@ -185,46 +185,56 @@ class PywrNetwork():
         pass
 
 
-    def promote_parameters(self):
+    def promote_inline_parameters(self):
         """
         Promotes strings which reference parameters and inline parameter
         definitions to instances of :class:`PywrParameter`.
 
-            1. Any values of attrs in a node which resolve to a global
-               parameter are replaced with the instance of that parameter
-               and the parameter is removed from the set of global parameters.
-
-            2. Any values of attrs in a node which can be interpreted as
-               an inline (i.e. dict) parameter definition are instantiated
-               as parameters and the attr value replaced with the instance.
+        Any values of attrs in a node which can be interpreted as
+        an inline (i.e. dict) parameter definition are instantiated
+        as parameters and the attr value replaced with the instance.
         """
         exclude = ("name", "type")
         for node in self.nodes.values():
             for attr, value in node.data.items():
-                if attr.lower() in exclude:
-                    """ A param could exist with the same name as a node,
-                        leading to node["name"] = param
-                    """
-                    continue
-                if isinstance(value, str):
-                    param = self.parameters.get(value)
-                    if not param:
-                        continue
-                    print(f"Attaching global param ref: {value}")
-                    node.data[attr] = param
-                    del self.parameters[value]
-                elif isinstance(value, dict):
+                if isinstance(value, dict):
                     type_key = value.get("type")
                     if not type_key or "recorder" in type_key.lower():
                         continue
-                    param_name = canonical_name(node.name, attr)
-                    print(f"Creating inline param: {param_name}")
+                    param_name = value.get("name")
+                    if not param_name or param_name in self.parameters:
+                        param_name = canonical_name(node.name, attr)
+                    #print(f"Creating inline param: {param_name}")
                     if param_name in self.parameters:
                         # Node inline param has same name as global param
                         raise ValueError("inline dups global param")
                     param = PywrParameter(param_name, value)
                     node.data[attr] = param
 
+
+    def attach_reference_parameters(self):
+        """
+        Promotes strings which reference parameters and inline parameter
+        definitions to instances of :class:`PywrParameter`.
+
+        Any values of attrs in a node which resolve to a global parameter
+        are replaced with the instance of that parameter.
+        """
+        exclude = ("name", "type")
+        for node in self.nodes.values():
+            for attr, value in node.data.items():
+                if attr.lower() in exclude:
+                    """
+                    A param could exist with the same name as a node,
+                    leading to node["name"] = param
+                    """
+                    continue
+                if isinstance(value, str):
+                    param = self.parameters.get(value)
+                    if not param:
+                        continue
+                    #print(f"Attaching global param ref: {value}")
+                    node.data[attr] = param
 
 
     def __add_component_references(self, component=None):
@@ -314,10 +324,12 @@ class PywrNetwork():
             for attr, value in node.data.items():
                 if isinstance(value, PywrParameter):
                     if value.name in self.parameters:
-                        # Attr param name duplicates global param name
-                        raise ValueError("Attr param name duplicates global param name")
-                    self.parameters[value.name] = value
-                    node.data[attr] = value.name
+                        if value is not self.parameters[value.name]:
+                            # Attr param name duplicates global param name
+                            raise ValueError("Attr param name duplicates global param name")
+                    else:
+                        self.parameters[value.name] = value
+                        node.data[attr] = value.name
 
 
     def detach_recorders(self):

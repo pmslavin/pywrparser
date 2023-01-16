@@ -55,18 +55,18 @@ def test_network_description(valid_network_file):
     network, errors, warnings = PywrNetwork.from_file(valid_network_file)
     assert network.metadata
 
-def test_network_promote_parameters(valid_network_file):
+def test_network_promote_inline_parameters(valid_network_file):
     network, errors, warnings = PywrNetwork.from_file(valid_network_file)
     node = network.nodes["Node_1"]
-    assert isinstance(node.data["max_flow"], str)
-    network.promote_parameters()
+    assert isinstance(node.data["max_flow"], dict)
+    network.promote_inline_parameters()
     assert isinstance(node.data["max_flow"], PywrParameter)
 
 def test_network_detach_parameters(valid_network_file):
     network, errors, warnings = PywrNetwork.from_file(valid_network_file)
     node = network.nodes["Node_1"]
-    assert isinstance(node.data["max_flow"], str)
-    network.promote_parameters()
+    assert isinstance(node.data["max_flow"], dict)
+    network.promote_inline_parameters()
     assert isinstance(node.data["max_flow"], PywrParameter)
     network.detach_parameters()
     assert isinstance(node.data["max_flow"], str)

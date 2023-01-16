@@ -22,7 +22,12 @@
   {
    "name": "Node_1",
    "type": "generator",
-   "max_flow": "__Node_1__:max_flow",
+   "max_flow": {
+    "name": "inline_max_flow_Node_1",
+    "type": "constant",
+    "value": 500,
+    "is_variable": false
+   },
    "cost": 0.1,
    "comment": "Node_1"
    },
@@ -46,12 +51,28 @@
    "max_flow": "__Node_4__:max_flow",
    "cost": 0.1,
    "comment": "Node_4"
+  },
+  {
+   "name": "Node_5",
+   "type": "load",
+   "max_flow": "Shared_Parameter",
+   "cost": 0.1,
+   "comment": "Node_5"
+  },
+  {
+   "name": "Node_6",
+   "type": "load",
+   "max_flow": "Shared_Parameter",
+   "cost": 0.1,
+   "comment": "Node_6"
   }
  ],
  "edges": [
    ["Node_1", "Node_3"],
    ["Node_2", "Node_3"],
-   ["Node_3", "Node_4"]
+   ["Node_3", "Node_4"],
+   ["Node_4", "Node_5"],
+   ["Node_4", "Node_6"]
  ],
  "parameters": {
   "__Node_1__:max_flow": {
@@ -72,6 +93,11 @@
   "__Node_4__:max_flow": {
    "type": "constant",
    "value": 1400,
+   "is_variable": false
+  },
+  "Shared_Parameter": {
+   "type": "constant",
+   "value": 700,
    "is_variable": false
   }
  },
