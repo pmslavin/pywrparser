@@ -61,7 +61,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.from_json"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.from_json()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.as_dict"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.as_dict()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.as_json"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.as_json()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.promote_parameters"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.promote_parameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.promote_inline_parameters"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.promote_inline_parameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.attach_reference_parameters"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.attach_reference_parameters()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.add_parameter_references"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.add_parameter_references()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.add_recorder_references"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.add_recorder_references()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.detach_parameters"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.detach_parameters()</span></code></a></li>
@@ -195,20 +196,22 @@ instance.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="pywrparser.types.network.PywrNetwork.promote_parameters">
-<span class="sig-name descname"><span class="pre">promote_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pywrparser.types.network.PywrNetwork.promote_parameters" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="pywrparser.types.network.PywrNetwork.promote_inline_parameters">
+<span class="sig-name descname"><span class="pre">promote_inline_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pywrparser.types.network.PywrNetwork.promote_inline_parameters" title="Permalink to this definition"></a></dt>
 <dd><p>Promotes strings which reference parameters and inline parameter
 definitions to instances of <code class="xref py py-class docutils literal notranslate"><span class="pre">PywrParameter</span></code>.</p>
-<blockquote>
-<div><ol class="arabic simple">
-<li><p>Any values of attrs in a node which resolve to a global
-parameter are replaced with the instance of that parameter
-and the parameter is removed from the set of global parameters.</p></li>
-<li><p>Any values of attrs in a node which can be interpreted as
+<p>Any values of attrs in a node which can be interpreted as
 an inline (i.e. dict) parameter definition are instantiated
-as parameters and the attr value replaced with the instance.</p></li>
-</ol>
-</div></blockquote>
+as parameters and the attr value replaced with the instance.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pywrparser.types.network.PywrNetwork.attach_reference_parameters">
+<span class="sig-name descname"><span class="pre">attach_reference_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pywrparser.types.network.PywrNetwork.attach_reference_parameters" title="Permalink to this definition"></a></dt>
+<dd><p>Promotes strings which reference parameters and inline parameter
+definitions to instances of <code class="xref py py-class docutils literal notranslate"><span class="pre">PywrParameter</span></code>.</p>
+<p>Any values of attrs in a node which resolve to a global parameter
+are replaced with the instance of that parameter.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -306,7 +309,7 @@ in some enviroments.</p>
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
   
-<jinja2.runtime.BlockReference object at 0x7f4f3b5c3730>
+<jinja2.runtime.BlockReference object at 0x7fd58d171820>
 <style>
 #ps-build-block {
   width: 100%;
