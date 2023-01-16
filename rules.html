@@ -15,7 +15,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -76,8 +78,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Rules, Warnings, and Rulesets</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Rules, Warnings, and Rulesets</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/rules.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -88,9 +90,9 @@
            <div itemprop="articleBody">
              
   <section id="rules-warnings-and-rulesets">
-<h1>Rules, Warnings, and Rulesets<a class="headerlink" href="#rules-warnings-and-rulesets" title="Permalink to this headline"></a></h1>
+<h1>Rules, Warnings, and Rulesets<a class="headerlink" href="#rules-warnings-and-rulesets" title="Permalink to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
 <dl>
 <dt>Rules</dt><dd><p>Methods defined on Pywr component types (<code class="xref py py-class docutils literal notranslate"><span class="pre">PywrNode</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PywrParameter</span></code>, etc.)
 which perform arbitrary tests on the data defining that type.</p>
@@ -117,10 +119,10 @@ applied to a network depending on the context in which the parser operates.</p>
 </dl>
 </section>
 <section id="defining-rules-warnings-and-rulesets">
-<h2>Defining Rules, Warnings, and Rulesets<a class="headerlink" href="#defining-rules-warnings-and-rulesets" title="Permalink to this headline"></a></h2>
+<h2>Defining Rules, Warnings, and Rulesets<a class="headerlink" href="#defining-rules-warnings-and-rulesets" title="Permalink to this heading"></a></h2>
 </section>
 <section id="rules-and-warnings">
-<h2>Rules and Warnings<a class="headerlink" href="#rules-and-warnings" title="Permalink to this headline"></a></h2>
+<h2>Rules and Warnings<a class="headerlink" href="#rules-and-warnings" title="Permalink to this heading"></a></h2>
 <p>Both <code class="docutils literal notranslate"><span class="pre">rules</span></code> and <code class="docutils literal notranslate"><span class="pre">warnings</span></code> are defined as methods on the class representing the
 component which they validate.</p>
 <p>The method is defined using a structured method name, and an optional <code class="xref py py-func docutils literal notranslate"><span class="pre">match()</span></code>
@@ -149,7 +151,7 @@ event of a warning method failing, the parser logs a warning instance and this d
 not preclude creation of the corresponding component instance or the network as a whole.</p>
 </section>
 <section id="the-match-decorator">
-<h2>The <code class="xref py py-func docutils literal notranslate"><span class="pre">match()</span></code> decorator<a class="headerlink" href="#the-match-decorator" title="Permalink to this headline"></a></h2>
+<h2>The <code class="xref py py-func docutils literal notranslate"><span class="pre">match()</span></code> decorator<a class="headerlink" href="#the-match-decorator" title="Permalink to this heading"></a></h2>
 <p>The <code class="xref py py-func docutils literal notranslate"><span class="pre">match()</span></code> decorator is defined in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">pywrparser.utils</span></code> module and can
 be applied to a rule or warning to limit the applicability of that rule or warning
 to instances of Pywr components which contain a <code class="docutils literal notranslate"><span class="pre">type</span></code> key equal to that specified
@@ -184,7 +186,7 @@ string “interpolated”, the following arguments to the <code class="xref py p
 </div>
 </section>
 <section id="rulesets">
-<h2>Rulesets<a class="headerlink" href="#rulesets" title="Permalink to this headline"></a></h2>
+<h2>Rulesets<a class="headerlink" href="#rulesets" title="Permalink to this heading"></a></h2>
 <p>A <code class="docutils literal notranslate"><span class="pre">ruleset</span></code> is simply a module in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">pywrparser.rulesets</span></code> package which defines
 custom component classes derived from the base types:</p>
 <ul class="simple">
@@ -234,7 +236,7 @@ the required module-level variables as described above.</p></li>
 </ol>
 <p>The ruleset will then be visible in the output from the command line utility’s
 <code class="docutils literal notranslate"><span class="pre">--list-rulesets</span></code> option…</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pywrparser --list-rulesets
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pywrparser<span class="w"> </span>--list-rulesets
 <span class="go">Available Rulesets:</span>
 
 <span class="go">[1] Name: &#39;Strict Ruleset&#39;  Version: 0.1.0  Key: strict</span>
@@ -242,7 +244,7 @@ the required module-level variables as described above.</p></li>
 </pre></div>
 </div>
 <p>…and may be applied to input using the <code class="docutils literal notranslate"><span class="pre">--use-ruleset</span> <span class="pre">&lt;key&gt;</span></code> option…</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pywrparser --use-ruleset strict ...
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pywrparser<span class="w"> </span>--use-ruleset<span class="w"> </span>strict<span class="w"> </span>...
 </pre></div>
 </div>
 </section>
@@ -266,7 +268,7 @@ the required module-level variables as described above.</p></li>
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
   
-<jinja2.runtime.BlockReference object at 0x7f87124a7610>
+<jinja2.runtime.BlockReference object at 0x7f4f3b5eddf0>
 <style>
 #ps-build-block {
   width: 100%;

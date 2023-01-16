@@ -15,7 +15,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -75,8 +77,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Basic Usage</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Basic Usage</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/usage.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -87,9 +89,9 @@
            <div itemprop="articleBody">
              
   <section id="basic-usage">
-<h1>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline"></a></h1>
+<h1>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
 <p>PywrParser provides both a command-line utility for validating Pywr JSON models,
 and a Python library which may be used to parse and manipulate Pywr networks.</p>
 <p>This section provides details of the command-line utility.</p>
@@ -97,21 +99,21 @@ and a Python library which may be used to parse and manipulate Pywr networks.</p
 </section>
 </section>
 <section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h1>
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h1>
 <p>PywrParser can be installed with either <a class="reference external" href="https://python-poetry.org">Poetry</a> or <code class="docutils literal notranslate"><span class="pre">pip</span></code>:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git clone git@github.com:pmslavin/pywrparser.git
-<span class="gp">$ </span><span class="nb">cd</span> pywrparser
-<span class="gp">$ </span>poetry install
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:pmslavin/pywrparser.git
+<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>pywrparser
+<span class="gp">$ </span>poetry<span class="w"> </span>install
 </pre></div>
 </div>
 <p>Or using <code class="docutils literal notranslate"><span class="pre">pip</span></code>:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git clone git@github.com:pmslavin/pywrparser.git
-<span class="gp">$ </span><span class="nb">cd</span> pywrparser
-<span class="gp">$ </span>pip install .
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:pmslavin/pywrparser.git
+<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>pywrparser
+<span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>.
 </pre></div>
 </div>
 <p>To display the <code class="docutils literal notranslate"><span class="pre">pywrparser</span></code> usage guide:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pywrparser -h
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pywrparser<span class="w"> </span>-h
 <span class="go">usage: pywrparser [-f &lt;filename&gt; | -l] [OPTIONS]</span>
 
 <span class="go">A toolkit for parsing and validating Pywr models.</span>
@@ -144,7 +146,7 @@ and a Python library which may be used to parse and manipulate Pywr networks.</p
 </pre></div>
 </div>
 <section id="validation">
-<h2>Validation<a class="headerlink" href="#validation" title="Permalink to this headline"></a></h2>
+<h2>Validation<a class="headerlink" href="#validation" title="Permalink to this heading"></a></h2>
 <p>The basic operation of the <code class="xref py py-class docutils literal notranslate"><span class="pre">pywrparser</span></code> command validates a Pywr JSON network,
 and returns either:</p>
 <ul class="simple">
@@ -153,7 +155,7 @@ when parsing the network</p></li>
 <li><p>A report detailing the errors that prevented parsing</p></li>
 </ul>
 <p>For example…</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pywparser --filename PywrNetworkWithErrors.json
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pywparser<span class="w"> </span>--filename<span class="w"> </span>PywrNetworkWithErrors.json
 </pre></div>
 </div>
 <p>..results in the display of a parsing report. This report provides details of any
@@ -166,7 +168,7 @@ in the <cite>display options</cite> section of the output from <code class="docu
 <p>A <em>valid</em> network is one for which neither errors nor warnings are generated.
 Parsing a valid network results in the display of a brief report describing
 characteristics of the network…</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pywrparser --filename PywrValidNetwork.json
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pywrparser<span class="w"> </span>--filename<span class="w"> </span>PywrValidNetwork.json
 <span class="go">File: PywrValidNetwork.json</span>
 <span class="go">sha256: c78b1c3ba311719cabc52dca32b4075a46c926c362b68d0aaa5696aebbad7318</span>
 <span class="go">Title: A simple Pywr energy model demonstration</span>
@@ -181,7 +183,7 @@ characteristics of the network…</p>
 SHA256 digest, which may improve performance for large files on slow systems.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">--terse-report</span></code> option causes only a summary of the numbers of each component
 defined in that valid network to be displayed, for example…</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pywrparser --filename PywrValidNetwork.json --terse-report
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pywrparser<span class="w"> </span>--filename<span class="w"> </span>PywrValidNetwork.json<span class="w"> </span>--terse-report
 <span class="go">{&#39;nodes&#39;: 525, &#39;edges&#39;: 563, &#39;parameters&#39;: 247, &#39;recorders&#39;: 225}</span>
 </pre></div>
 </div>
@@ -189,7 +191,7 @@ defined in that valid network to be displayed, for example…</p>
 <p>Similarly, the <code class="docutils literal notranslate"><span class="pre">--json-output</span></code> option provides a full parsing report as json,
 including any errors and warnings generated during parsing. The top-level
 <code class="docutils literal notranslate"><span class="pre">parse_results</span></code> key in this JSON output includes a summary of the parsing output.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pywrparser --filename PywrValidNetwork.json --json-output
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pywrparser<span class="w"> </span>--filename<span class="w"> </span>PywrValidNetwork.json<span class="w"> </span>--json-output
 <span class="go">{</span>
 <span class="go">  &quot;parse_results&quot;: {</span>
 <span class="go">    &quot;file&quot;: {</span>
@@ -225,7 +227,7 @@ including any errors and warnings generated during parsing. The top-level
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
   
-<jinja2.runtime.BlockReference object at 0x7f8712286f70>
+<jinja2.runtime.BlockReference object at 0x7f4f3b7a54c0>
 <style>
 #ps-build-block {
   width: 100%;

@@ -15,7 +15,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -77,8 +79,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>The <cite>pywrparser</cite> Library</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">The <cite>pywrparser</cite> Library</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/library.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -89,19 +91,25 @@
            <div itemprop="articleBody">
              
   <section id="the-pywrparser-library">
-<h1>The <cite>pywrparser</cite> Library<a class="headerlink" href="#the-pywrparser-library" title="Permalink to this headline"></a></h1>
+<h1>The <cite>pywrparser</cite> Library<a class="headerlink" href="#the-pywrparser-library" title="Permalink to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="network.html">The <code class="xref py py-class docutils literal notranslate"><span class="pre">PywrNetwork</span></code> class</a></li>
-<li class="toctree-l1"><a class="reference internal" href="parser.html">The <code class="xref py py-class docutils literal notranslate"><span class="pre">PywrJSONParser</span></code> class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="network.html">The <code class="xref py py-class docutils literal notranslate"><span class="pre">PywrNetwork</span></code> class</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="network.html#pywrparser.types.network.PywrNetwork"><code class="docutils literal notranslate"><span class="pre">PywrNetwork</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="parser.html">The <code class="xref py py-class docutils literal notranslate"><span class="pre">PywrJSONParser</span></code> class</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="parser.html#pywrparser.parsers.PywrJSONParser"><code class="docutils literal notranslate"><span class="pre">PywrJSONParser</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
 </section>
 <section id="usage">
-<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h1>
+<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
 <p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">PywrNetwork</span></code> class provides a simple interface for Pywr JSON
 to be parsed, validated, and represented as a Python object.</p>
 <p>Two factory methods are provided to create a <code class="xref py py-class docutils literal notranslate"><span class="pre">PywrNetwork</span></code> instance:</p>
@@ -124,7 +132,7 @@ or this will be <cite>None</cite> if no warnings were generated. As such, either
 or <code class="docutils literal notranslate"><span class="pre">errors</span></code> will be <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">None</span></code>, but not both.</p>
 </section>
 <section id="the-errors-and-warnings-objects">
-<h2>The <code class="docutils literal notranslate"><span class="pre">errors</span></code> and <code class="docutils literal notranslate"><span class="pre">warnings</span></code> objects<a class="headerlink" href="#the-errors-and-warnings-objects" title="Permalink to this headline"></a></h2>
+<h2>The <code class="docutils literal notranslate"><span class="pre">errors</span></code> and <code class="docutils literal notranslate"><span class="pre">warnings</span></code> objects<a class="headerlink" href="#the-errors-and-warnings-objects" title="Permalink to this heading"></a></h2>
 <p>When present, the <code class="docutils literal notranslate"><span class="pre">errors</span></code> and <code class="docutils literal notranslate"><span class="pre">warnings</span></code> objects returned by the <code class="xref py py-class docutils literal notranslate"><span class="pre">PywrNetwork</span></code>
 factory methods are each a dictionary mapping the string names of Pywr network components
 (<cite>nodes</cite>, <cite>parameters</cite>, etc.) to a list of the errors or warnings generated when
@@ -155,7 +163,7 @@ into <cite>dict</cite> and JSON forms respectively.</p>
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
   
-<jinja2.runtime.BlockReference object at 0x7f87125ed3d0>
+<jinja2.runtime.BlockReference object at 0x7f4f3b7bd340>
 <style>
 #ps-build-block {
   width: 100%;

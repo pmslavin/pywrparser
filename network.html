@@ -15,7 +15,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -53,7 +55,26 @@
 <p class="caption" role="heading"><span class="caption-text">The pywrparser library</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="library.html">The <cite>pywrparser</cite> Library</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">The <code class="xref py py-class docutils literal notranslate"><span class="pre">PywrNetwork</span></code> class</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">The <code class="xref py py-class docutils literal notranslate"><span class="pre">PywrNetwork</span></code> class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork"><code class="docutils literal notranslate"><span class="pre">PywrNetwork</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.from_file"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.from_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.from_json"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.from_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.as_dict"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.as_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.as_json"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.as_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.promote_parameters"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.promote_parameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.add_parameter_references"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.add_parameter_references()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.add_recorder_references"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.add_recorder_references()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.detach_parameters"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.detach_parameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.detach_recorders"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.detach_recorders()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.report"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.report()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.verbose_report"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.verbose_report()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.title"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.title</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.description"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.duplicate_edges"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.duplicate_edges</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="parser.html">The <code class="xref py py-class docutils literal notranslate"><span class="pre">PywrJSONParser</span></code> class</a></li>
 </ul>
 </li>
@@ -73,9 +94,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="library.html">The <cite>pywrparser</cite> Library</a> &raquo;</li>
-      <li>The <code class="xref py py-class docutils literal notranslate"><span class="pre">PywrNetwork</span></code> class</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="library.html">The <cite>pywrparser</cite> Library</a></li>
+      <li class="breadcrumb-item active">The <code class="xref py py-class docutils literal notranslate"><span class="pre">PywrNetwork</span></code> class</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/network.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -86,7 +107,7 @@
            <div itemprop="articleBody">
              
   <section id="the-pywrnetwork-class">
-<h1>The <code class="xref py py-class docutils literal notranslate"><span class="pre">PywrNetwork</span></code> class<a class="headerlink" href="#the-pywrnetwork-class" title="Permalink to this headline"></a></h1>
+<h1>The <code class="xref py py-class docutils literal notranslate"><span class="pre">PywrNetwork</span></code> class<a class="headerlink" href="#the-pywrnetwork-class" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pywrparser.types.network.PywrNetwork">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pywrparser.types.network.</span></span><span class="sig-name descname"><span class="pre">PywrNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parser</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pywrparser.types.network.PywrNetwork" title="Permalink to this definition"></a></dt>
@@ -285,7 +306,7 @@ in some enviroments.</p>
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
   
-<jinja2.runtime.BlockReference object at 0x7f87127d20d0>
+<jinja2.runtime.BlockReference object at 0x7f4f3b5c3730>
 <style>
 #ps-build-block {
   width: 100%;
