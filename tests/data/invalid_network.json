@@ -52,11 +52,11 @@
    "comment": "Valid node 1 comment"
   },
   {
-   "name": "Valid node 2",
+   "name": "N2",
    "type": "generator",
-   "max_flow": "Valid node 2:max_flow",
+   "max_flow": "N2:max_flow",
    "cost": 0.1,
-   "comment": "Valid node 2 comment"
+   "comment": "N2 comment"
   }
  ],
  "edges": [

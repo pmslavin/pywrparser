@@ -28,7 +28,7 @@ class PywrTypeValidationWarning(PywrParserWarning):
     def as_dict(self):
         return {
             "component": self.component,
-            "warning": self.warning,
+            "rule": self.warning,
             "exception": str(self.exc),
             "value": self.valuetext
         }

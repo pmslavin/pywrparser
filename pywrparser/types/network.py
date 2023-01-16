@@ -185,7 +185,7 @@ class PywrNetwork():
         pass
 
 
-    def attach_parameters(self):
+    def promote_parameters(self):
         """
         Promotes strings which reference parameters and inline parameter
         definitions to instances of :class:`PywrParameter`.
