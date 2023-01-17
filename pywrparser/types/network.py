@@ -187,12 +187,12 @@ class PywrNetwork():
 
     def promote_inline_parameters(self):
         """
-        Promotes strings which reference parameters and inline parameter
-        definitions to instances of :class:`PywrParameter`.
+          Promotes inline parameter definitions to instances of
+          :class:`PywrParameter`.
 
-        Any values of attrs in a node which can be interpreted as
-        an inline (i.e. dict) parameter definition are instantiated
-        as parameters and the attr value replaced with the instance.
+          Any values of attrs in a node which can be interpreted as
+          an inline (i.e. dict) parameter definition are instantiated
+          as parameters and the attr value replaced with the instance.
         """
         exclude = ("name", "type")
         for node in self.nodes.values():
@@ -204,7 +204,7 @@ class PywrNetwork():
                     param_name = value.get("name")
                     if not param_name or param_name in self.parameters:
                         param_name = canonical_name(node.name, attr)
-                    #print(f"Creating inline param: {param_name}")
+                    log.debug(f"Creating inline param: {param_name}")
                     if param_name in self.parameters:
                         # Node inline param has same name as global param
                         raise ValueError("inline dups global param")
@@ -214,11 +214,11 @@ class PywrNetwork():
 
     def attach_reference_parameters(self):
         """
-        Promotes strings which reference parameters and inline parameter
-        definitions to instances of :class:`PywrParameter`.
+          Promotes strings which reference parameters to instances of
+          :class:`PywrParameter`.
 
-        Any values of attrs in a node which resolve to a global parameter
-        are replaced with the instance of that parameter.
+          Any values of attrs in a node which resolve to a global parameter
+          are replaced with the instance of that parameter.
         """
         exclude = ("name", "type")
         for node in self.nodes.values():
@@ -233,7 +233,7 @@ class PywrNetwork():
                     param = self.parameters.get(value)
                     if not param:
                         continue
-                    #print(f"Attaching global param ref: {value}")
+                    log.debug(f"Attaching global param ref: {value}")
                     node.data[attr] = param
 
 
