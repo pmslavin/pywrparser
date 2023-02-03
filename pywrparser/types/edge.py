@@ -3,7 +3,12 @@ from .base import PywrType
 
 class PywrEdge(PywrType):
     def __init__(self, data):
-        self.data = [str(d) for d in data]
+        """
+          An edge vertex may be either a node or a slot.
+          As node names are always cast to str, these
+          must be str in either case.
+        """
+        self.data = [str(vert) for vert in data]
 
     def __len__(self):
         return len(self.data)

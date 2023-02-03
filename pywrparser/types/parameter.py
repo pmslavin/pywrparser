@@ -52,10 +52,10 @@ class PywrParameter(PywrType):
         assert "storage_node" in self.data, f"ControlCurveParameter <{self.name}> does not define 'storage_node'"
 
     @match("monthlyprofileparameter")
-    def rule_monthlyprofile_has_profile(self):
+    def warn_monthlyprofile_has_profile(self):
         assert "values" in self.data and isinstance(self.data["values"], list) and len(self.data["values"]) == 12,\
             f"MonthlyProfileParameter <{self.name}> has invalid profile values"
 
     @match("dataframe", fuzzy=True)
-    def rule_outdated_pandas(self):
+    def warn_outdated_pandas(self):
         assert "pandas_kwargs" not in self.data, f"Dataframe <{self.name}> uses outdated 'pandas_kwargs' key"

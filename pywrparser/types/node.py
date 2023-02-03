@@ -51,15 +51,15 @@ class PywrNode(PywrType):
         assert "type" in self.data, "Node does not define type"
 
     def warn_node_name_min_len(self):
-        assert self.name and len(self.name) > 2, "Node name too short"
+        assert self.name and len(self.name) > 1, "Node name too short"
 
     """ Type-specific rules """
 
     @match("proportionalinput")
-    def rule_proportionalinput_has_proportion(self):
+    def warn_proportionalinput_has_proportion(self):
         assert "proportion" in self.data, "<proportionalinput> node does not define 'proportion'"
 
 
     @match("storage")
-    def rule_storage_has_max_volume(self):
+    def warn_storage_has_max_volume(self):
         assert "max_volume" in self.data, "<storage> node does not define 'max_volume'"
