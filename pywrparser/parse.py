@@ -162,6 +162,7 @@ def handle_args(args):
             pass
         elif args.json_output:
             print(results_as_json(filename, errors, warnings, include_digest=include_digest))
+            return;
         else:
             write_results(filename, errors, warnings, use_emoji=useemoji)
 
@@ -174,9 +175,11 @@ def handle_args(args):
         if args.terse_report:
             report = network.report()
             console.print(report)
+            return;
         if args.json_output:
             report = results_as_json(filename, errors, warnings, include_digest=include_digest)
-            print(report, end='')
+            print(report)
+            return;
         else:
             report = network.verbose_report()
             file_txt = f"[green]File:[/green] [bold blue]{os.path.basename(args.filename)}[/bold blue]"
