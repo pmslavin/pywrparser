@@ -11,6 +11,7 @@ from pywrparser.types import (
     PywrTimestepper,
     PywrMetadata,
     PywrScenario,
+    PywrScenarioCombination,
     PywrTable,
     PywrNode,
     PywrEdge,
