@@ -54,6 +54,7 @@ class PywrJSONParser():
         self.parameters = {}
         self.recorders = {}
         self.scenarios = []
+        self.scenario_combinations = []
         self.tables = {}
 
 
@@ -147,8 +148,14 @@ class PywrJSONParser():
         for scenario in self.src.get("scenarios", []):
             with component_exc_capture("scenarios") as cc:
                 scen = PywrScenario(scenario)
-                cc.capture_warnings(self.scen)
+                cc.capture_warnings(scen)
                 self.scenarios.append(scen)
+
+        for combination in self.src.get("scenario_combinations", []):
+            with component_exc_capture("scenario_combinations") as cc:
+                comb = PywrScenarioCombination(combination)
+                cc.capture_warnings(comb)
+                self.scenario_combinations.append(comb)
 
         for table_name, table_data in self.src.get("tables", {}).items():
             with component_exc_capture("tables") as cc:
