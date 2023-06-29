@@ -1,7 +1,7 @@
 import io
 import logging
 
-from collections import Counter
+from collections import Counter, defaultdict
 from functools import partialmethod
 
 from pywrparser.parsers import PywrJSONParser
@@ -402,3 +402,15 @@ class PywrNetwork():
         """
         edge_count = Counter((n1, n2) for (n1, n2) in self.edges)
         return {edge: count for edge, count in edge_count.items() if count > 1}
+
+
+    def url_references(self):
+        """
+            Return a dict of urls references by parameters, each mapping to
+            a list of the parameters containing that reference.
+        """
+        url_map = defaultdict(list)
+        for p in (param for param in self.parameters.values() if "url" in param.data):
+            url_map[p.data["url"]].append(p)
+
+        return url_map
