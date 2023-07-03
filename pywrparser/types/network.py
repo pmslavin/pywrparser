@@ -29,6 +29,7 @@ class PywrNetwork():
         self.metadata = parser.metadata
         self.timestepper = parser.timestepper
         self.scenarios = parser.scenarios
+        self.scenario_combinations = parser.scenario_combinations
         self.tables = parser.tables
         self.nodes = parser.nodes
         self.edges = parser.edges
@@ -158,6 +159,9 @@ class PywrNetwork():
 
         if len(self.scenarios) > 0:
             network["scenarios"] = [s.as_dict() for s in self.scenarios]
+
+        if len(self.scenario_combinations) > 0:
+            network["scenario_combinations"] = [s.as_dict() for s in self.scenario_combinations]
 
         if len(self.tables) > 0:
             network["tables"] = {n: t.as_dict() for n, t in self.tables.items()}
