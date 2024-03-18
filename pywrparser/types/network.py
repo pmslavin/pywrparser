@@ -296,8 +296,8 @@ class PywrNetwork():
                     node.data[attr] = recorder
                     attached_recorders.append(value)
 
-        for attached_recorderter in attached_recorders:
-            del(self.recorders[attached_recorderter])
+        for attached_recorder in attached_recorders:
+            del(self.recorders[attached_recorder])
 
 
     def __add_component_references(self, component=None):
