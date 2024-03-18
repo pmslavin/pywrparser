@@ -222,7 +222,7 @@ class PywrNetwork():
 
           Any values of attrs in a node which can be interpreted as
           an inline (i.e. dict) recorder definition are instantiated
-          as recorder and the attr value replaced with the instance.
+          as recorders and the attr value replaced with the instance.
         """
         exclude = ("name", "type")
         for node in self.nodes.values():
