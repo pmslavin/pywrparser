@@ -62,7 +62,9 @@
 <li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.as_dict"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.as_dict()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.as_json"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.as_json()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.promote_inline_parameters"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.promote_inline_parameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.promote_inline_recorders"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.promote_inline_recorders()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.attach_reference_parameters"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.attach_reference_parameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.attach_reference_recorders"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.attach_reference_recorders()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.add_parameter_references"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.add_parameter_references()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.add_recorder_references"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.add_recorder_references()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pywrparser.types.network.PywrNetwork.detach_parameters"><code class="docutils literal notranslate"><span class="pre">PywrNetwork.detach_parameters()</span></code></a></li>
@@ -207,12 +209,31 @@ as parameters and the attr value replaced with the instance.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pywrparser.types.network.PywrNetwork.promote_inline_recorders">
+<span class="sig-name descname"><span class="pre">promote_inline_recorders</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pywrparser.types.network.PywrNetwork.promote_inline_recorders" title="Permalink to this definition"></a></dt>
+<dd><p>Promotes inline recorder definitions to instances of
+<code class="xref py py-class docutils literal notranslate"><span class="pre">PywrRecorder</span></code>.</p>
+<p>Any values of attrs in a node which can be interpreted as
+an inline (i.e. dict) recorder definition are instantiated
+as recorders and the attr value replaced with the instance.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pywrparser.types.network.PywrNetwork.attach_reference_parameters">
 <span class="sig-name descname"><span class="pre">attach_reference_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pywrparser.types.network.PywrNetwork.attach_reference_parameters" title="Permalink to this definition"></a></dt>
 <dd><p>Promotes strings which reference parameters to instances of
 <code class="xref py py-class docutils literal notranslate"><span class="pre">PywrParameter</span></code>.</p>
 <p>Any values of attrs in a node which resolve to a global parameter
 are replaced with the instance of that parameter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pywrparser.types.network.PywrNetwork.attach_reference_recorders">
+<span class="sig-name descname"><span class="pre">attach_reference_recorders</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pywrparser.types.network.PywrNetwork.attach_reference_recorders" title="Permalink to this definition"></a></dt>
+<dd><p>Promotes strings which reference recorders to instances of
+<code class="xref py py-class docutils literal notranslate"><span class="pre">PywrRecorder</span></code>.</p>
+<p>Any values of attrs in a node which resolve to a global recorder
+are replaced with the instance of that recorder.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -317,7 +338,7 @@ a list of the parameters containing that reference.</p>
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
   
-<jinja2.runtime.BlockReference object at 0x7fbe6b47fa90>
+<jinja2.runtime.BlockReference object at 0x78dafcf43fa0>
 <style>
 #ps-build-block {
   width: 100%;
