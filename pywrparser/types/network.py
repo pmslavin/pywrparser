@@ -479,4 +479,7 @@ class PywrNetwork():
         for t in (table for table in self.tables.values() if "url" in table.data):
             url_map[t.data["url"]].append(t)
 
+        for r in (recorder for recorder in self.recorders.values() if "url" in recorder.data):
+            url_map[r.data["url"]].append(r)
+
         return url_map
